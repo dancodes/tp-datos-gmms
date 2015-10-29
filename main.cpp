@@ -13,8 +13,11 @@ int main () {
 
     ContextoArchivos ctx;
     Menu menu;
+    DataFrame df;
+    df.leerArchivo();
 
     //Cargamos los datos especificados por el usuario en el contexto
+
     menu.cargarDatos(ctx);
 
     Clasificador clf;
