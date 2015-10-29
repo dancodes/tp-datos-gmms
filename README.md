@@ -1,7 +1,7 @@
 # TP de 75.06 Datos en C++
 *Por el lindo grupo de Team GMMS*
 
-# ¿Daniel, que mierda es cada clase?
+# ¿Dani, que mierda es cada clase?
 
 Explicación (son solo 4!!!):
 
