@@ -1,5 +1,5 @@
 # TP de 75.06 Datos en C++
-*Por el lindo grupo de Team GMMS*
+*Por el lindo grupo de Team GMMS <3*
 
 # ¿Dani, que mierda es cada clase?
 
