@@ -1,7 +1,7 @@
 #include "DataFrame.hpp"
 
 #include <iostream>
-
+#include <stdio.h>
 #include <fstream>
 #include <string>
 
@@ -13,23 +13,25 @@ void DataFrame::guardarEnDisco() {
 
 
 void DataFrame::leerArchivo() {
-{
+
     std::cout << "Leyendo archivo" << std::endl;
     ifstream myReadFile;
-    myReadFile.open("C:\\Users\\flor\\Documents\\GitHub\\tp-datos-gmms\\includes\\textfile.txt");
+    myReadFile.open("includes\\textfile.txt");
     char output[100];
     if (myReadFile.is_open()) {
         std::cout << "Abri Archivo" << std::endl;
         while (!myReadFile.eof()) {
 
-
             myReadFile >> output;
             cout<<output;
-
-
-            }
+           }
+        myReadFile.close();
         }
-    myReadFile.close();
+    else{
 
+     std::cout << "Problemas al leer archivo" << std::endl;
+     // abria q hacer q se cierre el programa
     }
+
+
 }
