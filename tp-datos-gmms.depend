@@ -1,0 +1,67 @@
+# depslib dependency file v1.0
+1446083307 source:c:\users\flor\documents\github\tp-datos-gmms\includes\clasificador.cpp
+	"Clasificador.hpp"
+	"DataFrame.hpp"
+	<iostream>
+
+1446083307 c:\users\flor\documents\github\tp-datos-gmms\includes\clasificador.hpp
+
+1447509704 c:\users\flor\documents\github\tp-datos-gmms\includes\dataframe.hpp
+	"Crimen.hpp"
+	<vector>
+
+1447469697 c:\users\flor\documents\github\tp-datos-gmms\includes\crimen.hpp
+	<string>
+
+1447469647 source:c:\users\flor\documents\github\tp-datos-gmms\includes\contextoarchivos.cpp
+	"ContextoArchivos.hpp"
+	"DataFrame.hpp"
+
+1446083307 c:\users\flor\documents\github\tp-datos-gmms\includes\contextoarchivos.hpp
+
+1447469697 source:c:\users\flor\documents\github\tp-datos-gmms\includes\crimen.cpp
+	"Crimen.hpp"
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<string>
+
+1447534834 source:c:\users\flor\documents\github\tp-datos-gmms\includes\dataframe.cpp
+	"DataFrame.hpp"
+	"../vendor/csv.h"
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<string>
+	<vector>
+	<map>
+	<math.h>
+
+1447548467 c:\users\flor\documents\github\tp-datos-gmms\vendor\csv.h
+	<vector>
+	<string>
+	<sstream>
+	<cstring>
+	<algorithm>
+	<utility>
+	<cstdio>
+	<exception>
+	<future>
+	<cassert>
+	<cerrno>
+
+1446083307 source:c:\users\flor\documents\github\tp-datos-gmms\includes\menu.cpp
+	"Menu.hpp"
+	"ContextoArchivos.hpp"
+	<iostream>
+
+1446083307 c:\users\flor\documents\github\tp-datos-gmms\includes\menu.hpp
+
+1447534917 source:c:\users\flor\documents\github\tp-datos-gmms\main.cpp
+	<iostream>
+	<vector>
+	"includes/Menu.hpp"
+	"includes/DataFrame.hpp"
+	"includes/ContextoArchivos.hpp"
+	"includes/Clasificador.hpp"
+
