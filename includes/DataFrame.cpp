@@ -54,7 +54,7 @@ void DataFrame::leerArchivo() {
 
     while(in.read_row(Dates,Category,Descript,DayOfWeek,PdDistrict,Resolution,Address,X,Y)){
 
-        Crimen* crimen = new Crimen(X,Y,PdDistrict);
+        Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
 
         this->crimenes->insert(it,crimen);
         it = this->crimenes->begin();
