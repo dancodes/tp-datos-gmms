@@ -142,7 +142,7 @@ namespace io{
 
         class LineReader{
         private:
-                static const int block_len = 1<<24;
+                static const int block_len = 1<<29;
 
                 FILE*file;
                 char*buffer;
@@ -1055,4 +1055,3 @@ namespace io{
         };
 }
 #endif
-

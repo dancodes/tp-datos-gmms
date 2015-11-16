@@ -15,7 +15,7 @@ using namespace std;
 
 DataFrame::DataFrame() {
     this->crimenes = new std::vector<Crimen*>();
-    this->crimenes->reserve(900000);
+    this->crimenes->reserve(25000);
 }
 
 DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
@@ -30,6 +30,7 @@ void DataFrame::leerArchivo() {
 
     cout << "Abriendo archivo" << endl;
 
+    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
     io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
@@ -48,20 +49,19 @@ void DataFrame::leerArchivo() {
 
     unsigned int c = 0;
 
-    std::vector<Crimen*>::iterator it;
-
-    it = this->crimenes->begin();
-
     while(in.read_row(Dates,Category,Descript,DayOfWeek,PdDistrict,Resolution,Address,X,Y)){
 
         Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
 
-        this->crimenes->insert(it,crimen);
-        it = this->crimenes->begin();
+        this->crimenes->push_back(crimen);
 
         c++;
 
-        //cout << crimen->obtenerX() << "," << crimen->obtenerY() << "," << *crimen->obtenerPd() << endl;
+        if( c % 50000 == 0) {
+            cout << "Leidos " << c << " crimenes." << endl;
+        }
+
+
     }
 
     cout << "Leidos " << c+1 << " crimenes." << endl << endl;
@@ -136,8 +136,8 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
     std::vector<Crimen*>* crimenes_filtrados = new std::vector<Crimen*>();
 
-    std::vector<Crimen*>::iterator it;
-    it = crimenes_filtrados->begin();
+    int c = 0;
+
 
     for(std::vector<int>::size_type i = 0; i < this->crimenes->size(); i++) {
 
@@ -149,13 +149,11 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
             if(comparador.compare("<") == 0) {
                 if(actual->obtenerX() < condicion_double) {
-                    crimenes_filtrados->insert(it,actual);
-                    it = crimenes_filtrados->begin();
+                    crimenes_filtrados->push_back(actual);
                 }
             } else if(comparador.compare(">") == 0) {
                 if(actual->obtenerX() > condicion_double) {
-                    crimenes_filtrados->insert(it,actual);
-                    it = crimenes_filtrados->begin();
+                    crimenes_filtrados->push_back(actual);
                 }
             }
 
@@ -165,13 +163,11 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
             if(comparador.compare("<") == 0) {
                 if(actual->obtenerY() < condicion_double) {
-                    crimenes_filtrados->insert(it,actual);
-                    it = crimenes_filtrados->begin();
+                    crimenes_filtrados->push_back(actual);
                 }
             } else if(comparador.compare(">") == 0) {
                 if(actual->obtenerY() > condicion_double) {
-                    crimenes_filtrados->insert(it,actual);
-                    it = crimenes_filtrados->begin();
+                    crimenes_filtrados->push_back(actual);
                 }
             }
 
@@ -181,9 +177,14 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
             std::string pd_actual = *actual->obtenerPd();
 
             if(condicion.compare(pd_actual) == 0) {
-                crimenes_filtrados->insert(it,actual);
-                it = crimenes_filtrados->begin();
+                crimenes_filtrados->push_back(actual);
             }
+        }
+
+        c++;
+
+        if( c % 50000 == 0) {
+            cout << "Filtrados " << c << " crimenes." << endl;
         }
 
     }
