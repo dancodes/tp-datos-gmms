@@ -12,8 +12,11 @@ public:
     DataFrame(std::vector<Crimen*>* crimenes_previos);
     void guardarEnDisco();
     void leerArchivo();
+    void resumen();
     unsigned int cantidad();
     double infoGainPd();
+    DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
+    void borrarCrimenes();
     ~DataFrame();
 private:
     std::vector<Crimen*>* crimenes;

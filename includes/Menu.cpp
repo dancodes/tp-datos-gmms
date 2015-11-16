@@ -22,5 +22,5 @@ Menu::Menu() {
 }
 
 void Menu::cargarDatos(ContextoArchivos ctx) {
-    std::cout << "Cargando datos..." << std::endl;
+    std::cout << std::endl << "[TODO] Cargando datos..." << std::endl;
 }

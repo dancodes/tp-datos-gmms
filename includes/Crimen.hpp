@@ -2,6 +2,9 @@
 
 #include <string>
 
+template <class T>
+class Atributo;
+
 class Crimen {
 public:
     Crimen(double x, double y, std::string pdDistrict);
@@ -10,7 +13,7 @@ public:
     std::string* obtenerPd();
     ~Crimen();
 private:
-    double x;
-    double y;
-    std::string* pd;
+    Atributo<double>* x;
+    Atributo<double>* y;
+    Atributo<std::string*>* pd;
 };

@@ -18,19 +18,19 @@ DataFrame::DataFrame() {
     this->crimenes->reserve(25000);
 }
 
-DataFrame::DataFrame(std::vector<Crimen*>* crimenes_previos) {
-    this->crimenes = crimenes_previos;
+DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
+    this->crimenes = crimenes_filtrados;
 }
 
 void DataFrame::guardarEnDisco() {
-    std::cout << "Guardando resultados en disco!" << std::endl;
+    std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
 }
 
 void DataFrame::leerArchivo() {
 
     cout << "Abriendo archivo" << endl;
 
-    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
+    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.5.noentropy.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
@@ -57,23 +57,37 @@ void DataFrame::leerArchivo() {
         Crimen* crimen = new Crimen(X,Y,PdDistrict);
 
         this->crimenes->insert(it,crimen);
+        it = this->crimenes->begin();
 
         c++;
 
         //cout << crimen->obtenerX() << "," << crimen->obtenerY() << "," << *crimen->obtenerPd() << endl;
     }
 
-    cout << "Leidos " << c+1 << " crimenes." << endl;
+    cout << "Leidos " << c+1 << " crimenes." << endl << endl;
 
+
+}
+
+void DataFrame::resumen() {
     //Loop para mostrar los top 5 en la pantalla
 
-    for(std::vector<int>::size_type i = 0; i < 3; i++) {
+    cout << endl << "DataFrame: " << this->crimenes->size() << " elementos" << endl;
+    cout << "X" << "\t\t\t" << "Y" << "\t\t\t" << "PdDistrict" << endl;
+    cout << "=====================================================================" << endl;
+
+    std::vector<Crimen*>::iterator it;
+    it = this->crimenes->begin();
+
+
+
+    for(std::vector<int>::size_type i = 0; (i < this->crimenes->size()) && (i < 5); i++) {
         Crimen* crimen = (*this->crimenes)[i];
         cout << crimen->obtenerX() << "\t" << crimen->obtenerY() << "\t" << *crimen->obtenerPd() << endl;
     }
 
 
-    cout << "Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
+    cout << endl << "Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
 }
 
 unsigned int DataFrame::cantidad() {
@@ -81,7 +95,6 @@ unsigned int DataFrame::cantidad() {
 }
 
 double DataFrame::infoGainPd() {
-
 
     std::map<string, unsigned int> frequencia_de_clase = std::map<string, unsigned int>();
 
@@ -119,10 +132,75 @@ double DataFrame::infoGainPd() {
     return info_gain;
 }
 
-DataFrame::~DataFrame() {
+DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparador, std::string condicion) {
+
+    std::vector<Crimen*>* crimenes_filtrados = new std::vector<Crimen*>();
+
+    std::vector<Crimen*>::iterator it;
+    it = crimenes_filtrados->begin();
+
+    for(std::vector<int>::size_type i = 0; i < this->crimenes->size(); i++) {
+
+        Crimen* actual = (this->crimenes->at(i));
+
+        if(nombre_atributo.compare("x") == 0) {
+
+            double condicion_double = std::stod(condicion);
+
+            if(comparador.compare("<") == 0) {
+                if(actual->obtenerX() < condicion_double) {
+                    crimenes_filtrados->insert(it,actual);
+                    it = crimenes_filtrados->begin();
+                }
+            } else if(comparador.compare(">") == 0) {
+                if(actual->obtenerX() > condicion_double) {
+                    crimenes_filtrados->insert(it,actual);
+                    it = crimenes_filtrados->begin();
+                }
+            }
+
+        } else if(nombre_atributo.compare("y") == 0) {
+
+            double condicion_double = std::stod(condicion);
+
+            if(comparador.compare("<") == 0) {
+                if(actual->obtenerY() < condicion_double) {
+                    crimenes_filtrados->insert(it,actual);
+                    it = crimenes_filtrados->begin();
+                }
+            } else if(comparador.compare(">") == 0) {
+                if(actual->obtenerY() > condicion_double) {
+                    crimenes_filtrados->insert(it,actual);
+                    it = crimenes_filtrados->begin();
+                }
+            }
+
+
+        } else if(nombre_atributo.compare("pdDistrict") == 0) {
+            // comparador es irrelevante acá
+            std::string pd_actual = *actual->obtenerPd();
+
+            if(condicion.compare(pd_actual) == 0) {
+                crimenes_filtrados->insert(it,actual);
+                it = crimenes_filtrados->begin();
+            }
+        }
+
+    }
+
+    DataFrame* nueva_df = new DataFrame(crimenes_filtrados);
+
+    return nueva_df;
+
+
+}
+
+void DataFrame::borrarCrimenes() {
     for(std::vector<int>::size_type i = 0; i != this->crimenes->size(); i++) {
         delete (*this->crimenes)[i];
     }
+}
 
+DataFrame::~DataFrame() {
     delete this->crimenes;
 }
