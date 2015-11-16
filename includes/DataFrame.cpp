@@ -26,9 +26,9 @@ void DataFrame::guardarEnDisco() {
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
 }
 
-void DataFrame::leerArchivo() {
+void DataFrame::leerArchivoTrain() {
 
-    cout << "Abriendo archivo" << endl;
+    cout << "Abriendo archivo Train" << endl;
 
     //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
     io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
@@ -68,7 +68,45 @@ void DataFrame::leerArchivo() {
 
 
 }
+void DataFrame::leerArchivoTest() {
 
+    cout << "Abriendo archivo Test" << endl;
+
+    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
+    io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data/test.csv");
+
+    in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
+
+    string Dates;
+    string Id;
+    string DayOfWeek;
+    string PdDistrict;
+    string Address;
+    double X;
+    double Y;
+
+    cout.precision(15);
+
+    unsigned int c = 0;
+
+    while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)){
+
+        Crimen* crimen = new Crimen(X,Y,PdDistrict);
+
+        this->crimenes->push_back(crimen);
+
+        c++;
+
+        if( c % 50000 == 0) {
+            cout << "Leidos " << c << " crimenes." << endl;
+        }
+
+    }
+
+    cout << "Leidos " << c+1 << " crimenes." << endl << endl;
+
+
+}
 void DataFrame::resumen() {
     //Loop para mostrar los top 5 en la pantalla
 

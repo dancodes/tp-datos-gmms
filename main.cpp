@@ -15,10 +15,15 @@ int main () {
     Menu menu;
 
     DataFrame df;
-    df.leerArchivo();
+    df.leerArchivoTrain();
     cout << "NORMAL" << endl;
     cout << "*****************************************************" << endl;
     df.resumen();
+
+    //df.leerArchivoTest();
+    //cout << "NORMAL" << endl;
+    //cout << "*****************************************************" << endl;
+    //df.resumen();
 
     cout << "Filtrando SOLO SOUTHERN" << endl;
     cout << "*****************************************************" << endl;

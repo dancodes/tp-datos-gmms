@@ -11,7 +11,8 @@ public:
     DataFrame();
     DataFrame(std::vector<Crimen*>* crimenes_previos);
     void guardarEnDisco();
-    void leerArchivo();
+    void leerArchivoTrain();
+    void leerArchivoTest();
     void resumen();
     unsigned int cantidad();
     double infoGainPd();
