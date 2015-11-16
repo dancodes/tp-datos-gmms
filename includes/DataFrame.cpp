@@ -30,7 +30,7 @@ void DataFrame::leerArchivo() {
 
     cout << "Abriendo archivo" << endl;
 
-    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.csv");
+    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
