@@ -8,6 +8,7 @@ class Atributo;
 class Crimen {
 public:
     Crimen(double x, double y, std::string pdDistrict, std::string category);
+    Crimen(double x, double y, std::string pdDistrict);
     double obtenerX();
     double obtenerY();
     std::string* obtenerPd();

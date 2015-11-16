@@ -15,7 +15,7 @@ using namespace std;
 
 DataFrame::DataFrame() {
     this->crimenes = new std::vector<Crimen*>();
-    this->crimenes->reserve(25000);
+    this->crimenes->reserve(900000);
 }
 
 DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
@@ -30,7 +30,7 @@ void DataFrame::leerArchivo() {
 
     cout << "Abriendo archivo" << endl;
 
-    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.5.noentropy.csv");
+    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
