@@ -7,6 +7,60 @@ void Clasificador::entrenar(DataFrame* entrenamientos) {
     std::cout << "[TODO] Entrenando clasificador..." << std::endl;
 }
 
+
+double Clasificador::calculoInfoGainXoY(DataFrame* entrenamientos) {
+    double maxi = ((*entrenamientos->crimenes)[0])->obtenerX();
+    double mini = ((*entrenamientos->crimenes)[0])->obtenerX();
+    for (int i=1 ; i < entrenamientos->crimenes->size() ; i++){
+        if (((*entrenamientos->crimenes)[i])->obtenerX() > maxi ){
+            maxi = ((*entrenamientos->crimenes)[i])->obtenerX();
+        }
+        if (((*entrenamientos->crimenes)[i])->obtenerX() < mini ){
+            mini = ((*entrenamientos->crimenes)[i])->obtenerX();
+        }
+    }
+    double intervalo = (maxi - mini)/10;
+    double mayorGan = 0;
+    double gananciaNum = 0;
+    int indice= 0;
+    for (int i= 1 ; i < 10 ; i++){
+        gananciaNum = calculoInfoGainNumerico(entrenamientos, (mini+intervalo*i));
+        if (mayorGan < gananciaNum) {
+            mayorGan = gananciaNum;
+            indice = i;
+        }
+    }
+    return gananciaNum;
+}
+
+double Clasificador::calculoInfoGainNumerico(DataFrame* entrenamientos , double comparador) {
+    std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
+    for(std::vector<int>::size_type i = 0; i < entrenamientos->crimenes->size(); i++) {
+        Crimen* actual = (*entrenamientos->crimenes)[i];
+            //si es menor o igual al comparador lo agrupo con los menores, sino con los mayores
+        std::string atributo_actual;
+            if(actual->obtenerX()<=comparador){
+                atributo_actual = "menor";
+            }else{
+                atributo_actual = "mayor";
+            }
+        std::string categoria_actual = *actual->obtenerCategory();
+        if(frequencia_de_clase.count(atributo_actual) == 0) {
+            TuplasCat* vectorTuplas= new TuplasCat();
+            frequencia_de_clase[atributo_actual] = vectorTuplas;
+        } else {
+                frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+        }
+    }
+    double infoGain = 0;
+    // show content:
+    for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
+        infoGain = infoGain + (it->second->entropia() *
+                    (it->second->obtenerTotal() / entrenamientos->crimenes->size()));
+    }
+    return infoGain;
+}
+
 DataFrame* Clasificador::predecir(DataFrame* entrenamientos) {
     std::cout << "[TODO] Prediciendo crimenes..." << std::endl;
     DataFrame* dtf = new DataFrame;

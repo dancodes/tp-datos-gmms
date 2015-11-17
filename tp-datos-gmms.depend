@@ -65,12 +65,13 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447678891 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
+1447792624 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
 	"Clasificador.hpp"
 	"DataFrame.hpp"
+	"TuplasCat.hpp"
 	<iostream>
 
-1447784641 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
+1447792437 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
 
 1447784864 c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.hpp
 	"Crimen.hpp"
@@ -111,7 +112,7 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447784396 source:c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.cpp
+1447784641 source:c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.cpp
 	"DataFrame.hpp"
 	"../vendor/csv.h"
 	<iostream>

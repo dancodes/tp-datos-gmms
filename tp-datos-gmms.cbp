@@ -36,6 +36,7 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 		</Compiler>
+		<Unit filename="includes/Atributo.hpp" />
 		<Unit filename="includes/Clasificador.cpp" />
 		<Unit filename="includes/Clasificador.hpp" />
 		<Unit filename="includes/ContextoArchivos.cpp" />
@@ -46,6 +47,7 @@
 		<Unit filename="includes/DataFrame.hpp" />
 		<Unit filename="includes/Menu.cpp" />
 		<Unit filename="includes/Menu.hpp" />
+		<Unit filename="includes/TuplasCat.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="vendor/csv.h" />
 		<Extensions>
