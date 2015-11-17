@@ -1,5 +1,5 @@
 # TP de 75.06 Datos en C++
-*Por el lindo grupo de Team GMMS*
+*Por el lindo grupo de Team GMMS <3*
 
 # ¿Dani, que mierda es cada clase?
 
@@ -14,7 +14,7 @@ Una "linda" interfaz que va a ser basicamente:
 	Seleccione el archivo de entrenamiento [train.csv]: train.csv
 	Seleccione el archivo de prueba [test.csv]: test.csv
 	Seleccione el archivo de salida [submission.csv]: submission.csv
-	
+
 	Listo ahora hago todo yo.
 
 ### ContextoArchivos
@@ -30,4 +30,4 @@ Es un archivo csv convertido a un objeto listo para manipularse. Imaginense una 
 Clase abstracta a la cual le enchufas un DataFrame de entrada (el train.csv), le decis que prediga otro DataFrame, y te da uno final de salida (con las probabilidades)
 
 
-
+### Te amo dani <3

@@ -1,8 +1,8 @@
 CC=gcc
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g
-LDFLAGS=-g
+CPPFLAGS=-g -std=c++11
+LDFLAGS=-g -std=c++11
 LDLIBS=
 
 SRCS=main.cpp includes/*.cpp

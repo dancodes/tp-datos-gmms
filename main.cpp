@@ -14,7 +14,37 @@ int main () {
     ContextoArchivos ctx;
     Menu menu;
 
+    DataFrame df;
+    df.leerArchivoTrain();
+    cout << "NORMAL" << endl;
+    cout << "*****************************************************" << endl;
+    df.resumen();
+
+    //df.leerArchivoTest();
+    //cout << "NORMAL" << endl;
+    //cout << "*****************************************************" << endl;
+    //df.resumen();
+
+    cout << "Filtrando SOLO SOUTHERN" << endl;
+    cout << "*****************************************************" << endl;
+
+    DataFrame* df_filt = df.filtrar("pdDistrict","=","SOUTHERN");
+    df_filt->resumen();
+
+    cout << "Filtrando CON MENOR A" << endl;
+    cout << "*****************************************************" << endl;
+
+    DataFrame* df_filt2 = df.filtrar("y","<","378008726327.692");
+    df_filt2->resumen();
+
+    cout << "Filtrando CON MENOR A Y NORTHERN" << endl;
+    cout << "*****************************************************" << endl;
+
+    DataFrame* df_filt3 = df_filt2->filtrar("pdDistrict","=","NORTHERN");
+    df_filt3->resumen();
+
     //Cargamos los datos especificados por el usuario en el contexto
+
     menu.cargarDatos(ctx);
 
     Clasificador clf;
