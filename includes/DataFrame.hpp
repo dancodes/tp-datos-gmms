@@ -19,6 +19,7 @@ public:
     DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
     void borrarCrimenes();
     ~DataFrame();
-private:
     std::vector<Crimen*>* crimenes;
+private:
+
 };

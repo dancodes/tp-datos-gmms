@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include "TuplasCat.hpp"
 
 using namespace std;
 
