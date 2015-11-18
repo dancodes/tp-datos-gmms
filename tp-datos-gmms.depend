@@ -65,26 +65,26 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447792624 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
+1447878320 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
 	"Clasificador.hpp"
 	"DataFrame.hpp"
 	"TuplasCat.hpp"
 	<iostream>
 
-1447792437 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
+1447876647 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
 
-1447784864 c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.hpp
+1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.hpp
 	"Crimen.hpp"
 	<vector>
 
-1447782504 c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.hpp
+1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.hpp
 	<string>
 
-1447678891 source:c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.cpp
+1447876392 source:c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.cpp
 	"ContextoArchivos.hpp"
 	"DataFrame.hpp"
 
-1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.hpp
+1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.hpp
 
 1447678891 source:c:\users\matias\documents\github\tp-datos-gmms\includes\menu.cpp
 	"Menu.hpp"
@@ -93,7 +93,7 @@
 
 1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\menu.hpp
 
-1447782498 source:c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.cpp
+1447876392 source:c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.cpp
 	"Crimen.hpp"
 	"Atributo.hpp"
 	<iostream>
@@ -101,7 +101,7 @@
 	<fstream>
 	<string>
 
-1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\atributo.hpp
+1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\atributo.hpp
 	<string>
 
 1447782528 source:c:\users\matias\documents\github\tp-datos-gmms\main.cpp
@@ -137,7 +137,7 @@
 	<cassert>
 	<cerrno>
 
-1447784461 c:\users\matias\documents\github\tp-datos-gmms\includes\tuplascat.hpp
+1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\tuplascat.hpp
 	<iostream>
 	<stdio.h>
 	<fstream>

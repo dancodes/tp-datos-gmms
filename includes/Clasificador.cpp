@@ -4,19 +4,19 @@
 #include <iostream>
 
 void Clasificador::entrenar(DataFrame* entrenamientos) {
-    std::cout << "[TODO] Entrenando clasificador..." << std::endl;
+    std::cout << "[TODO] Entrenando clasificador..." << std::endl; //Nacho es un poco mas Crudo que Dani
 }
 
 
 double Clasificador::calculoInfoGainXoY(DataFrame* entrenamientos) {
-    double maxi = ((*entrenamientos->crimenes)[0])->obtenerX();
-    double mini = ((*entrenamientos->crimenes)[0])->obtenerX();
-    for (int i=1 ; i < entrenamientos->crimenes->size() ; i++){
-        if (((*entrenamientos->crimenes)[i])->obtenerX() > maxi ){
-            maxi = ((*entrenamientos->crimenes)[i])->obtenerX();
+    double maxi = (entrenamientos->at(0))->obtenerX();
+    double mini = (entrenamientos->at(0))->obtenerX();
+    for (int i=1 ; i < entrenamientos->cantidad() ; i++){
+        if (((entrenamientos->at(i)))->obtenerX() > maxi ){
+            maxi = ((entrenamientos->at(i)))->obtenerX();
         }
-        if (((*entrenamientos->crimenes)[i])->obtenerX() < mini ){
-            mini = ((*entrenamientos->crimenes)[i])->obtenerX();
+        if ((entrenamientos->at(i))->obtenerX() < mini ){
+            mini = (entrenamientos->at(i))->obtenerX();
         }
     }
     double intervalo = (maxi - mini)/10;
@@ -35,8 +35,8 @@ double Clasificador::calculoInfoGainXoY(DataFrame* entrenamientos) {
 
 double Clasificador::calculoInfoGainNumerico(DataFrame* entrenamientos , double comparador) {
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
-    for(std::vector<int>::size_type i = 0; i < entrenamientos->crimenes->size(); i++) {
-        Crimen* actual = (*entrenamientos->crimenes)[i];
+    for(std::vector<int>::size_type i = 0; i < entrenamientos->cantidad(); i++) {
+        Crimen* actual = entrenamientos->at(i);
             //si es menor o igual al comparador lo agrupo con los menores, sino con los mayores
         std::string atributo_actual;
             if(actual->obtenerX()<=comparador){
@@ -55,8 +55,8 @@ double Clasificador::calculoInfoGainNumerico(DataFrame* entrenamientos , double 
     double infoGain = 0;
     // show content:
     for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        infoGain = infoGain + (it->second->entropia() *
-                    (it->second->obtenerTotal() / entrenamientos->crimenes->size()));
+        infoGain = infoGain + (it->second->informationGain() *
+                    (it->second->obtenerTotal() / entrenamientos->cantidad()));
     }
     return infoGain;
 }
