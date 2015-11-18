@@ -15,11 +15,11 @@ public:
     void leerArchivoTest();
     void resumen();
     unsigned int cantidad();
+    Crimen* at(int i);
     double infoGainPd();
     DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
     void borrarCrimenes();
     ~DataFrame();
-    std::vector<Crimen*>* crimenes;
 private:
-
+    std::vector<Crimen*>* crimenes;
 };

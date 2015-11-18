@@ -30,7 +30,7 @@ int main () {
 
     DataFrame* df_filt = df.filtrar("pdDistrict","=","SOUTHERN");
     df_filt->resumen();
-
+/*
     cout << "Filtrando CON MENOR A" << endl;
     cout << "*****************************************************" << endl;
 
@@ -42,7 +42,7 @@ int main () {
 
     DataFrame* df_filt3 = df_filt2->filtrar("pdDistrict","=","NORTHERN");
     df_filt3->resumen();
-
+*/
     //Cargamos los datos especificados por el usuario en el contexto
 
     menu.cargarDatos(ctx);

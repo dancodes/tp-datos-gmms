@@ -15,22 +15,27 @@ DataFrame* Clasificador::predecir(DataFrame* entrenamientos) {
 
 double Clasificador::calculoInfoGainDP(DataFrame* entrenamientos){
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
-    for(std::vector<int>::size_type i = 0; i < entrenamientos->crimenes->size(); i++) {
-        Crimen* actual = (*entrenamientos->crimenes)[i];
+
+    for(int i = 0; i < entrenamientos->cantidad(); i++) {
+
+        Crimen* actual = entrenamientos->at(i);
         std::string atributo_actual = *actual->obtenerPd();
         std::string categoria_actual = *actual->obtenerCategory();
+
         if(frequencia_de_clase.count(atributo_actual) == 0) {
-            TuplasCat* vectorTuplas= new TuplasCat();
+            TuplasCat* vectorTuplas = new TuplasCat();
             frequencia_de_clase[atributo_actual] = vectorTuplas;
+            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+
         } else {
-                frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
         }
     }
     double infoGain = 0;
     // show content:
     for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        infoGain = infoGain + (it->second->entropia() *
-                    (it->second->obtenerTotal() / entrenamientos->crimenes->size()));
+        infoGain = infoGain + (it->second->informationGain() *
+                    (it->second->obtenerTotal() / (double)entrenamientos->cantidad()));
     }
-    return infoGain;
+    return infoGain * (-1.0);
 }

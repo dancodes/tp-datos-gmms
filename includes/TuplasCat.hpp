@@ -19,16 +19,9 @@ struct TuplaCat{
 class TuplasCat{
 private:
     int total;
-public:
     TuplaCat vector[39];
-    void aumentarCat(string cat){
-        for (int i=0; i<39; i++){
-            if (vector[i].cat == cat){
-                vector[i].cant ++;
-            }
-        }
-        total ++;
-    }
+public:
+
     TuplasCat(){
         vector[0].cat = "WARRANTS";
         vector[1].cat = "OTHER OFFENSES";
@@ -69,20 +62,40 @@ public:
         vector[36].cat = "TREA";
         vector[37].cat = "RECOVERED VEHICLE";
         vector[38].cat = "PORNOGRAPHY/OBSCENE MAT";
-        for (int i=0; i<39; i++){
+        for (int i=0; i<=38; i++){
             vector[i].cant = 0;
         }
         this->total = 0;
     }
+
+    void aumentarCat(string cat){
+        for (int i=0; i<39; i++){
+            if (vector[i].cat == cat){
+                vector[i].cant = vector[i].cant + 1;
+                total++;
+            }
+        }
+    }
+
     int obtenerTotal(){
         return total;
     }
 
-    double entropia(){
-        double valor= 0;
-        for (int i= 0; i < 39 ; i++){
-            valor = valor + ((vector[i].cant / total)* log2((vector[i].cant / total)));
+    double informationGain(){
+        double valor = 0;
+
+        if(total == 0) {
+            return 0.0;
+        } else {
+            for (int i= 0; i < 39 ; i++){
+                double entropia = ((double)vector[i].cant / (double)total);
+
+                if(entropia != 0) {
+
+                    valor = valor + (entropia * log2(entropia));
+                }
+            }
+            return valor;
         }
-        return valor;
     }
 };

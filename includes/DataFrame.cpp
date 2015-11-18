@@ -1,4 +1,6 @@
 #include "DataFrame.hpp"
+#include "TuplasCat.hpp"
+#include "Clasificador.hpp"
 
 #define  CSV_IO_NO_THREAD
 #include "../vendor/csv.h"
@@ -10,7 +12,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
-#include "TuplasCat.hpp"
+
 
 using namespace std;
 
@@ -32,7 +34,7 @@ void DataFrame::leerArchivoTrain() {
     cout << "Abriendo archivo Train" << endl;
 
     //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
-    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
+    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.5.noentropy.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
@@ -112,8 +114,8 @@ void DataFrame::resumen() {
     //Loop para mostrar los top 5 en la pantalla
 
     cout << endl << "DataFrame: " << this->crimenes->size() << " elementos" << endl;
-    cout << "X" << "\t\t\t" << "Y" << "\t\t\t" << "PdDistrict" << endl;
-    cout << "=====================================================================" << endl;
+    cout << "X" << "\t\t\t" << "Y" << "\t\t\t" << "PdDistrict" << "\t" << "Category" << endl;
+    cout << "=================================================================================" << endl;
 
     std::vector<Crimen*>::iterator it;
     it = this->crimenes->begin();
@@ -122,15 +124,23 @@ void DataFrame::resumen() {
 
     for(std::vector<int>::size_type i = 0; (i < this->crimenes->size()) && (i < 5); i++) {
         Crimen* crimen = (*this->crimenes)[i];
-        cout << crimen->obtenerX() << "\t" << crimen->obtenerY() << "\t" << *crimen->obtenerPd() << endl;
+        cout << crimen->obtenerX() << "\t" << crimen->obtenerY() << "\t"
+             << *crimen->obtenerPd() << "\t" << *crimen->obtenerCategory() << endl;
     }
 
+    //cout << endl << "[DANIEL] Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
 
-    cout << endl << "Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
+    Clasificador clf;
+    cout << endl << "[MATI] Ganancia de Información de PdDistrict: " <<
+            clf.calculoInfoGainDP(this) << endl << endl;
 }
 
 unsigned int DataFrame::cantidad() {
     return this->crimenes->size();
+}
+
+Crimen* DataFrame::at(int i) {
+    return (*this->crimenes)[i];
 }
 
 double DataFrame::infoGainPd() {
@@ -157,7 +167,7 @@ double DataFrame::infoGainPd() {
 
     // show content:
     for (std::map<string, unsigned int>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        unsigned int freq_ci = it->second;
+        unsigned int freq_ci = it->second ;
 
         info_gain = info_gain +
         (((double)freq_ci/(double)this->cantidad()) *
@@ -175,14 +185,14 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
     std::vector<Crimen*>* crimenes_filtrados = new std::vector<Crimen*>();
 
-    int c = 0;
+    int c = 0  ;
 
 
     for(std::vector<int>::size_type i = 0; i < this->crimenes->size(); i++) {
 
         Crimen* actual = (this->crimenes->at(i));
 
-        if(nombre_atributo.compare("x") == 0) {
+        if(nombre_atributo.compare("x") == 0 ) {
 
             double condicion_double = std::stod(condicion);
 

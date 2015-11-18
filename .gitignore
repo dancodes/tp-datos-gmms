@@ -12,6 +12,7 @@
 tool
 
 data/*.csv
+data/.~lock*
 
 # Compiled Dynamic libraries
 *.so
