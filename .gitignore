@@ -33,4 +33,5 @@ data/.~lock*
 *.out
 *.app
 
-*.layout
+tp-datos-gmms.depend
+tp-datos-gmms.layout
