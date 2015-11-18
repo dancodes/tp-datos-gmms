@@ -4,7 +4,7 @@
 #include <iostream>
 
 void Clasificador::entrenar(DataFrame* entrenamientos) {
-    std::cout << "[TODO] Entrenando clasificador..." << std::endl; //Nacho es un poco mas Crudo que Dani
+    std::cout << "[TODO] Entrenando clasificador..." << std::endl; //Mati es un poco mas Crudo que Dani
 }
 
 
@@ -79,7 +79,7 @@ double Clasificador::calculoInfoGainDP(DataFrame* entrenamientos){
         if(frequencia_de_clase.count(atributo_actual) == 0) {
             TuplasCat* vectorTuplas = new TuplasCat();
             frequencia_de_clase[atributo_actual] = vectorTuplas;
-            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentiarCat(categoria_actual);
 
         } else {
             frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
