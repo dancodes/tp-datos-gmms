@@ -192,42 +192,8 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
         Crimen* actual = (this->crimenes->at(i));
 
-        if(nombre_atributo.compare("x") == 0 ) {
-
-            double condicion_double = std::stod(condicion);
-
-            if(comparador.compare("<") == 0) {
-                if(actual->obtenerX() < condicion_double) {
-                    crimenes_filtrados->push_back(actual);
-                }
-            } else if(comparador.compare(">") == 0) {
-                if(actual->obtenerX() > condicion_double) {
-                    crimenes_filtrados->push_back(actual);
-                }
-            }
-
-        } else if(nombre_atributo.compare("y") == 0) {
-
-            double condicion_double = std::stod(condicion);
-
-            if(comparador.compare("<") == 0) {
-                if(actual->obtenerY() < condicion_double) {
-                    crimenes_filtrados->push_back(actual);
-                }
-            } else if(comparador.compare(">") == 0) {
-                if(actual->obtenerY() > condicion_double) {
-                    crimenes_filtrados->push_back(actual);
-                }
-            }
-
-
-        } else if(nombre_atributo.compare("pdDistrict") == 0) {
-            // comparador es irrelevante acá
-            std::string pd_actual = *actual->obtenerPd();
-
-            if(condicion.compare(pd_actual) == 0) {
-                crimenes_filtrados->push_back(actual);
-            }
+        if(this->cumpleCondicion(actual, nombre_atributo, comparador, condicion)) {
+            crimenes_filtrados->push_back(actual);
         }
 
         c++;
@@ -235,13 +201,57 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
         if( c % 50000 == 0) {
             cout << "Filtrados " << c << " crimenes." << endl;
         }
-
     }
 
     DataFrame* nueva_df = new DataFrame(crimenes_filtrados);
 
     return nueva_df;
 
+
+}
+
+bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
+                            std::string comparador, std::string condicion) {
+
+    if(nombre_atributo.compare("x") == 0 ) {
+
+        double condicion_double = std::stod(condicion);
+
+        if(comparador.compare("<") == 0) {
+            if(actual->obtenerX() < condicion_double) {
+                return true;
+            }
+        } else if(comparador.compare(">") == 0) {
+            if(actual->obtenerX() > condicion_double) {
+                return true;
+            }
+        }
+
+    } else if(nombre_atributo.compare("y") == 0) {
+
+        double condicion_double = std::stod(condicion);
+
+        if(comparador.compare("<") == 0) {
+            if(actual->obtenerY() < condicion_double) {
+                return true;
+            }
+        } else if(comparador.compare(">") == 0) {
+            if(actual->obtenerY() > condicion_double) {
+                return true;
+            }
+        }
+
+
+    } else if(nombre_atributo.compare("pdDistrict") == 0) {
+        // comparador es irrelevante acá
+        std::string pd_actual = *actual->obtenerPd();
+
+        if(condicion.compare(pd_actual) == 0) {
+            return true;
+        }
+    }
+
+    return false;
 
 }
 
