@@ -146,3 +146,91 @@
 	<map>
 	<math.h>
 
+1447897213 source:c:\users\juan\tp-datos-gmms\includes\clasificador.cpp
+	"Clasificador.hpp"
+	"DataFrame.hpp"
+	"TuplasCat.hpp"
+	<iostream>
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\clasificador.hpp
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\dataframe.hpp
+	"Crimen.hpp"
+	<vector>
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\crimen.hpp
+	<string>
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\tuplascat.hpp
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<string>
+	<vector>
+	<map>
+	<math.h>
+
+1447896931 source:c:\users\juan\tp-datos-gmms\includes\contextoarchivos.cpp
+	"ContextoArchivos.hpp"
+	"DataFrame.hpp"
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\contextoarchivos.hpp
+
+1447896931 source:c:\users\juan\tp-datos-gmms\includes\crimen.cpp
+	"Crimen.hpp"
+	"Atributo.hpp"
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<string>
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\atributo.hpp
+	<string>
+
+1447896931 source:c:\users\juan\tp-datos-gmms\includes\dataframe.cpp
+	"DataFrame.hpp"
+	"TuplasCat.hpp"
+	"Clasificador.hpp"
+	"../vendor/csv.h"
+	<iostream>
+	<stdio.h>
+	<fstream>
+	<string>
+	<vector>
+	<map>
+	<math.h>
+
+1447896931 c:\users\juan\tp-datos-gmms\vendor\csv.h
+	<vector>
+	<string>
+	<sstream>
+	<cstring>
+	<algorithm>
+	<utility>
+	<cstdio>
+	<exception>
+	<future>
+	<cassert>
+	<cerrno>
+
+1447896931 source:c:\users\juan\tp-datos-gmms\includes\menu.cpp
+	"Menu.hpp"
+	"ContextoArchivos.hpp"
+	<iostream>
+
+1447896931 c:\users\juan\tp-datos-gmms\includes\menu.hpp
+
+1447896931 source:c:\users\juan\tp-datos-gmms\main.cpp
+	<iostream>
+	<vector>
+	"includes/Menu.hpp"
+	"includes/DataFrame.hpp"
+	"includes/ContextoArchivos.hpp"
+	"includes/Clasificador.hpp"
+
+1447943444 source:c:\users\juan\tp-datos-gmms\includes\nodo.cpp
+	"Nodo.hpp"
+
+1447944064 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
+	"DataFrame.hpp"
+
