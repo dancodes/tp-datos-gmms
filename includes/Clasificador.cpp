@@ -4,7 +4,7 @@
 #include <iostream>
 
 void Clasificador::entrenar(DataFrame* entrenamientos) {
-    std::cout << "[TODO] Entrenando clasificador..." << std::endl; //Mati es un poco mas Crudo que Dani
+    std::cout << "[TODO] Entrenando clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
 }
 
 

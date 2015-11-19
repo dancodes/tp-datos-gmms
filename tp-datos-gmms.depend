@@ -65,26 +65,26 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447878320 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
+1447959805 source:c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.cpp
 	"Clasificador.hpp"
 	"DataFrame.hpp"
 	"TuplasCat.hpp"
 	<iostream>
 
-1447876647 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
+1447876496 c:\users\matias\documents\github\tp-datos-gmms\includes\clasificador.hpp
 
-1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.hpp
+1447876493 c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.hpp
 	"Crimen.hpp"
 	<vector>
 
-1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.hpp
+1447961192 c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.hpp
 	<string>
 
-1447876392 source:c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.cpp
+1447678891 source:c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.cpp
 	"ContextoArchivos.hpp"
 	"DataFrame.hpp"
 
-1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.hpp
+1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\contextoarchivos.hpp
 
 1447678891 source:c:\users\matias\documents\github\tp-datos-gmms\includes\menu.cpp
 	"Menu.hpp"
@@ -93,7 +93,7 @@
 
 1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\menu.hpp
 
-1447876392 source:c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.cpp
+1447963218 source:c:\users\matias\documents\github\tp-datos-gmms\includes\crimen.cpp
 	"Crimen.hpp"
 	"Atributo.hpp"
 	<iostream>
@@ -101,10 +101,10 @@
 	<fstream>
 	<string>
 
-1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\atributo.hpp
+1447678891 c:\users\matias\documents\github\tp-datos-gmms\includes\atributo.hpp
 	<string>
 
-1447782528 source:c:\users\matias\documents\github\tp-datos-gmms\main.cpp
+1447965187 source:c:\users\matias\documents\github\tp-datos-gmms\main.cpp
 	<iostream>
 	<vector>
 	"includes/Menu.hpp"
@@ -112,8 +112,10 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447784641 source:c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.cpp
+1447959959 source:c:\users\matias\documents\github\tp-datos-gmms\includes\dataframe.cpp
 	"DataFrame.hpp"
+	"TuplasCat.hpp"
+	"Clasificador.hpp"
 	"../vendor/csv.h"
 	<iostream>
 	<stdio.h>
@@ -122,7 +124,6 @@
 	<vector>
 	<map>
 	<math.h>
-	"TuplasCat.hpp"
 
 1447694795 c:\users\matias\documents\github\tp-datos-gmms\vendor\csv.h
 	<vector>
@@ -137,7 +138,7 @@
 	<cassert>
 	<cerrno>
 
-1447876392 c:\users\matias\documents\github\tp-datos-gmms\includes\tuplascat.hpp
+1447876493 c:\users\matias\documents\github\tp-datos-gmms\includes\tuplascat.hpp
 	<iostream>
 	<stdio.h>
 	<fstream>
@@ -233,4 +234,19 @@
 
 1447944064 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
 	"DataFrame.hpp"
+
+1447965310 source:c:\users\matias\documents\github\tp-datos-gmms\includes\arbol.cpp
+	"Arbol.hpp"
+
+1447965076 c:\users\matias\documents\github\tp-datos-gmms\includes\arbol.hpp
+	"DataFrame.hpp"
+	"TuplasCat.hpp"
+	<string>
+	"Nodo.hpp"
+
+1447965654 c:\users\matias\documents\github\tp-datos-gmms\includes\nodo.hpp
+	"DataFrame.hpp"
+
+1447965654 source:c:\users\matias\documents\github\tp-datos-gmms\includes\nodo.cpp
+	"Nodo.hpp"
 

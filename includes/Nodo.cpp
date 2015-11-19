@@ -1,5 +1,6 @@
 #include "Nodo.hpp"
 
+
 Nodo::Nodo()
 {
     this->atributo = " ";
@@ -7,11 +8,10 @@ Nodo::Nodo()
     this->infoGain = 0.0;
 }
 
-Nodo::Nodo(DataFrame* df,std::string atrib,std::string cat,double IG){
+Nodo::Nodo(DataFrame* df , contenedor contIg){
     this->dataFrame = df;
-    this->atributo = atrib;
-    this->categoria = cat;
-    this->infoGain = IG;
+    this->cont = contIg;
+
 }
 
 void Nodo::AgregarNodo(Nodo* nodoAAgregar){

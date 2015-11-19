@@ -36,6 +36,8 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
 		</Compiler>
+		<Unit filename="includes/Arbol.cpp" />
+		<Unit filename="includes/Arbol.hpp" />
 		<Unit filename="includes/Atributo.hpp" />
 		<Unit filename="includes/Clasificador.cpp" />
 		<Unit filename="includes/Clasificador.hpp" />
@@ -47,6 +49,8 @@
 		<Unit filename="includes/DataFrame.hpp" />
 		<Unit filename="includes/Menu.cpp" />
 		<Unit filename="includes/Menu.hpp" />
+		<Unit filename="includes/Nodo.cpp" />
+		<Unit filename="includes/Nodo.hpp" />
 		<Unit filename="includes/TuplasCat.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="vendor/csv.h" />

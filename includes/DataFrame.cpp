@@ -1,10 +1,8 @@
 #include "DataFrame.hpp"
 #include "TuplasCat.hpp"
 #include "Clasificador.hpp"
-
 #define  CSV_IO_NO_THREAD
 #include "../vendor/csv.h"
-
 #include <iostream>
 #include <stdio.h>
 #include <fstream>

@@ -38,6 +38,16 @@ string* Crimen::obtenerCategory() {
     return this->ct->obtenerValor();
 }
 
+double Crimen::obtenerNumerico(char c){
+    double ret;
+    if (c == 'x'){
+        ret = obtenerX();
+    }else {
+        ret = obtenerY();
+    }
+    return ret;
+}
+
 Crimen::~Crimen() {
     cout << "Deletin ..." << this->x->obtenerValor() << endl;
     delete this->x;
