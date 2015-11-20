@@ -2,6 +2,7 @@
 #include "TuplasCat.hpp"
 #include <string>
 #include "Nodo.hpp"
+#include "InfoEntropia.hpp"
 
 
 class Arbol {
@@ -15,7 +16,7 @@ class Arbol {
         void split(Nodo* padre, unsigned int contador);
     public:
         Arbol(DataFrame* entrenamiento);
-        contenedor inicializarCont(DataFrame* entrenamiento);
+        InfoEntropia* inicializarCont(DataFrame* entrenamiento);
         double calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo, double &intervalo);
         double calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
 };

@@ -1,4 +1,5 @@
 #include "Nodo.hpp"
+#include "InfoEntropia.hpp"
 
 
 Nodo::Nodo()
@@ -8,10 +9,10 @@ Nodo::Nodo()
     this->infoGain = 0.0;
 }
 
-Nodo::Nodo(DataFrame* df, contenedor contIg, std::string atrib){
+Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib){
     this->atributo = atrib;
     this->dataFrame = df;
-    this->cont = contIg;
+    this->info_ig = contIg;
     this->setDatos();
 }
 
@@ -20,25 +21,25 @@ double Nodo::obtenerIntervalo(){
 }
 
 void Nodo::setDatos(){
-    double iGX = this->cont.iGTot - this->cont.iGX;
-    double iGY = this->cont.iGTot - this->cont.iGY;
-    double iGDP = this->cont.iGTot - this->cont.iGDP;
+    double iGX = this->info_ig->iGTot - this->info_ig->iGX;
+    double iGY = this->info_ig->iGTot - this->info_ig->iGY;
+    double iGDP = this->info_ig->iGTot - this->info_ig->iGDP;
 
-    if ((iGDP>iGX) && (iGDP>iGY) && (cont.iGDP > 0)){
+    if ((iGDP>iGX) && (iGDP>iGY) && (this->info_ig->iGDP > 0)){
         this->categoria = "dp";
         this->infoGain = iGDP;
         this->intervalo = 0;
-    }else if ((iGX>iGY) && (iGX > iGDP) && (iGX > 0)){
+    } else if ((iGX>iGY) && (iGX > iGDP) && (iGX > 0)){
         this->categoria = "x";
         this->infoGain = iGX;
-        this->intervalo = this->cont.intervaloX;
-    }else if ((iGY>iGX) && (iGY > iGDP) && (iGY > 0)){
+        this->intervalo = this->info_ig->intervaloX;
+    } else if ((iGY>iGX) && (iGY > iGDP) && (iGY > 0)){
         this->categoria = "y";
         this->infoGain = iGY;
-        this->intervalo = this->cont.intervaloY;
-    }else {
+        this->intervalo = this->info_ig->intervaloY;
+    } else {
         this->categoria = "cat";
-        this->atributo = cont.mayorCrimen;
+        this->atributo = this->info_ig->mayorCrimen;
 
     }
 }

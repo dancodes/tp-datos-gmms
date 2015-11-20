@@ -1,18 +1,20 @@
 #include "Arbol.hpp"
 
 
-contenedor Arbol::inicializarCont(DataFrame* entrenamiento){
-    contenedor cont;
-    cont.iGTot = this->calculoInfoTotal(entrenamiento, cont.mayorCrimen);
-    cont.iGDP = this->calculoInfoGainCategorico(entrenamiento, "pd");
-    cont.iGX = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("x"), cont.intervaloX);
-    cont.iGY = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("y"), cont.intervaloY);
-    return cont;
+InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento){
+    InfoEntropia* info_ent = new InfoEntropia();
+    info_ent->iGTot = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
+    info_ent->iGDP = this->calculoInfoGainCategorico(entrenamiento, "pd");
+    info_ent->iGX = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("x"),
+                    info_ent->intervaloX);
+    info_ent->iGY = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("y"),
+                    info_ent->intervaloY);
+    return info_ent;
 }
 
 Arbol::Arbol(DataFrame* entrenamiento){
     std::string atribIncial = "raiz";
-    contenedor contIG = this->inicializarCont(entrenamiento);
+    InfoEntropia* contIG = this->inicializarCont(entrenamiento);
     inicio = new Nodo(entrenamiento, contIG, atribIncial);
     unsigned int contador = 0;
     this->split(inicio, contador);
@@ -30,11 +32,11 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
     if (this->seguir(contador, padre->obtenerCat())) {
 
         if(padre->obtenerCat() == district) {
-            
+
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
             for (int i=0;atribHijos->size();i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
-                contenedor contIG = this->inicializarCont(df);
+                InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 contador = contador++;
                 this->split(hijo, contador);
@@ -45,8 +47,8 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             std::string intervaloStr = std::to_string(intervalo);
             DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,">");
             DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,"<");
-            contenedor contIGMayores = this->inicializarCont(dfMayores);
-            contenedor contIGMenores = this->inicializarCont(dfMenores);
+            InfoEntropia* contIGMayores = this->inicializarCont(dfMayores);
+            InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
             contador = contador++;

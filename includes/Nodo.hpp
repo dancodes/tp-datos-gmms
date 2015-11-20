@@ -1,22 +1,14 @@
 #include "DataFrame.hpp"
 #include <map>
 
-struct contenedor{
-    double intervaloX;
-    double intervaloY;
-    double iGTot;
-    double iGDP;
-    double iGX;
-    double iGY;
-    string mayorCrimen;
-};
+class InfoEntropia;
 
 class Nodo
 {
     public:
         Nodo();
-        Nodo(DataFrame* df, contenedor contIg, std::string atrib);
-        contenedor cont;
+        Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib);
+
         void agregarNodo(Nodo* nodoAAgregar);
         Nodo* ObtenerNodo();
         double obtenerIntervalo();
@@ -34,5 +26,6 @@ class Nodo
         double intervalo;
         double infoGain;
         std::vector<Nodo*>* splits;
+        InfoEntropia* info_ig;
 
 };
