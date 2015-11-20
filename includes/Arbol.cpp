@@ -26,8 +26,11 @@ bool Arbol::seguir(int contador, string cat){
 
 void Arbol::split(Nodo* padre, unsigned int contador) {
     std::string district = "pdDistrict";
+
     if (this->seguir(contador, padre->obtenerCat())) {
+
         if(padre->obtenerCat() == district) {
+            
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
             for (int i=0;atribHijos->size();i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
@@ -35,6 +38,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 contador = contador++;
                 this->split(hijo, contador);
+
             }
         } else {
             double intervalo = padre->obtenerIntervalo();

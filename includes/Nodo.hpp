@@ -17,7 +17,7 @@ class Nodo
         Nodo();
         Nodo(DataFrame* df, contenedor contIg, std::string atrib);
         contenedor cont;
-        void AgregarNodo(Nodo* nodoAAgregar);
+        void agregarNodo(Nodo* nodoAAgregar);
         Nodo* ObtenerNodo();
         double obtenerIntervalo();
         std::string obtenerCat();
@@ -27,7 +27,7 @@ class Nodo
                                                         std::string condicion);
         ~Nodo();
     private:
-        void SetDatos();
+        void setDatos();
         DataFrame* dataFrame;
         std::string atributo;
         std::string categoria;
@@ -36,4 +36,3 @@ class Nodo
         std::vector<Nodo*>* splits;
 
 };
-

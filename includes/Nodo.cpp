@@ -8,22 +8,23 @@ Nodo::Nodo()
     this->infoGain = 0.0;
 }
 
-Nodo::Nodo(DataFrame* df , contenedor contIg, std::string atrib){
+Nodo::Nodo(DataFrame* df, contenedor contIg, std::string atrib){
     this->atributo = atrib;
     this->dataFrame = df;
     this->cont = contIg;
-    this->SetDatos();
+    this->setDatos();
 }
 
 double Nodo::obtenerIntervalo(){
     return this->intervalo;
 }
 
-void Nodo::SetDatos(){
+void Nodo::setDatos(){
     double iGX = this->cont.iGTot - this->cont.iGX;
     double iGY = this->cont.iGTot - this->cont.iGY;
     double iGDP = this->cont.iGTot - this->cont.iGDP;
-    if ((iGDP>iGX) && (iGDP>iGY) && (cont.iGDP >  0)){
+
+    if ((iGDP>iGX) && (iGDP>iGY) && (cont.iGDP > 0)){
         this->categoria = "dp";
         this->infoGain = iGDP;
         this->intervalo = 0;
@@ -42,7 +43,7 @@ void Nodo::SetDatos(){
     }
 }
 
-void Nodo::AgregarNodo(Nodo* nodoAAgregar){
+void Nodo::agregarNodo(Nodo* nodoAAgregar){
     this->splits->push_back(nodoAAgregar);
 }
 
