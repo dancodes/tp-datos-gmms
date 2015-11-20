@@ -1,4 +1,3 @@
-// constructing vectors
 #include <iostream>
 #include <vector>
 

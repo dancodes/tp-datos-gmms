@@ -31,7 +31,7 @@ void DataFrame::leerArchivoTrain() {
 
     cout << "Abriendo archivo Train" << endl;
 
-    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
+    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data/train.csv");
     io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.5.noentropy.csv");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
@@ -128,9 +128,9 @@ void DataFrame::resumen() {
 
     //cout << endl << "[DANIEL] Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
 
-    Clasificador clf;
+    /*Clasificador clf;
     cout << endl << "[MATI] Ganancia de Información de PdDistrict: " <<
-            clf.calculoInfoGainDP(this) << endl << endl;
+            clf.calculoInfoGainDP(this) << endl << endl;*/
 }
 
 unsigned int DataFrame::cantidad() {
