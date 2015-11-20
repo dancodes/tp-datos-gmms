@@ -1,11 +1,11 @@
 CC=gcc
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g -std=c++11
-LDFLAGS=-g -std=c++11
+CPPFLAGS=-g -std=c++11 -O2
+LDFLAGS=-g -std=c++11 -O2
 LDLIBS=
 
-SRCS=main.cpp includes/*.cpp 
+SRCS=main.cpp includes/*.cpp
 OBJS=$(subst .cc,.o,$(SRCS))
 CRAP=*.cc, *.o
 
