@@ -11,8 +11,8 @@ class Arbol {
         DataFrame* setAEntrenar;
         double calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador);
         double calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
-        bool Seguir(int contador, string cat);
-        void Split(Nodo* padre, unsigned int contador);
+        bool seguir(int contador, string cat);
+        void split(Nodo* padre, unsigned int contador);
     public:
         Arbol(DataFrame* entrenamiento);
         contenedor inicializarCont(DataFrame* entrenamiento);

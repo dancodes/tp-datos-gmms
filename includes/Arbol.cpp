@@ -3,7 +3,7 @@
 
 contenedor Arbol::inicializarCont(DataFrame* entrenamiento){
     contenedor cont;
-    cont.iGTot = calculoInfoTotal(entrenamiento, cont.mayorCrimen);
+    cont.iGTot = this->calculoInfoTotal(entrenamiento, cont.mayorCrimen);
     cont.iGDP = this->calculoInfoGainCategorico(entrenamiento, "pd");
     cont.iGX = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("x"), cont.intervaloX);
     cont.iGY = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("y"), cont.intervaloY);
@@ -15,29 +15,28 @@ Arbol::Arbol(DataFrame* entrenamiento){
     contenedor contIG = this->inicializarCont(entrenamiento);
     inicio = new Nodo(entrenamiento, contIG, atribIncial);
     unsigned int contador = 0;
-    Split(inicio, contador);
+    this->split(inicio, contador);
 }
 
-bool Arbol::Seguir(int contador, string cat){
+bool Arbol::seguir(int contador, string cat){
     //falta agregarla la otra condicion de corte
     int piso = 100;
-    bool seguir= ((contador<piso) && (cat != "cat"));
-    return seguir;
+    return (contador<piso) && (cat != "cat");
 }
 
-void Arbol:: Split(Nodo* padre, unsigned int contador){
+void Arbol::split(Nodo* padre, unsigned int contador) {
     std::string district = "pdDistrict";
-    if (Seguir(contador, padre->obtenerCat())){
-        if(padre->obtenerCat() == district){
+    if (this->seguir(contador, padre->obtenerCat())) {
+        if(padre->obtenerCat() == district) {
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
             for (int i=0;atribHijos->size();i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 contenedor contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 contador = contador++;
-                Split(hijo, contador);
+                this->split(hijo, contador);
             }
-        }else{
+        } else {
             double intervalo = padre->obtenerIntervalo();
             std::string intervaloStr = std::to_string(intervalo);
             DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,">");
@@ -47,8 +46,8 @@ void Arbol:: Split(Nodo* padre, unsigned int contador){
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
             contador = contador++;
-            Split(hijoMayores, contador);
-            Split(hijoMenores, contador);
+            this->split(hijoMayores, contador);
+            this->split(hijoMenores, contador);
         }
     }
 }
