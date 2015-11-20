@@ -1,5 +1,4 @@
 #include "Crimen.hpp"
-#include "Atributo.hpp"
 
 #include "NAtributo.hpp"
 #include "NAtributoNumerico.hpp"
