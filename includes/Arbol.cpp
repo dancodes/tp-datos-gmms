@@ -9,6 +9,7 @@ Arbol::Arbol(DataFrame* entrenamiento){
     contIG->resumen();
     inicio = new Nodo(entrenamiento, contIG, atribIncial);
     unsigned int contador = 0;
+    std::cout << "PRIMER SPLIT DEL ARBOL" << std::endl;
     this->split(inicio, contador);
 }
 
@@ -30,18 +31,16 @@ bool Arbol::seguir(int contador, string cat){
 }
 
 void Arbol::split(Nodo* padre, unsigned int contador) {
-    std::string district = "pdDistrict";
-
+    std::string district("pdDistrict");
     if (this->seguir(contador, padre->obtenerCat())) {
-
         if(padre->obtenerCat() == district) {
-
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
-            for (int i=0;atribHijos->size();i++){
+            for (int i=0; atribHijos->size(); i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 contador = contador++;
+                std::cout << "WE SPLITTIN, YO' " << std::endl;
                 this->split(hijo, contador);
 
             }
@@ -55,6 +54,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
             contador = contador++;
+            std::cout << "WE SPLITTIN ON NUMBERS, YO' " << std::endl;
             this->split(hijoMayores, contador);
             this->split(hijoMenores, contador);
         }
@@ -63,7 +63,13 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
 
 double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo, double &intervalo) {
 
+    if(entrenamiento->cantidad() < 1) {
+        std::cout << "[!] DataFrame sin elementos en " << nombre_atributo << ". InfoGain = 0" << std::endl;
+        return 0.0;
+    }
+
     Crimen* primer_crimen = entrenamiento->at(0);
+
     double primer_valor_atributo = *(double*)primer_crimen->obtenerAtributo(nombre_atributo);
 
     double maxi = primer_valor_atributo;
