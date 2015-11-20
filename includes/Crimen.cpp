@@ -27,6 +27,10 @@ Crimen::Crimen(double x, double y, std::string pdDistrict) {
     this->atributos["ct"] = new NAtributoCategorico("category", new std::string("No Category"));
 }
 
+void* Crimen::obtenerAtributo(std::string nombre_atributo) {
+    return this->atributos[nombre_atributo]->obtenerValor();
+}
+
 double Crimen::obtenerX() {
     return *(double*)(this->atributos["x"]->obtenerValor());
 }

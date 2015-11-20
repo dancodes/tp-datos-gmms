@@ -11,6 +11,7 @@ class Crimen {
 public:
     Crimen(double x, double y, std::string pdDistrict, std::string category);
     Crimen(double x, double y, std::string pdDistrict);
+    void* obtenerAtributo(std::string nombre_atributo);
     double obtenerX();
     double obtenerY();
     double obtenerNumerico(char); // x para devolver x e y para devolver y
