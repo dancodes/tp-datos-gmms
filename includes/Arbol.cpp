@@ -3,8 +3,6 @@
 
 contenedor Arbol::InicializarCont(DataFrame* entrenamiento){
     contenedor cont;
-    double intervaloX;
-    double intervaloY;
     cont.iGTot = calculoInfoTotal(entrenamiento);
     cont.iGDP = this->calculoInfoGainDP(entrenamiento);
     cont.iGX = this->calculoInfoGainXoY(entrenamiento,'x', cont.intervaloX);
@@ -13,9 +11,24 @@ contenedor Arbol::InicializarCont(DataFrame* entrenamiento){
 }
 
 Arbol::Arbol(DataFrame* entrenamiento){
+    std::string atribIncial = "raiz";
     contenedor contIG = InicializarCont(entrenamiento);
-    inicio = new Nodo(entrenamiento, contIG);
+    inicio = new Nodo(entrenamiento, contIG, atribIncial);
+    unsigned int contador = 0;
+    Split(inicio, contador);
+}
 
+void Arbol:: Split(Nodo* padre, unsigned int contador){
+    //hay que agregar el n de pisos(para eso puse el contador)
+    if (padre->obtenerCat() == "dp"){
+        std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
+        for (int i=0;atribHijos->size();i++){
+        //filtrar y crear los nodos
+        }
+    }else{
+        //para valores numericos
+        //flitrar y crear nodos
+    }
 }
 
 double Arbol::calculoInfoGainXoY(DataFrame* entrenamiento, char c, double &intervalo) {

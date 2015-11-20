@@ -147,7 +147,7 @@
 	<map>
 	<math.h>
 
-1447897213 source:c:\users\juan\tp-datos-gmms\includes\clasificador.cpp
+1448024641 source:c:\users\juan\tp-datos-gmms\includes\clasificador.cpp
 	"Clasificador.hpp"
 	"DataFrame.hpp"
 	"TuplasCat.hpp"
@@ -155,11 +155,11 @@
 
 1447896931 c:\users\juan\tp-datos-gmms\includes\clasificador.hpp
 
-1447896931 c:\users\juan\tp-datos-gmms\includes\dataframe.hpp
+1447966364 c:\users\juan\tp-datos-gmms\includes\dataframe.hpp
 	"Crimen.hpp"
 	<vector>
 
-1447896931 c:\users\juan\tp-datos-gmms\includes\crimen.hpp
+1448024641 c:\users\juan\tp-datos-gmms\includes\crimen.hpp
 	<string>
 
 1447896931 c:\users\juan\tp-datos-gmms\includes\tuplascat.hpp
@@ -177,7 +177,7 @@
 
 1447896931 c:\users\juan\tp-datos-gmms\includes\contextoarchivos.hpp
 
-1447896931 source:c:\users\juan\tp-datos-gmms\includes\crimen.cpp
+1448024641 source:c:\users\juan\tp-datos-gmms\includes\crimen.cpp
 	"Crimen.hpp"
 	"Atributo.hpp"
 	<iostream>
@@ -188,7 +188,7 @@
 1447896931 c:\users\juan\tp-datos-gmms\includes\atributo.hpp
 	<string>
 
-1447896931 source:c:\users\juan\tp-datos-gmms\includes\dataframe.cpp
+1448024641 source:c:\users\juan\tp-datos-gmms\includes\dataframe.cpp
 	"DataFrame.hpp"
 	"TuplasCat.hpp"
 	"Clasificador.hpp"
@@ -221,7 +221,7 @@
 
 1447896931 c:\users\juan\tp-datos-gmms\includes\menu.hpp
 
-1447896931 source:c:\users\juan\tp-datos-gmms\main.cpp
+1448024641 source:c:\users\juan\tp-datos-gmms\main.cpp
 	<iostream>
 	<vector>
 	"includes/Menu.hpp"
@@ -229,11 +229,12 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1447943444 source:c:\users\juan\tp-datos-gmms\includes\nodo.cpp
+1448030981 source:c:\users\juan\tp-datos-gmms\includes\nodo.cpp
 	"Nodo.hpp"
 
-1447944064 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
+1448030846 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
 	"DataFrame.hpp"
+	<map>
 
 1447965310 source:c:\users\matias\documents\github\tp-datos-gmms\includes\arbol.cpp
 	"Arbol.hpp"
@@ -248,5 +249,14 @@
 	"DataFrame.hpp"
 
 1447965654 source:c:\users\matias\documents\github\tp-datos-gmms\includes\nodo.cpp
+	"Nodo.hpp"
+
+1448029724 source:c:\users\juan\tp-datos-gmms\includes\arbol.cpp
+	"Arbol.hpp"
+
+1448027681 c:\users\juan\tp-datos-gmms\includes\arbol.hpp
+	"DataFrame.hpp"
+	"TuplasCat.hpp"
+	<string>
 	"Nodo.hpp"
 

@@ -11,6 +11,7 @@ class Arbol {
         DataFrame* setAEntrenar;
         double calculoInfoGainNumerico(DataFrame* entrenamiento , double comparador);
         double calculoInfoTotal(DataFrame* entrenamiento);
+        void Split(Nodo* padre, unsigned int contador);
     public:
         Arbol(DataFrame* entrenamiento);
         contenedor InicializarCont(DataFrame* entrenamiento);
