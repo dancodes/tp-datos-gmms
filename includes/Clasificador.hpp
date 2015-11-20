@@ -4,6 +4,6 @@ class DataFrame;
 
 class Clasificador {
 public:
-    void entrenar(DataFrame* entrenamientos);
-    DataFrame* predecir(DataFrame* entrenamientos);
+    virtual void entrenar(DataFrame* entrenamientos) = 0;
+    virtual DataFrame* predecir(DataFrame* entrenamientos) = 0;
 };

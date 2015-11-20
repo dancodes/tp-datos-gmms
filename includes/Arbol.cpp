@@ -1,7 +1,18 @@
 #include "Arbol.hpp"
+#include <iostream>
 
 
-InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento){
+
+Arbol::Arbol(DataFrame* entrenamiento){
+    std::string atribIncial("raiz");
+    InfoEntropia* contIG = this->inicializarCont(entrenamiento);
+    contIG->resumen();
+    inicio = new Nodo(entrenamiento, contIG, atribIncial);
+    unsigned int contador = 0;  
+    this->split(inicio, contador);
+}
+
+InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
     InfoEntropia* info_ent = new InfoEntropia();
     info_ent->iGTot = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
     info_ent->iGDP = this->calculoInfoGainCategorico(entrenamiento, "pd");
@@ -10,14 +21,6 @@ InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento){
     info_ent->iGY = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("y"),
                     info_ent->intervaloY);
     return info_ent;
-}
-
-Arbol::Arbol(DataFrame* entrenamiento){
-    std::string atribIncial = "raiz";
-    InfoEntropia* contIG = this->inicializarCont(entrenamiento);
-    inicio = new Nodo(entrenamiento, contIG, atribIncial);
-    unsigned int contador = 0;
-    this->split(inicio, contador);
 }
 
 bool Arbol::seguir(int contador, string cat){
@@ -135,9 +138,9 @@ double Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string no
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
 
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
-
         Crimen* actual = entrenamiento->at(i);
         std::string atributo_actual = *(std::string*)actual->obtenerAtributo(nombre_atributo);
+
         std::string categoria_actual = *actual->obtenerCategory();
 
         if(frequencia_de_clase.count(atributo_actual) == 0) {

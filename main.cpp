@@ -4,7 +4,7 @@
 #include "includes/Menu.hpp"
 #include "includes/DataFrame.hpp"
 #include "includes/ContextoArchivos.hpp"
-#include "includes/Clasificador.hpp"
+#include "includes/ClasificadorPorArboles.hpp"
 
 
 
@@ -50,10 +50,11 @@ int main () {
 
     menu.cargarDatos(ctx);
 
-    Clasificador clf;
+    ClasificadorPorArboles clf;
+    clf.entrenar(&df);
 
     //Aprende de los datos de train.csv
-    clf.entrenar(ctx.obtenerEntrenamiento());
+    //clf.entrenar(ctx.obtenerEntrenamiento());
 
     //Y hacemos una prediccion sobre los crimenes de test.csv
     DataFrame* resultados = clf.predecir(ctx.obtenerIncognitas());
