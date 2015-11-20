@@ -8,7 +8,7 @@ Arbol::Arbol(DataFrame* entrenamiento){
     InfoEntropia* contIG = this->inicializarCont(entrenamiento);
     contIG->resumen();
     inicio = new Nodo(entrenamiento, contIG, atribIncial);
-    unsigned int contador = 0;  
+    unsigned int contador = 0;
     this->split(inicio, contador);
 }
 
@@ -81,15 +81,21 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
         }
     }
 
-    intervalo = (maxi - mini)/10;
+    intervalo = (maxi - mini)/(double)10.0;
+
+    std::cout << "[ATRIBUTO NUMERICO] " << nombre_atributo << ": ";
+    std::cout << "Max: " << maxi << "\t  ///  ";
+    std::cout << "Min: " << mini << "\t  ///  ";
+    std::cout << "Intervalo: " << intervalo << std::endl;
+
     double mayorGan = 0;
     double gananciaNum = 0;
 
     int indice= 0;
 
     for (int i= 1 ; i < 10 ; i++){
-        gananciaNum = calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
-
+        gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
+        std::cout << "InfoGain cantidato: \t\t" << gananciaNum << std::endl;
         if (mayorGan < gananciaNum) {
             mayorGan = gananciaNum;
             indice = i;
@@ -129,7 +135,7 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
     // show content:
     for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
         infoGain = infoGain + (it->second->informationGain() *
-                    (it->second->obtenerTotal() / entrenamiento->cantidad()));
+                    (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
     }
     return infoGain;
 }

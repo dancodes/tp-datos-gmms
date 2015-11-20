@@ -2,7 +2,7 @@
 #include <iostream>
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    std::cout << "[EN PROGRESO] Entrenando clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
+    std::cout << "[EN PROGRESO] Entrenando clasificador..." << std::endl << std::endl; //Nach0 es un poco mas Crudo que Dani
 
     Arbol arbolito(entrenamientos);
 

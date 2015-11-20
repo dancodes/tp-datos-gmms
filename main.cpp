@@ -27,13 +27,13 @@ int main () {
     //cout << "NORMAL" << endl;
     //cout << "*****************************************************" << endl;
     //df.resumen();
-
+/*
     cout << "Filtrando SOLO SOUTHERN" << endl;
     cout << "*****************************************************" << endl;
 
     DataFrame* df_filt = df.filtrar("pdDistrict","=","SOUTHERN");
     df_filt->resumen();
-/*
+
     cout << "Filtrando CON MENOR A" << endl;
     cout << "*****************************************************" << endl;
 
