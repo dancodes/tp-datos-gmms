@@ -20,10 +20,15 @@ Arbol::Arbol(DataFrame* entrenamiento){
 
 void Arbol:: Split(Nodo* padre, unsigned int contador){
     //hay que agregar el n de pisos(para eso puse el contador)
-    if (padre->obtenerCat() == "dp"){
+    std::string district = "pdDistrict";
+    if(padre->obtenerCat() == district){
         std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
         for (int i=0;atribHijos->size();i++){
-        //filtrar y crear los nodos
+        DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
+        contenedor contIG = InicializarCont(df);
+        Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
+        contador=contador++;
+        Split(hijo, contador);
         }
     }else{
         //para valores numericos

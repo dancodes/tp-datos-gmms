@@ -56,6 +56,11 @@ std::vector<std::string>* Nodo::obtenerListaAtrib(){
     return listaAtributos;
 }
 
+DataFrame* Nodo::filtrarDFPD(std::string Cat,std::string atribHijos){
+    DataFrame* df = this->dataFrame->filtrar(Cat,atribHijos," ");
+    return df;
+}
+
 Nodo::~Nodo()
 {
     //dtor

@@ -20,6 +20,7 @@ class Nodo
         Nodo* ObtenerNodo();
         std::string obtenerCat();
         std::vector<std::string>* obtenerListaAtrib();
+        DataFrame* filtrarDFPD(std::string Cat,std::string atribHijos);
         ~Nodo();
     private:
         void SetDatos();
