@@ -10,8 +10,8 @@ class Arbol {
         string primero;
         DataFrame* setAEntrenar;
         double calculoInfoGainNumerico(DataFrame* entrenamiento , double comparador);
-        double calculoInfoTotal(DataFrame* entrenamiento);
-        bool Seguir(int contador);
+        double calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
+        bool Seguir(int contador, string cat);
         void Split(Nodo* padre, unsigned int contador);
     public:
         Arbol(DataFrame* entrenamiento);

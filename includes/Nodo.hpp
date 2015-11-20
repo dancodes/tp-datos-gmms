@@ -8,6 +8,7 @@ struct contenedor{
     double iGDP;
     double iGX;
     double iGY;
+    string mayorCrimen;
 };
 
 class Nodo

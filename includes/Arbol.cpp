@@ -3,7 +3,7 @@
 
 contenedor Arbol::InicializarCont(DataFrame* entrenamiento){
     contenedor cont;
-    cont.iGTot = calculoInfoTotal(entrenamiento);
+    cont.iGTot = calculoInfoTotal(entrenamiento, cont.mayorCrimen);
     cont.iGDP = this->calculoInfoGainDP(entrenamiento);
     cont.iGX = this->calculoInfoGainXoY(entrenamiento,'x', cont.intervaloX);
     cont.iGY = this->calculoInfoGainXoY(entrenamiento,'y',cont.intervaloY);
@@ -18,16 +18,16 @@ Arbol::Arbol(DataFrame* entrenamiento){
     Split(inicio, contador);
 }
 
-bool Arbol::Seguir(int contador){
+bool Arbol::Seguir(int contador, string cat){
     //falta agregarla la otra condicion de corte
     int piso = 100;
-    bool seguir=(contador<piso);
+    bool seguir= ((contador<piso) && (cat != "cat"));
     return seguir;
 }
 
 void Arbol:: Split(Nodo* padre, unsigned int contador){
     std::string district = "pdDistrict";
-    if (Seguir(contador)){
+    if (Seguir(contador, padre->obtenerCat())){
         if(padre->obtenerCat() == district){
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
             for (int i=0;atribHijos->size();i++){
@@ -134,7 +134,7 @@ double Arbol::calculoInfoGainDP(DataFrame* entrenamiento){
 }
 
 
-double Arbol::calculoInfoTotal(DataFrame* entrenamiento){ //por Mati
+double Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayorCrimen){ //por Mati
 
     TuplasCat* vectorTuplas = new TuplasCat();
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
@@ -145,6 +145,7 @@ double Arbol::calculoInfoTotal(DataFrame* entrenamiento){ //por Mati
 
         vectorTuplas->aumentarCat(categoria_actual);
     }
+    mayorCrimen = vectorTuplas->mayorCrimen();
     double infoGain = (vectorTuplas->informationGain());
     return infoGain * (-1.0);
 }

@@ -98,4 +98,15 @@ public:
             return valor;
         }
     }
+
+    string mayorCrimen(){
+        int cantMax= -1;
+        string catMax = "";
+        for (int i= 0; i<39; i++){
+            if (vector[i].cant > cantMax){
+                catMax = vector[i].cat;
+            }
+        }
+        return catMax;
+    }
 };

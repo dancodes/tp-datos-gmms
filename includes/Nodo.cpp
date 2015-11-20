@@ -20,21 +20,25 @@ double Nodo::obtenerIntervalo(){
 }
 
 void Nodo::SetDatos(){
-    double iGX = this->cont.iGX;
-    double iGY = this->cont.iGY;
-    double iGDP = this->cont.iGDP;
-    if ((iGDP>iGX) && (iGDP>iGY)){
+    double iGX = this->cont.iGTot - this->cont.iGX;
+    double iGY = this->cont.iGTot - this->cont.iGY;
+    double iGDP = this->cont.iGTot - this->cont.iGDP;
+    if ((iGDP>iGX) && (iGDP>iGY) && (cont.iGDP >  0)){
         this->categoria = "dp";
         this->infoGain = iGDP;
         this->intervalo = 0;
-    }else if (iGX>iGY){
+    }else if ((iGX>iGY) && (iGX > iGDP) && (iGX > 0)){
         this->categoria = "x";
         this->infoGain = iGX;
         this->intervalo = this->cont.intervaloX;
-    }else{
+    }else if ((iGY>iGX) && (iGY > iGDP) && (iGY > 0)){
         this->categoria = "y";
         this->infoGain = iGY;
         this->intervalo = this->cont.intervaloY;
+    }else {
+        this->categoria = "cat";
+        this->atributo = cont.mayorCrimen;
+
     }
 }
 
@@ -61,13 +65,13 @@ std::vector<std::string>* Nodo::obtenerListaAtrib(){
 }
 
 DataFrame* Nodo::filtrarDFPD(std::string Cat,std::string atribHijos){
-    DataFrame* df = this->dataFrame->filtrar(Cat,atribHijos," ");
+    DataFrame* df = this->dataFrame->filtrar(Cat,"=",atribHijos);
     return df;
 }
 
 DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
                                                     std::string condicion){
-    DataFrame* df = this->dataFrame->filtrar(Cat,atribHijos,condicion);
+    DataFrame* df = this->dataFrame->filtrar(Cat,condicion,atribHijos);
     return df;
 }
 
