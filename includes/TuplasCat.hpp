@@ -82,31 +82,19 @@ public:
     }
 
     double informationGain(){
-        double valor = 0;
+        double entropia = 0;
 
         if(total == 0) {
             return 0.0;
         } else {
             for (int i= 0; i < 39 ; i++){
-                double entropia = ((double)vector[i].cant / (double)total);
+                double probabilidad = ((double)vector[i].cant / (double)total);
 
-                if(entropia != 0) {
-
-                    valor = valor + (entropia * log2(entropia));
+                if(probabilidad != 0) {
+                    entropia = entropia + (probabilidad * log2(probabilidad));
                 }
             }
-            return valor;
+            return entropia;
         }
-    }
-
-    string mayorCrimen(){
-        int cantMax= -1;
-        string catMax = "";
-        for (int i= 0; i<39; i++){
-            if (vector[i].cant > cantMax){
-                catMax = vector[i].cat;
-            }
-        }
-        return catMax;
     }
 };
