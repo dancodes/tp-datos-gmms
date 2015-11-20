@@ -15,6 +15,10 @@ Nodo::Nodo(DataFrame* df , contenedor contIg, std::string atrib){
     this->SetDatos();
 }
 
+double Nodo::obtenerIntervalo(){
+    return this->intervalo;
+}
+
 void Nodo::SetDatos(){
     double iGX = this->cont.iGX;
     double iGY = this->cont.iGY;
@@ -58,6 +62,12 @@ std::vector<std::string>* Nodo::obtenerListaAtrib(){
 
 DataFrame* Nodo::filtrarDFPD(std::string Cat,std::string atribHijos){
     DataFrame* df = this->dataFrame->filtrar(Cat,atribHijos," ");
+    return df;
+}
+
+DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
+                                                    std::string condicion){
+    DataFrame* df = this->dataFrame->filtrar(Cat,atribHijos,condicion);
     return df;
 }
 

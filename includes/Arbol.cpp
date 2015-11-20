@@ -18,28 +18,45 @@ Arbol::Arbol(DataFrame* entrenamiento){
     Split(inicio, contador);
 }
 
+bool Arbol::Seguir(int contador){
+    //falta agregarla la otra condicion de corte
+    int piso = 100;
+    bool seguir=(contador<piso);
+    return seguir;
+}
+
 void Arbol:: Split(Nodo* padre, unsigned int contador){
-    //hay que agregar el n de pisos(para eso puse el contador)
     std::string district = "pdDistrict";
-    if(padre->obtenerCat() == district){
-        std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
-        for (int i=0;atribHijos->size();i++){
-        DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
-        contenedor contIG = InicializarCont(df);
-        Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
-        contador=contador++;
-        Split(hijo, contador);
+    if (Seguir(contador)){
+        if(padre->obtenerCat() == district){
+            std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
+            for (int i=0;atribHijos->size();i++){
+                DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
+                contenedor contIG = InicializarCont(df);
+                Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
+                contador = contador++;
+                Split(hijo, contador);
+            }
+        }else{
+            double intervalo = padre->obtenerIntervalo();
+            std::string intervaloStr = std::to_string(intervalo);
+            DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,">");
+            DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,"<");
+            contenedor contIGMayores = InicializarCont(dfMayores);
+            contenedor contIGMenores = InicializarCont(dfMenores);
+            Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
+            Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
+            contador = contador++;
+            Split(hijoMayores, contador);
+            Split(hijoMenores, contador);
         }
-    }else{
-        //para valores numericos
-        //flitrar y crear nodos
     }
 }
 
 double Arbol::calculoInfoGainXoY(DataFrame* entrenamiento, char c, double &intervalo) {
     double maxi = (entrenamiento->at(0))->obtenerNumerico(c);
     double mini = (entrenamiento->at(0))->obtenerNumerico(c);
-    for (int i=1 ; i < entrenamiento->cantidad() ; i++){
+    for (unsigned int i=1 ; i < entrenamiento->cantidad() ; i++){
         if (((entrenamiento->at(i)))->obtenerNumerico(c) > maxi ){
             maxi = ((entrenamiento->at(i)))->obtenerNumerico(c);
         }
@@ -92,7 +109,7 @@ double Arbol::calculoInfoGainNumerico(DataFrame* entrenamiento , double comparad
 double Arbol::calculoInfoGainDP(DataFrame* entrenamiento){
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
 
-    for(int i = 0; i < entrenamiento->cantidad(); i++) {
+    for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
 
         Crimen* actual = entrenamiento->at(i);
         std::string atributo_actual = *actual->obtenerPd();
@@ -120,7 +137,7 @@ double Arbol::calculoInfoGainDP(DataFrame* entrenamiento){
 double Arbol::calculoInfoTotal(DataFrame* entrenamiento){ //por Mati
 
     TuplasCat* vectorTuplas = new TuplasCat();
-    for(int i = 0; i < entrenamiento->cantidad(); i++) {
+    for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
 
         Crimen* actual = entrenamiento->at(i);
         std::string categoria_actual = *actual->obtenerCategory();

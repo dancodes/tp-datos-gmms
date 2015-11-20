@@ -229,10 +229,10 @@
 	"includes/ContextoArchivos.hpp"
 	"includes/Clasificador.hpp"
 
-1448030981 source:c:\users\juan\tp-datos-gmms\includes\nodo.cpp
+1448040390 source:c:\users\juan\tp-datos-gmms\includes\nodo.cpp
 	"Nodo.hpp"
 
-1448032976 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
+1448040390 c:\users\juan\tp-datos-gmms\includes\nodo.hpp
 	"DataFrame.hpp"
 	<map>
 
@@ -251,10 +251,10 @@
 1447965654 source:c:\users\matias\documents\github\tp-datos-gmms\includes\nodo.cpp
 	"Nodo.hpp"
 
-1448032953 source:c:\users\juan\tp-datos-gmms\includes\arbol.cpp
+1448040621 source:c:\users\juan\tp-datos-gmms\includes\arbol.cpp
 	"Arbol.hpp"
 
-1448027681 c:\users\juan\tp-datos-gmms\includes\arbol.hpp
+1448040021 c:\users\juan\tp-datos-gmms\includes\arbol.hpp
 	"DataFrame.hpp"
 	"TuplasCat.hpp"
 	<string>

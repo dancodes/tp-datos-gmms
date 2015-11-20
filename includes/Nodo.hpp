@@ -18,9 +18,12 @@ class Nodo
         contenedor cont;
         void AgregarNodo(Nodo* nodoAAgregar);
         Nodo* ObtenerNodo();
+        double obtenerIntervalo();
         std::string obtenerCat();
         std::vector<std::string>* obtenerListaAtrib();
         DataFrame* filtrarDFPD(std::string Cat,std::string atribHijos);
+        DataFrame* filtrarDFNum(std::string Cat,std::string atribHijos,
+                                                        std::string condicion);
         ~Nodo();
     private:
         void SetDatos();
