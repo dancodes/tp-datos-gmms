@@ -5,7 +5,7 @@ CPPFLAGS=-g -std=c++11
 LDFLAGS=-g -std=c++11
 LDLIBS=
 
-SRCS=main.cpp includes/*.cpp
+SRCS=main.cpp includes/*.cpp 
 OBJS=$(subst .cc,.o,$(SRCS))
 CRAP=*.cc, *.o
 

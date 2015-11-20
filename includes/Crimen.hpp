@@ -1,9 +1,11 @@
 #pragma once
 
 #include <string>
+#include <map>
 
-template <class T>
-class Atributo;
+class NAtributo;
+class NAtributoNumerico;
+class NAtributoCategorico;
 
 class Crimen {
 public:
@@ -16,8 +18,9 @@ public:
     std::string* obtenerCategory();
     ~Crimen();
 private:
-    Atributo<double>* x;
-    Atributo<double>* y;
-    Atributo<std::string*>* pd;
-    Atributo<std::string*>* ct;
+    NAtributoNumerico* x;
+    NAtributoNumerico* y;
+    NAtributoCategorico* pd;
+    NAtributoCategorico* ct;
+    std::map<std::string, NAtributo*> atributos;
 };
