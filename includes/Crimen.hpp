@@ -18,9 +18,5 @@ public:
     std::string* obtenerCategory();
     ~Crimen();
 private:
-    NAtributoNumerico* x;
-    NAtributoNumerico* y;
-    NAtributoCategorico* pd;
-    NAtributoCategorico* ct;
     std::map<std::string, NAtributo*> atributos;
 };

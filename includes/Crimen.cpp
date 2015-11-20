@@ -14,7 +14,6 @@ using namespace std;
 
 
 Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category) {
-
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pd"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
@@ -55,8 +54,8 @@ double Crimen::obtenerNumerico(char c){
 }
 
 Crimen::~Crimen() {
-    cout << "Deletin ..." << this->x->obtenerValor() << endl;
-    /*delete this->x;
+    /*cout << "Deletin ..." << this->x->obtenerValor() << endl;
+    delete this->x;
     delete this->y;
     delete this->pd;*/
     //delete this->pd->obtenerValor();
