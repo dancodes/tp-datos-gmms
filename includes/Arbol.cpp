@@ -26,21 +26,22 @@ InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
 
 bool Arbol::seguir(int contador, string cat){
     //falta agregarla la otra condicion de corte
-    int piso = 10;
+    int piso = 5;
     return (contador<piso) && (cat != "cat");
 }
 
 void Arbol::split(Nodo* padre, unsigned int contador) {
     std::string district("pdDistrict");
     if (this->seguir(contador, padre->obtenerCat())) {
+
         if(padre->obtenerCat() == district) {
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
-            for (int i=0; atribHijos->size(); i++){
+            for (int i=0; i<atribHijos->size(); i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 contador = contador+1;
-                std::cout << "WE SPLITTIN, YO' " << std::endl;
+                std::cout << "Dividiendo con atributo " << padre->obtenerCat() << " y contador " << contador << std::endl;
                 this->split(hijo, contador);
 
             }
@@ -54,7 +55,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
             contador = contador+1;
-            std::cout << "WE SPLITTIN ON NUMBERS, YO' " << std::endl;
+            std::cout << "Dividiendo con numeros y contador " << contador << std::endl;
             this->split(hijoMayores, contador);
             this->split(hijoMenores, contador);
         }
@@ -101,7 +102,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
 
     for (int i= 1 ; i < 10 ; i++){
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
-        std::cout << "InfoGain cantidato: \t\t" << gananciaNum << std::endl;
+        //std::cout << "InfoGain candidato: \t\t" << gananciaNum << std::endl;
         if (mayorGan < gananciaNum) {
             mayorGan = gananciaNum;
             indice = i;
