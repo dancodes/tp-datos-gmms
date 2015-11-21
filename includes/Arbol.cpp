@@ -75,7 +75,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
     double maxi = primer_valor_atributo;
     double mini = primer_valor_atributo;
 
-    for (unsigned int i=1 ; i < entrenamiento->cantidad() ; i++) {
+    for (unsigned int i=1 ; i <entrenamiento->cantidad(); i++) {
 
         Crimen* actual = entrenamiento->at(i);
         double valor_atributo = *(double*)actual->obtenerAtributo(nombre_atributo);

@@ -71,10 +71,12 @@ public:
 
 
     void aumentarCat(string cat) {
+        bool aumentado = false;
         for (int i=0; i<39; i++) {
             if (vector[i].cat == cat) {
                 vector[i].cant = vector[i].cant + 1;
                 total++;
+                aumentado = true;
             }
         }
     }

@@ -53,7 +53,11 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     for (int j=0 ; j<v.size();j++){
 
         for(int i = 0; i < v[j].size(); i++){
-            myfile << v[j][i]<< "," ;
+            myfile << v[j][i];
+
+            if(i != (v[j].size() - 1)) {
+                myfile << ",";
+            }
         }
         myfile << "\n" ;
 
