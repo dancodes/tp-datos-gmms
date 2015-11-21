@@ -132,7 +132,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
                     (entrenamiento, nombre_atributo, (mini+intervalo*1));
     for (int i= 2 ; i < 10 ; i++){
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
-        //std::cout << "InfoGain candidato: \t\t" << gananciaNum << std::endl;
+        std::cout << "InfoGain candidato: \t\t" << gananciaNum << " con intervalo " << (mini+intervalo*i) <<  std::endl;
         if (mayorGan < gananciaNum) {
             mayorGan = gananciaNum;
             indice = i;
@@ -165,6 +165,7 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
         if(frequencia_de_clase.count(atributo_actual) == 0) {
             TuplasCat* vectorTuplas= new TuplasCat();
             frequencia_de_clase[atributo_actual] = vectorTuplas;
+            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
         } else {
                 frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
         }
