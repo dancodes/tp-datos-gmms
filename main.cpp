@@ -12,7 +12,7 @@
 using namespace std;
 
 
-int main () {
+int main () { 
 
     ContextoArchivos ctx;
     Menu menu;
