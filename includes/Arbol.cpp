@@ -95,12 +95,12 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
     std::cout << "Min: " << mini << "\t  ///  ";
     std::cout << "Intervalo: " << intervalo << std::endl;
 
-    double mayorGan = 0;
     double gananciaNum = 0;
 
     int indice= 0;
-
-    for (int i= 1 ; i < 10 ; i++){
+    double mayorGan = this->calculoInfoGainSegunIntervalo
+                    (entrenamiento, nombre_atributo, (mini+intervalo*1));
+    for (int i= 2 ; i < 10 ; i++){
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
         //std::cout << "InfoGain candidato: \t\t" << gananciaNum << std::endl;
         if (mayorGan < gananciaNum) {
@@ -108,6 +108,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
             indice = i;
         }
     }
+    intervalo = mini + intervalo*indice;
     return gananciaNum*(-1.0);
 }
 
