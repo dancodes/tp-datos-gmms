@@ -1,7 +1,7 @@
 #include "ClasificadorPorArboles.hpp"
 #include <iostream>
 #include <random>
-#include "TuplasCat.hpp"
+
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
 
@@ -13,14 +13,14 @@ void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
     Arbol arbolito(entrenamientos);
 }
 
-std::string ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
+TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 
     int numero_al_azar = this->numeroAlAzar(0,39);
 
     TuplasCat* tp = new TuplasCat();
     tp->aumentarPosicion(numero_al_azar);
 
-    return tp->mayorCrimen();
+    return tp;
 }
 
 
@@ -33,17 +33,22 @@ int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
 }
 
 
-DataFrame* ClasificadorPorArboles::predecir(DataFrame* entrenamientos) {
+std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamientos) {
     //std::cout << "[TODO] Prediciendo crimenes..." << std::endl;
-    std::cout << "[EN PROGRESO] Prediciento para el ojete..." << std::endl << std::endl;
+    std::cout << "[EN PROGRESO] Prediciendo para el ojete..." << std::endl;
 
-    for(int i = 0; i < 5; i++) {
+    std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
+
+    for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);
-        std::string prediccion = this->predecirCrimen(crimen);
+
+
+        TuplasCat* prediccion = this->predecirCrimen(crimen);
+
+        resultados->push_back(prediccion);
+
         std::cout << "Prediccion: " << prediccion << std::endl;
     }
 
-
-    DataFrame* dtf = new DataFrame;
-    return dtf;
+    return resultados;
 }

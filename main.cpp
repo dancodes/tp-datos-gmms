@@ -5,6 +5,7 @@
 #include "includes/DataFrame.hpp"
 #include "includes/ContextoArchivos.hpp"
 #include "includes/ClasificadorPorArboles.hpp"
+#include "includes/TuplasCat.hpp"
 
 
 
@@ -12,7 +13,7 @@
 using namespace std;
 
 
-int main () { 
+int main () {
 
     ContextoArchivos ctx;
     Menu menu;
@@ -62,7 +63,7 @@ int main () {
     //clf.entrenar(ctx.obtenerEntrenamiento());
 
     //Y hacemos una prediccion sobre los crimenes de test.csv
-    DataFrame* resultados = clf.predecir(ctx.obtenerIncognitas());
+    std::vector<TuplasCat*>* resultados = clf.predecir(ctx.obtenerIncognitas());
 
     //Guardamos todo en el formato correcto para Kaggle
 //    resultados->guardarEnDisco();
