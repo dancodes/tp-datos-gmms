@@ -18,6 +18,11 @@ int main () {
     Menu menu;
 
     DataFrame df;
+
+  //  std::vector<double> v= {10.5, 20.5, 30.5, 12.5, 50.5};
+  //  df.guardarEnDisco(v);
+
+
     df.leerArchivoTrain();
     cout << "NORMAL" << endl;
     cout << "*****************************************************" << endl;
@@ -60,7 +65,7 @@ int main () {
     DataFrame* resultados = clf.predecir(ctx.obtenerIncognitas());
 
     //Guardamos todo en el formato correcto para Kaggle
-    resultados->guardarEnDisco();
+//    resultados->guardarEnDisco();
 
 
     return 0;

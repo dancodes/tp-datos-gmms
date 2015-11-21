@@ -10,7 +10,7 @@ class DataFrame {
 public:
     DataFrame();
     DataFrame(std::vector<Crimen*>* crimenes_previos);
-    void guardarEnDisco();
+    void guardarEnDisco(std::vector<double> v);
     void leerArchivoTrain();
     void leerArchivoTest();
     void resumen();

@@ -23,8 +23,26 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     this->crimenes = crimenes_filtrados;
 }
 
-void DataFrame::guardarEnDisco() {
+void DataFrame::guardarEnDisco( std::vector<double> v) {
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
+    ofstream myfile;
+    myfile.open ("data/resultados.csv");
+//    myfile << "This is the first cell in the first column.\n";
+//    myfile << "a,b,c,\n";
+
+    myfile <<"WARRANTS,OTHER OFFENSES,LARCENY/THEFT,VEHICLE THEFT,VANDALISM,";
+    myfile <<"NON-CRIMINAL,ROBBERY,ASSAULT,WEAPON LAWS,BURGLARY,SUSPICIOUS OCC,DRUNKENNESS,";
+    myfile <<"FORGERY/COUNTERFEITING,DRUG/NARCOTIC,STOLEN PROPERTY,SECONDARY CODES,TRESPASS,";
+    myfile <<"MISSING PERSON,FRAUD,KIDNAPPING,RUNAWAY,DRIVING UNDER THE INFLUENCE,";
+    myfile <<"SEX OFFENSES FORCIBLE,PROSTITUTION,DISORDERLY CONDUCT,ARSON,FAMILY OFFENSES,";
+    myfile <<"LIQUOR LAWS,BRIBERY,EMBEZZLEMENT,SUICIDE,LOITERING,SEX OFFENSES NON FORCIBLE,";
+    myfile <<"EXTORTION,GAMBLING,BAD CHECKS,TREA,RECOVERED VEHICLE,PORNOGRAPHY/OBSCENE MAT\n";
+
+    for(int i = 0; i < v.size(); i++){
+      myfile << v[i]<< "," ;
+    }
+    myfile << "\n" ;
+    myfile.close();
 }
 
 void DataFrame::leerArchivoTrain() {
@@ -254,7 +272,7 @@ bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
 
     return false;
 
-}
+  }
 
 void DataFrame::borrarCrimenes() {
     for(std::vector<int>::size_type i = 0; i != this->crimenes->size(); i++) {
