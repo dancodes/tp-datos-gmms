@@ -23,7 +23,7 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     this->crimenes = crimenes_filtrados;
 }
 
-void DataFrame::guardarEnDisco( std::vector<double> v) {
+void DataFrame::guardarEnDisco(std::vector<double> v) {
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
     ofstream myfile;
     myfile.open ("data/resultados.csv");
@@ -38,7 +38,7 @@ void DataFrame::guardarEnDisco( std::vector<double> v) {
     myfile <<"LIQUOR LAWS,BRIBERY,EMBEZZLEMENT,SUICIDE,LOITERING,SEX OFFENSES NON FORCIBLE,";
     myfile <<"EXTORTION,GAMBLING,BAD CHECKS,TREA,RECOVERED VEHICLE,PORNOGRAPHY/OBSCENE MAT\n";
 
-    for(int i = 0; i < v.size(); i++){
+    for(int i = 0; i < v.size(); i++) {
       myfile << v[i]<< "," ;
     }
     myfile << "\n" ;
