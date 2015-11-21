@@ -47,7 +47,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
         resultados->push_back(prediccion);
 
-        std::cout << "Prediccion: " << prediccion << std::endl;
+        //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
     }
 
     return resultados;
