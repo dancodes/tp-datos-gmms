@@ -52,17 +52,19 @@ void DataFrame::leerArchivoTrain() {
     unsigned int c = 0;
 
     while(in.read_row(Dates,Category,Descript,DayOfWeek,PdDistrict,Resolution,Address,X,Y)){
+        if ( X>-123  && X<-121  && Y>36  && Y<38  ){
 
-        Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
 
-        this->crimenes->push_back(crimen);
+            Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
 
-        c++;
+            this->crimenes->push_back(crimen);
 
-        if( c % 50000 == 0) {
-            cout << "Leidos " << c << " crimenes." << endl;
+            c++;
+
+            if( c % 50000 == 0) {
+                cout << "Leidos " << c << " crimenes." << endl;
+            }
         }
-
 
     }
 
