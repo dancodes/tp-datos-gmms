@@ -59,7 +59,7 @@ int main () {
     ClasificadorPorArboles clf;
     clf.entrenar(&df);
     std::vector<TuplasCat*>* resultados = clf.predecir(&df);
-
+    df.guardarEnDisco(resultados);
     //Aprende de los datos de train.csv
     //clf.entrenar(ctx.obtenerEntrenamiento());
 

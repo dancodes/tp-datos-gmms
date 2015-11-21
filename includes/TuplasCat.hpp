@@ -109,10 +109,11 @@ public:
     }
 
 
-    std::vector<double>  obtenerResultado(){
-        std::vector<double> v;
+    std::vector<double>*  obtenerResultado(){
+        std::vector<double>* v= new std::vector<double>();
         for (int i= 0; i<39; i++){
-            v[i] = ((double)vector[i].cant / (double)total);
+            v->push_back((double)vector[i].cant / (double)total);
+
         }
         return v;
     }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Crimen.hpp"
 #include <vector>
-
+#include "TuplasCat.hpp"
 using namespace std;
 
 
@@ -10,7 +10,7 @@ class DataFrame {
 public:
     DataFrame();
     DataFrame(std::vector<Crimen*>* crimenes_previos);
-    void guardarEnDisco( std::vector<std::vector<double>> v);
+    void guardarEnDisco(std::vector<TuplasCat*>* tc);
     void leerArchivoTrain();
     void leerArchivoTest();
     void resumen();

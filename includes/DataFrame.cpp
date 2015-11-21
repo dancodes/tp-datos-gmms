@@ -23,7 +23,18 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     this->crimenes = crimenes_filtrados;
 }
 
-void DataFrame::guardarEnDisco(std::vector<std::vector<double>> v) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
+void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
+
+    std::vector<std::vector<double>>  v;
+    for (int j=0 ; j<tc->size();j++){
+
+        TuplasCat tuplas = *(*tc)[j];
+
+        v.push_back(*(tuplas.obtenerResultado()));
+
+    }
+
+
 
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
     ofstream myfile;
@@ -37,6 +48,8 @@ void DataFrame::guardarEnDisco(std::vector<std::vector<double>> v) {  //guarda u
     myfile <<"SEX OFFENSES FORCIBLE,PROSTITUTION,DISORDERLY CONDUCT,ARSON,FAMILY OFFENSES,";
     myfile <<"LIQUOR LAWS,BRIBERY,EMBEZZLEMENT,SUICIDE,LOITERING,SEX OFFENSES NON FORCIBLE,";
     myfile <<"EXTORTION,GAMBLING,BAD CHECKS,TREA,RECOVERED VEHICLE,PORNOGRAPHY/OBSCENE MAT\n";
+
+
     for (int j=0 ; j<v.size();j++){
 
         for(int i = 0; i < v[j].size(); i++){
@@ -45,6 +58,7 @@ void DataFrame::guardarEnDisco(std::vector<std::vector<double>> v) {  //guarda u
         myfile << "\n" ;
 
     }
+
     myfile.close();
 }
 
