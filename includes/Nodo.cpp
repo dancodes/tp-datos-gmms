@@ -26,7 +26,7 @@ void Nodo::setDatos(){
     double iGDP = this->info_ig->iGTot - this->info_ig->iGDP;
 
     if ((iGDP>iGX) && (iGDP>iGY) && (this->info_ig->iGDP > 0)){
-        this->categoria = "dp";
+        this->categoria = "pdDistrict";
         this->infoGain = iGDP;
         this->intervalo = 0;
     } else if ((iGX>iGY) && (iGX > iGDP) && (iGX > 0)){
