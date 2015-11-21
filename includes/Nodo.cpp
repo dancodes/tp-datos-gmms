@@ -7,6 +7,8 @@ Nodo::Nodo()
     this->atributo = " ";
     this->categoria = " ";
     this->infoGain = 0.0;
+
+    this->splits = new std::vector<Nodo*>();
 }
 
 Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib){
@@ -14,6 +16,7 @@ Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib){
     this->dataFrame = df;
     this->info_ig = contIg;
     this->setDatos();
+    this->splits = new std::vector<Nodo*>();
 }
 
 double Nodo::obtenerIntervalo(){
@@ -40,7 +43,6 @@ void Nodo::setDatos(){
     } else {
         this->categoria = "cat";
         this->atributo = this->info_ig->mayorCrimen;
-
     }
 }
 
@@ -50,6 +52,11 @@ void Nodo::agregarNodo(Nodo* nodoAAgregar){
 
 std::string Nodo::obtenerCat(){
     return this->categoria;
+}
+
+
+std::vector<Nodo*>* Nodo::obtenerHijos() {
+    return this->splits;
 }
 
 std::vector<std::string>* Nodo::obtenerListaAtrib(){

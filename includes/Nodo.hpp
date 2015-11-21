@@ -13,11 +13,13 @@ class Nodo
         Nodo* ObtenerNodo();
         double obtenerIntervalo();
         std::string obtenerCat();
+        std::vector<Nodo*>* obtenerHijos();
         std::vector<std::string>* obtenerListaAtrib();
         DataFrame* filtrarDFPD(std::string Cat,std::string atribHijos);
         DataFrame* filtrarDFNum(std::string Cat,std::string atribHijos,
                                                         std::string condicion);
         ~Nodo();
+        
     private:
         void setDatos();
         DataFrame* dataFrame;

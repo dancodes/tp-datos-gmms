@@ -10,7 +10,9 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
 
     std::cout << "[EN PROGRESO] Entrenando clasificador..." << std::endl << std::endl; //Nach0 es un poco mas Crudo que Dani
-    Arbol arbolito(entrenamientos);
+    this->arbol_de_decision = new Arbol(entrenamientos);
+
+    this->arbol_de_decision->mostrar();
 }
 
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {

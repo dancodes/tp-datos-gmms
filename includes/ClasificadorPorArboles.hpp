@@ -17,4 +17,5 @@ public:
     std::vector<TuplasCat*>* predecir(DataFrame* entrenamientos);
 private:
     int numeroAlAzar(int min, int max);
+    Arbol* arbol_de_decision;
 };

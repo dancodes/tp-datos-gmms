@@ -1,5 +1,6 @@
 #include "Arbol.hpp"
 #include <iostream>
+#include <queue>
 
 
 
@@ -24,9 +25,35 @@ InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
     return info_ent;
 }
 
+void Arbol::mostrar() {
+    std::queue<Nodo*> nodos;
+
+    int nivel = 1;
+
+    Nodo* nodo_padre = this->inicio;
+    nodos.push(nodo_padre);
+
+    do {
+        Nodo* nodo = nodos.front();
+        nodos.pop();
+
+        std::cout << std::string(nivel, '-') << nodo->obtenerCat() << std::endl;
+
+        std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
+
+        for (int i=0 ; i<hijos.size();i++){
+            Nodo* nodo = hijos[i];
+
+            nodos.push(nodo);
+        }
+        nivel = nivel + 1;
+
+    } while(nodos.size() > 0);
+}
+
 bool Arbol::seguir(int contador, string cat){
     //falta agregarla la otra condicion de corte
-    int piso = 5;
+    int piso = 1;
     return (contador<piso) && (cat != "cat");
 }
 
@@ -40,6 +67,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
+                padre->agregarNodo(hijo);
                 contador = contador+1;
                 std::cout << "Dividiendo con atributo " << padre->obtenerCat() << " y contador " << contador << std::endl;
                 this->split(hijo, contador);
@@ -54,6 +82,8 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
+            padre->agregarNodo(hijoMayores);
+            padre->agregarNodo(hijoMenores);
             contador = contador+1;
             std::cout << "Dividiendo con numeros y contador " << contador << std::endl;
             this->split(hijoMayores, contador);
