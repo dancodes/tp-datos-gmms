@@ -1,4 +1,4 @@
-
+#pragma once
 #define  CSV_IO_NO_THREAD
 
 
@@ -11,18 +11,18 @@
 #include <math.h>
 using namespace std;
 
-struct TuplaCat{
+struct TuplaCat {
     string cat;
     int cant;
 };
 
-class TuplasCat{
+class TuplasCat {
 private:
     int total;
     TuplaCat vector[39];
 public:
 
-    TuplasCat(){
+    TuplasCat() {
         vector[0].cat = "WARRANTS";
         vector[1].cat = "OTHER OFFENSES";
         vector[2].cat = "LARCENY/THEFT";
@@ -62,42 +62,52 @@ public:
         vector[36].cat = "TREA";
         vector[37].cat = "RECOVERED VEHICLE";
         vector[38].cat = "PORNOGRAPHY/OBSCENE MAT";
-        for (int i=0; i<=38; i++){
+
+        for (int i=0; i<=38; i++) {
             vector[i].cant = 0;
         }
         this->total = 0;
     }
 
 
-    void aumentarCat(string cat){
-        for (int i=0; i<39; i++){
-            if (vector[i].cat == cat){
+    void aumentarCat(string cat) {
+        for (int i=0; i<39; i++) {
+            if (vector[i].cat == cat) {
                 vector[i].cant = vector[i].cant + 1;
                 total++;
             }
         }
     }
 
-    int obtenerTotal(){
+    void aumentarPosicion(int i) {
+        if(i < 39 && i >= 0) {
+            vector[i].cant = vector[i].cant + 1;
+            total++;
+        }
+    }
+
+    int obtenerTotal() {
         return total;
     }
 
-    double informationGain(){
+    double informationGain() {
         double entropia = 0;
 
         if(total == 0) {
             return 0.0;
         } else {
-            for (int i= 0; i < 39 ; i++){
+            for (int i= 0; i < 39 ; i++) {
                 double probabilidad = ((double)vector[i].cant / (double)total);
 
                 if(probabilidad != 0) {
                     entropia = entropia + (probabilidad * log2(probabilidad));
                 }
             }
+
             return entropia;
         }
     }
+
 
     std::vector<double>  obtenerResultado(){
         std::vector<double> v;
@@ -107,12 +117,15 @@ public:
         return v;
     }
 
-    std::string mayorCrimen(){
+
+    std::string mayorCrimen() {
+
         int cantMax= -1;
         string catMax = "";
-        for (int i= 0; i<39; i++){
+        for (int i= 0; i<39; i++) {
             if (vector[i].cant > cantMax){
                 catMax = vector[i].cat;
+                cantMax = vector[i].cant;
             }
         }
         return catMax;
