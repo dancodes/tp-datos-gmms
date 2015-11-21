@@ -23,12 +23,12 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     this->crimenes = crimenes_filtrados;
 }
 
-void DataFrame::guardarEnDisco(std::vector<double> v) {
+void DataFrame::guardarEnDisco(std::vector<std::vector<double>> v) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
+
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
     ofstream myfile;
     myfile.open ("data/resultados.csv");
-//    myfile << "This is the first cell in the first column.\n";
-//    myfile << "a,b,c,\n";
+
 
     myfile <<"WARRANTS,OTHER OFFENSES,LARCENY/THEFT,VEHICLE THEFT,VANDALISM,";
     myfile <<"NON-CRIMINAL,ROBBERY,ASSAULT,WEAPON LAWS,BURGLARY,SUSPICIOUS OCC,DRUNKENNESS,";
@@ -37,11 +37,14 @@ void DataFrame::guardarEnDisco(std::vector<double> v) {
     myfile <<"SEX OFFENSES FORCIBLE,PROSTITUTION,DISORDERLY CONDUCT,ARSON,FAMILY OFFENSES,";
     myfile <<"LIQUOR LAWS,BRIBERY,EMBEZZLEMENT,SUICIDE,LOITERING,SEX OFFENSES NON FORCIBLE,";
     myfile <<"EXTORTION,GAMBLING,BAD CHECKS,TREA,RECOVERED VEHICLE,PORNOGRAPHY/OBSCENE MAT\n";
+    for (int j=0 ; j<v.size();j++){
 
-    for(int i = 0; i < v.size(); i++) {
-      myfile << v[i]<< "," ;
+        for(int i = 0; i < v[j].size(); i++){
+            myfile << v[j][i]<< "," ;
+        }
+        myfile << "\n" ;
+
     }
-    myfile << "\n" ;
     myfile.close();
 }
 

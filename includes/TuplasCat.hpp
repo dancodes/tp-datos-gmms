@@ -69,6 +69,7 @@ public:
         this->total = 0;
     }
 
+
     void aumentarCat(string cat) {
         for (int i=0; i<39; i++) {
             if (vector[i].cat == cat) {
@@ -107,7 +108,18 @@ public:
         }
     }
 
+
+    std::vector<double>  obtenerResultado(){
+        std::vector<double> v;
+        for (int i= 0; i<39; i++){
+            v[i] = ((double)vector[i].cant / (double)total);
+        }
+        return v;
+    }
+
+
     std::string mayorCrimen() {
+
         int cantMax= -1;
         string catMax = "";
         for (int i= 0; i<39; i++) {
