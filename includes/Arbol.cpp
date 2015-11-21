@@ -26,7 +26,7 @@ InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
 
 bool Arbol::seguir(int contador, string cat){
     //falta agregarla la otra condicion de corte
-    int piso = 100;
+    int piso = 10;
     return (contador<piso) && (cat != "cat");
 }
 
@@ -39,7 +39,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
-                contador = contador++;
+                contador = contador+1;
                 std::cout << "WE SPLITTIN, YO' " << std::endl;
                 this->split(hijo, contador);
 
@@ -53,7 +53,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
-            contador = contador++;
+            contador = contador+1;
             std::cout << "WE SPLITTIN ON NUMBERS, YO' " << std::endl;
             this->split(hijoMayores, contador);
             this->split(hijoMenores, contador);
