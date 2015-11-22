@@ -8,13 +8,15 @@ class Nodo {
     public:
         Nodo();
         Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib);
-        Nodo(DataFrame* df, CriterioNodo criterio);
+        Nodo(DataFrame* df, CriterioNodo criterio, int profundidad);
 
         DataFrame* obtenerDataFrame();
 
         bool esHoja();
         void establecerCategoria(std::string cat);
         std::string obtenerCategoria();
+        CriterioNodo obtenerCriterio();
+        int obtenerProfundidad();
 
         std::string obtenerAtrib();
         void agregarNodo(Nodo* nodoAAgregar);
@@ -41,4 +43,6 @@ class Nodo {
         InfoEntropia* info_ig;
         CriterioNodo criterio;
         std::string categoria_final;
+
+        int profundidad;
 };

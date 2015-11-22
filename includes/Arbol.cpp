@@ -8,7 +8,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
     std::string atribIncial("raiz");
 
     CriterioNodo criterio_vacio;
-    this->inicio = new Nodo(entrenamiento, criterio_vacio);
+    this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
     unsigned int contador = 0;
     std::cout << "PRIMER SPLIT DEL ARBOL" << std::endl;
@@ -20,7 +20,6 @@ void Arbol::crecer() {
     std::queue<Nodo*> cola_de_nodos;
     cola_de_nodos.push(this->inicio);
 
-    int flor = 0;
 
     do {
         Nodo* nodo_actual = cola_de_nodos.front(); //Consigue el siguiente elemento de la cola
@@ -33,9 +32,8 @@ void Arbol::crecer() {
             cola_de_nodos.push(nodo_a_agregar);
         }
 
-        flor++;
 
-    } while(cola_de_nodos.size() > 0 && flor < 10);
+    } while(cola_de_nodos.size() > 0);
 
 
 }
@@ -61,18 +59,21 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
 }
 
 void Arbol::mostrar() {
-    std::queue<Nodo*> nodos;
 
-    int nivel = 1;
+    std::cout << std::endl << std::endl << "[ARBOL FINAL]" << std::endl << std::endl;
+
+    std::stack<Nodo*> nodos;
 
     Nodo* nodo_padre = this->inicio;
     nodos.push(nodo_padre);
 
     do {
-        Nodo* nodo = nodos.front();
+        Nodo* nodo = nodos.top();
         nodos.pop();
 
-        std::cout << std::string(nivel, '-') << nodo->obtenerAtrib() << std::endl;
+        if(nodo->obtenerProfundidad() > 0) {
+            std::cout << std::string(nodo->obtenerProfundidad()*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
+        }
 
         std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
 
@@ -82,10 +83,10 @@ void Arbol::mostrar() {
             nodos.push(nodo);
         }
 
-        nivel = nivel + 1;
-        if (nodo->obtenerAtrib()== "cat") {
-            std::cout << std::string(nivel, '-') << nodo->obtenerCat() << std::endl;
+        if (nodo->esHoja()) {
+            std::cout << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << nodo->obtenerCategoria() << std::endl;
         }
+
     } while(nodos.size() > 0);
 }
 
@@ -97,6 +98,8 @@ bool Arbol::seguir(int contador, string cat) {
 
 std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     std::string district("pdDistrict");
+
+
 
     std::vector<Nodo*> nodos_creados;
 
@@ -118,6 +121,8 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
     } else {
 
+        int profundidad_nueva = nodo_original->obtenerProfundidad() + 1;
+
         if(mejor_atributo.obtenerNombreAtributo() == district) {
             std::vector<std::string>* posibles_opciones = nodo_original->obtenerDataFrame()
                                                           ->obtenerPosiblesOpciones("pd");
@@ -129,7 +134,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
                 DataFrame* nuevo_df = nodo_original->obtenerDataFrame()->filtrar(nuevo_criterio);
 
-                Nodo* hijo = new Nodo(nuevo_df, nuevo_criterio);
+                Nodo* hijo = new Nodo(nuevo_df, nuevo_criterio, profundidad_nueva);
                 nodo_original->agregarNodo(hijo);
                 nodos_creados.push_back(hijo);
 
@@ -150,8 +155,8 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
             DataFrame* nuevo_df_mayor = nodo_original->obtenerDataFrame()
                                         ->filtrar(nuevo_criterio_mayor);
 
-            Nodo* hijo_menor = new Nodo(nuevo_df_menor, nuevo_criterio_menor);
-            Nodo* hijo_mayor = new Nodo(nuevo_df_mayor, nuevo_criterio_mayor);
+            Nodo* hijo_menor = new Nodo(nuevo_df_menor, nuevo_criterio_menor, profundidad_nueva);
+            Nodo* hijo_mayor = new Nodo(nuevo_df_mayor, nuevo_criterio_mayor, profundidad_nueva);
 
             nodo_original->agregarNodo(hijo_menor);
             nodo_original->agregarNodo(hijo_mayor);

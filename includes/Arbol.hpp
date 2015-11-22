@@ -2,6 +2,7 @@
 #include "TuplasCat.hpp"
 #include <string>
 #include <queue>
+#include <stack>
 #include <vector>
 #include "Nodo.hpp"
 #include "InfoEntropia.hpp"

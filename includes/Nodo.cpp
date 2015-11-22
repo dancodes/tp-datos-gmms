@@ -9,10 +9,11 @@ Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib) {
     this->splits = new std::vector<Nodo*>();
 }
 
-Nodo::Nodo(DataFrame* df, CriterioNodo criterio) {
+Nodo::Nodo(DataFrame* df, CriterioNodo criterio, int profundidad) {
     this->dataFrame = df;
     this->criterio = criterio;
     this->splits = new std::vector<Nodo*>();
+    this->profundidad = profundidad;
 }
 
 DataFrame* Nodo::obtenerDataFrame() {
@@ -30,6 +31,14 @@ void Nodo::establecerCategoria(std::string cat) {
 
 std::string Nodo::obtenerCategoria() {
     return this->categoria_final;
+}
+
+int Nodo::obtenerProfundidad() {
+    return this->profundidad;
+}
+
+CriterioNodo Nodo::obtenerCriterio() {
+    return this->criterio;
 }
 
 double Nodo::obtenerIntervalo() {
