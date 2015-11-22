@@ -28,15 +28,15 @@ void Nodo::setDatos(){
     double iGY = this->info_ig->iGTot - this->info_ig->iGY;
     double iGDP = this->info_ig->iGTot - this->info_ig->iGDP;
 
-    if ((iGDP>iGX) && (iGDP>iGY) && (this->info_ig->iGDP > 0)){
+    if ((iGDP>iGX) && (iGDP>iGY)){
         this->categoria = "pdDistrict";
         this->infoGain = iGDP;
         this->intervalo = 0;
-    } else if ((iGX>iGY) && (iGX > iGDP) && (iGX > 0)){
+    } else if ((iGX>iGY) && (iGX > iGDP)){
         this->categoria = "x";
         this->infoGain = iGX;
         this->intervalo = this->info_ig->intervaloX;
-    } else if ((iGY>iGX) && (iGY > iGDP) && (iGY > 0)){
+    } else if ((iGY>iGX) && (iGY > iGDP)){
         this->categoria = "y";
         this->infoGain = iGY;
         this->intervalo = this->info_ig->intervaloY;

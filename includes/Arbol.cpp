@@ -203,6 +203,7 @@ double Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string no
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
     }
+    std::cout<<"averga2"<<infoGain<<endl;
     return infoGain * (-1.0);
 }
 
