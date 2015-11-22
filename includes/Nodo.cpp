@@ -1,16 +1,6 @@
 #include "Nodo.hpp"
 #include "InfoEntropia.hpp"
 
-
-Nodo::Nodo()
-{
-    this->atributo = " ";
-    this->categoria = " ";
-    this->infoGain = 0.0;
-
-    this->splits = new std::vector<Nodo*>();
-}
-
 Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib){
     this->atributo = atrib;
     this->dataFrame = df;
@@ -33,20 +23,20 @@ void Nodo::setDatos(){
     double iGDP = this->info_ig->iGTot - this->info_ig->iGDP;
 
     if ((iGDP>iGX) && (iGDP>iGY)){
-        this->categoria = "pdDistrict";
+        this->atributo = "pdDistrict";
         this->infoGain = iGDP;
         this->intervalo = 0;
     } else if ((iGX>iGY) && (iGX > iGDP)){
-        this->categoria = "x";
+        this->atributo = "x";
         this->infoGain = iGX;
         this->intervalo = this->info_ig->intervaloX;
     } else if ((iGY>iGX) && (iGY > iGDP)){
-        this->categoria = "y";
+        this->atributo = "y";
         this->infoGain = iGY;
         this->intervalo = this->info_ig->intervaloY;
     } else {
-        this->categoria = "cat";
-        this->atributo = this->info_ig->mayorCrimen;
+        this->atributo = "cat";
+        this->categoria = this->info_ig->mayorCrimen;
     }
 }
 

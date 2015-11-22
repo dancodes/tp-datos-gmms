@@ -37,7 +37,7 @@ void Arbol::mostrar() {
         Nodo* nodo = nodos.front();
         nodos.pop();
 
-        std::cout << std::string(nivel, '-') << nodo->obtenerCat() << std::endl;
+        std::cout << std::string(nivel, '-') << nodo->obtenerAtrib() << std::endl;
 
         std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
 
@@ -47,8 +47,8 @@ void Arbol::mostrar() {
             nodos.push(nodo);
         }
         nivel = nivel + 1;
-        if (nodo->obtenerCat()== "cat"){
-            std::cout << std::string(nivel, '-') << nodo->obtenerAtrib() << std::endl;
+        if (nodo->obtenerAtrib()== "cat"){
+            std::cout << std::string(nivel, '-') << nodo->obtenerCat() << std::endl;
         }
     } while(nodos.size() > 0);
 }
@@ -61,9 +61,9 @@ bool Arbol::seguir(int contador, string cat){
 
 void Arbol::split(Nodo* padre, unsigned int contador) {
     std::string district("pdDistrict");
-    if (this->seguir(contador, padre->obtenerCat())) {
+    if (this->seguir(contador, padre->obtenerAtrib())) {
 
-        if(padre->obtenerCat() == district) {
+        if(padre->obtenerAtrib() == district) {
             std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
             for (int i=0; i<atribHijos->size(); i++){
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
@@ -71,15 +71,15 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 padre->agregarNodo(hijo);
                 contador = contador+1;
-                std::cout << "Dividiendo con atributo " << padre->obtenerCat() << " y contador " << contador << std::endl;
+                std::cout << "Dividiendo con atributo " << padre->obtenerAtrib() << " y contador " << contador << std::endl;
                 this->split(hijo, contador);
 
             }
         } else {
             double intervalo = padre->obtenerIntervalo();
             std::string intervaloStr = std::to_string(intervalo);
-            DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,">");
-            DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerCat(),intervaloStr,"<");
+            DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,">");
+            DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,"<");
             InfoEntropia* contIGMayores = this->inicializarCont(dfMayores);
             InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
