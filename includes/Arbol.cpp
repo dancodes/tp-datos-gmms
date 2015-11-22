@@ -103,7 +103,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     DataFrame* df_original = nodo_original->obtenerDataFrame();
 
     InfoEntropia* info_entropia = this->calcularEntropias(df_original);
-    info_entropia->resumen();
+    //info_entropia->resumen();
     std::cout << "[!] flor: " << df_original->cantidad() << " elementos" << std::endl;
 
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia);
@@ -279,10 +279,10 @@ ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamient
     double rango = maxi - mini;
     double intervalo = rango/(double)secciones;
 
-    std::cout << "[ATRIBUTO NUMERICO] " << nombre_atributo << ": ";
+    /*std::cout << "[ATRIBUTO NUMERICO] " << nombre_atributo << ": ";
     std::cout << "Max: " << maxi << "\t  ///  ";
     std::cout << "Min: " << mini << "\t  ///  ";
-    std::cout << "Intervalo: " << intervalo << std::endl;
+    std::cout << "Intervalo: " << intervalo << std::endl;*/
 
     double gananciaNum = 0;
 
@@ -290,7 +290,7 @@ ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamient
     /*double menorGan = this->calculoInfoGainSegunIntervalo
                     (entrenamiento, nombre_atributo, (mini+intervalo*1));*/
 
-    double menorGan = 999999.9;                
+    double menorGan = 999999.9;
 
     for (int i=1; i<20; i++) {
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
