@@ -23,6 +23,10 @@ double Nodo::obtenerIntervalo(){
     return this->intervalo;
 }
 
+std::string Nodo::obtenerAtrib(){
+    return this->atributo;
+}
+
 void Nodo::setDatos(){
     double iGX = this->info_ig->iGTot - this->info_ig->iGX;
     double iGY = this->info_ig->iGTot - this->info_ig->iGY;

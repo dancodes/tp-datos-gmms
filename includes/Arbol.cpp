@@ -47,7 +47,9 @@ void Arbol::mostrar() {
             nodos.push(nodo);
         }
         nivel = nivel + 1;
-
+        if (nodo->obtenerCat()== "cat"){
+            std::cout << std::string(nivel, '-') << nodo->obtenerAtrib() << std::endl;
+        }
     } while(nodos.size() > 0);
 }
 

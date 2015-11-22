@@ -8,7 +8,7 @@ class Nodo
     public:
         Nodo();
         Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib);
-
+        std::string obtenerAtrib();
         void agregarNodo(Nodo* nodoAAgregar);
         Nodo* ObtenerNodo();
         double obtenerIntervalo();
@@ -19,7 +19,7 @@ class Nodo
         DataFrame* filtrarDFNum(std::string Cat,std::string atribHijos,
                                                         std::string condicion);
         ~Nodo();
-        
+
     private:
         void setDatos();
         DataFrame* dataFrame;
