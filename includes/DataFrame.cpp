@@ -26,7 +26,7 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
 void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
 
     std::vector<std::vector<double>>  v;
-    for (int j=0 ; j<tc->size();j++){
+    for (int j=0 ; j<tc->size();j++) {
 
         TuplasCat tuplas = *(*tc)[j];
 
@@ -50,9 +50,9 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile <<"EXTORTION,GAMBLING,BAD CHECKS,TREA,RECOVERED VEHICLE,PORNOGRAPHY/OBSCENE MAT\n";
 
 
-    for (int j=0 ; j<v.size();j++){
+    for (int j=0 ; j<v.size();j++) {
 
-        for(int i = 0; i < v[j].size(); i++){
+        for(int i = 0; i < v[j].size(); i++) {
             myfile << v[j][i];
 
             if(i != (v[j].size() - 1)) {
@@ -91,8 +91,8 @@ void DataFrame::leerArchivoTrain() {
 
     unsigned int c = 0;
 
-    while(in.read_row(Dates,Category,Descript,DayOfWeek,PdDistrict,Resolution,Address,X,Y)){
-        if ( X>-123  && X<-121  && Y>36  && Y<38  ){
+    while(in.read_row(Dates,Category,Descript,DayOfWeek,PdDistrict,Resolution,Address,X,Y)) {
+        if ( X>-123  && X<-121  && Y>36  && Y<38  ) {
 
 
             Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
@@ -133,7 +133,7 @@ void DataFrame::leerArchivoTest() {
 
     unsigned int c = 0;
 
-    while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)){
+    while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)) {
 
         Crimen* crimen = new Crimen(X,Y,PdDistrict);
 

@@ -46,9 +46,9 @@ string* Crimen::obtenerCategory() {
     return (std::string*)(this->atributos["ct"]->obtenerValor());
 }
 
-double Crimen::obtenerNumerico(char c){
+double Crimen::obtenerNumerico(char c) {
     double ret;
-    if (c == 'x'){
+    if (c == 'x') {
         ret = obtenerX();
     }else {
         ret = obtenerY();

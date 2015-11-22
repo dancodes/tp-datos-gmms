@@ -111,9 +111,9 @@ public:
     }
 
 
-    std::vector<double>*  obtenerResultado(){
+    std::vector<double>*  obtenerResultado() {
         std::vector<double>* v= new std::vector<double>();
-        for (int i= 0; i<39; i++){
+        for (int i= 0; i<39; i++) {
             v->push_back((double)vector[i].cant / (double)total);
 
         }
@@ -126,7 +126,7 @@ public:
         int cantMax= -1;
         string catMax = "";
         for (int i= 0; i<39; i++) {
-            if (vector[i].cant > cantMax){
+            if (vector[i].cant > cantMax) {
                 catMax = vector[i].cat;
                 cantMax = vector[i].cant;
             }
