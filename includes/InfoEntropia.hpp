@@ -20,4 +20,6 @@ public:
         std::cout << "InfoGain Y: \t\t" << this->iGY << std::endl;
         std::cout << std::endl;
     }
+
+
 };

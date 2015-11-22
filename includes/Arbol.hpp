@@ -3,6 +3,7 @@
 #include <string>
 #include "Nodo.hpp"
 #include "InfoEntropia.hpp"
+#include "ResultadoEntropia.hpp"
 
 
 class Arbol {
@@ -11,14 +12,14 @@ class Arbol {
         string primero;
         DataFrame* setAEntrenar;
         double calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador);
-        double calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
+        ResultadoEntropia calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
         bool seguir(int contador, string cat);
         void split(Nodo* padre, unsigned int contador);
 
     public:
         Arbol(DataFrame* entrenamiento);
         InfoEntropia* inicializarCont(DataFrame* entrenamiento);
-        double calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo, double &intervalo);
-        double calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
+        ResultadoEntropia calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo);
+        ResultadoEntropia calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
         void mostrar();
 };

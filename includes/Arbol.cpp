@@ -16,12 +16,21 @@ Arbol::Arbol(DataFrame* entrenamiento) {
 
 InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
     InfoEntropia* info_ent = new InfoEntropia();
-    info_ent->iGTot = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
-    info_ent->iGDP = this->calculoInfoGainCategorico(entrenamiento, "pd");
-    info_ent->iGX = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("x"),
-                    info_ent->intervaloX);
-    info_ent->iGY = this->calculoInfoGainOptimoDeNumerico(entrenamiento,std::string("y"),
-                    info_ent->intervaloY);
+
+    ResultadoEntropia entropia_total = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
+    info_ent->iGTot = entropia_total.obtenerEntropia();
+
+    ResultadoEntropia entropia_pd = this->calculoInfoGainCategorico(entrenamiento, "pd");
+    info_ent->iGDP = entropia_pd.obtenerEntropia();
+
+    ResultadoEntropia entropia_x = this->calculoInfoGainOptimoDeNumerico(entrenamiento,"x");
+    info_ent->iGX = entropia_x.obtenerEntropia();
+    info_ent->intervaloX = entropia_x.obtenerIntervalo();
+
+    ResultadoEntropia entropia_y = this->calculoInfoGainOptimoDeNumerico(entrenamiento,"y");
+    info_ent->iGY = entropia_y.obtenerEntropia();
+    info_ent->intervaloY = entropia_y.obtenerIntervalo();
+
     return info_ent;
 }
 
@@ -61,44 +70,55 @@ bool Arbol::seguir(int contador, string cat) {
 
 void Arbol::split(Nodo* padre, unsigned int contador) {
     std::string district("pdDistrict");
-    if (this->seguir(contador, padre->obtenerAtrib())) {
 
+    if (this->seguir(contador, padre->obtenerAtrib())) {
         if(padre->obtenerAtrib() == district) {
             std::vector<std::string>* atribHijos = padre->obtenerPosiblesOpciones("pd");
+
             for (int i=0; i<atribHijos->size(); i++) {
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
+
                 InfoEntropia* contIG = this->inicializarCont(df);
+
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 padre->agregarNodo(hijo);
+
                 contador = contador+1;
                 std::cout << "Dividiendo con atributo " << padre->obtenerAtrib() << "y pd " << atribHijos->at(i) << " y contador " << contador << std::endl;
                 this->split(hijo, contador);
-
             }
         } else {
+
             double intervalo = padre->obtenerIntervalo();
             std::string intervaloStr = std::to_string(intervalo);
+
             DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,">");
             DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,"<");
+
             InfoEntropia* contIGMayores = this->inicializarCont(dfMayores);
             InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
+
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
+
             padre->agregarNodo(hijoMayores);
             padre->agregarNodo(hijoMenores);
+
             contador = contador+1;
             std::cout << "Dividiendo con numeros y contador " << contador << std::endl;
+
             this->split(hijoMayores, contador);
             this->split(hijoMenores, contador);
         }
     }
 }
 
-double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo, double &intervalo) {
+ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo) {
 
     if(entrenamiento->cantidad() < 1) {
         std::cout << "[!] DataFrame sin elementos en " << nombre_atributo << ". InfoGain = 0" << std::endl;
-        return 0.0;
+        ResultadoEntropia resultado(0.0, 0.0);
+        return resultado;
     }
 
     Crimen* primer_crimen = entrenamiento->at(0);
@@ -120,7 +140,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
         }
     }
 
-    intervalo = (maxi - mini)/(double)10.0;
+    double intervalo = (maxi - mini)/(double)10.0;
 
     std::cout << "[ATRIBUTO NUMERICO] " << nombre_atributo << ": ";
     std::cout << "Max: " << maxi << "\t  ///  ";
@@ -141,7 +161,10 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
         }
     }
     intervalo = mini + intervalo*indice;
-    return gananciaNum*(-1.0);
+
+    ResultadoEntropia resultado(gananciaNum*(-1.0), intervalo);
+
+    return resultado;
 }
 
 double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador) {
@@ -181,7 +204,7 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
     return infoGain;
 }
 
-double Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo) {
+ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo) {
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
 
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
@@ -205,11 +228,14 @@ double Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string no
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
     }
-    return infoGain * (-1.0);
+
+    ResultadoEntropia resultado(infoGain * (-1.0), 0.0);
+
+    return resultado;
 }
 
 
-double Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayorCrimen) { //por Mati
+ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayorCrimen) { //por Mati
 
     TuplasCat* vectorTuplas = new TuplasCat();
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
@@ -222,5 +248,8 @@ double Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayorCrimen) { 
 
     mayorCrimen = vectorTuplas->mayorCrimen();
     double infoGain = (vectorTuplas->informationGain());
-    return infoGain * (-1.0);
+
+    ResultadoEntropia resultado(infoGain * (-1.0), 0.0);
+
+    return resultado;
 }
