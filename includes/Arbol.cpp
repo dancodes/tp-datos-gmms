@@ -6,7 +6,7 @@
 
 Arbol::Arbol(DataFrame* entrenamiento) {
     std::string atribIncial("raiz");
-    InfoEntropia* contIG = this->inicializarCont(entrenamiento);
+    InfoEntropia* contIG = this->calcularEntropias(entrenamiento);
     contIG->resumen();
     inicio = new Nodo(entrenamiento, contIG, atribIncial);
     unsigned int contador = 0;
@@ -14,7 +14,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
     this->split(inicio, contador);
 }
 
-InfoEntropia* Arbol::inicializarCont(DataFrame* entrenamiento) {
+InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
     InfoEntropia* info_ent = new InfoEntropia();
 
     ResultadoEntropia entropia_total = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
@@ -78,7 +78,7 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             for (int i=0; i<atribHijos->size(); i++) {
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
 
-                InfoEntropia* contIG = this->inicializarCont(df);
+                InfoEntropia* contIG = this->calcularEntropias(df);
 
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 padre->agregarNodo(hijo);
@@ -95,8 +95,8 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
             DataFrame* dfMayores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,">");
             DataFrame* dfMenores = padre->filtrarDFNum(padre->obtenerAtrib(),intervaloStr,"<");
 
-            InfoEntropia* contIGMayores = this->inicializarCont(dfMayores);
-            InfoEntropia* contIGMenores = this->inicializarCont(dfMenores);
+            InfoEntropia* contIGMayores = this->calcularEntropias(dfMayores);
+            InfoEntropia* contIGMenores = this->calcularEntropias(dfMenores);
 
             Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
             Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
