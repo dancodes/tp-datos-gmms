@@ -19,7 +19,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
 void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
 
     ofstream myfile;
-    myfile.open ("data/arbol_generado.txt");
+    myfile.open ("resultados/arbol_generado.txt");
 
     myfile << std::endl << std::endl << "[ARBOL FINAL]" << std::endl << std::endl;
 
@@ -57,7 +57,6 @@ void Arbol::crecer() {
     std::queue<Nodo*> cola_de_nodos;
     cola_de_nodos.push(this->inicio);
 
-
     do {
         Nodo* nodo_actual = cola_de_nodos.front(); //Consigue el siguiente elemento de la cola
         cola_de_nodos.pop(); //Borra dicho elemento de la cola
@@ -69,10 +68,7 @@ void Arbol::crecer() {
             cola_de_nodos.push(nodo_a_agregar);
         }
 
-
     } while(cola_de_nodos.size() > 0);
-
-
 }
 
 InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {

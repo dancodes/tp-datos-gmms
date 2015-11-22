@@ -123,9 +123,9 @@ public:
 
     std::string mayorCrimen() {
 
-        int cantMax= -1;
-        string catMax = "";
-        for (int i= 0; i<39; i++) {
+        int cantMax = 0;
+        string catMax = "SIN CATEGORIA (???)";
+        for (int i = 0; i<39; i++) {
             if (vector[i].cant > cantMax) {
                 catMax = vector[i].cat;
                 cantMax = vector[i].cant;

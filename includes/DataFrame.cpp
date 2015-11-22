@@ -31,10 +31,7 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
         TuplasCat tuplas = *(*tc)[j];
 
         v.push_back(*(tuplas.obtenerResultado()));
-
     }
-
-
 
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
     ofstream myfile;
