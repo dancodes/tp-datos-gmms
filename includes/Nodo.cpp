@@ -53,12 +53,13 @@ std::vector<Nodo*>* Nodo::obtenerHijos() {
     return this->splits;
 }
 
-std::vector<std::string>* Nodo::obtenerListaAtrib() {
+std::vector<std::string>* Nodo::obtenerPosiblesOpciones(std::string nombre_atributo) {
     std::map<std::string,unsigned int> diccAtrib = std::map<std::string,unsigned int>();
     std::vector<std::string>* listaAtributos = new std::vector<std::string>();
+
     for(int i = 0; i < this->dataFrame->cantidad(); i++) {
         Crimen* actual = dataFrame->at(i);
-        std::string atributo_actual = *actual->obtenerPd();
+        std::string atributo_actual = *(std::string*)actual->obtenerAtributo(nombre_atributo);
         if(diccAtrib.count(atributo_actual)==0) {
             diccAtrib[atributo_actual]=1;
             listaAtributos->push_back(atributo_actual);

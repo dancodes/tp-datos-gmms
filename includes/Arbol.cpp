@@ -64,14 +64,14 @@ void Arbol::split(Nodo* padre, unsigned int contador) {
     if (this->seguir(contador, padre->obtenerAtrib())) {
 
         if(padre->obtenerAtrib() == district) {
-            std::vector<std::string>* atribHijos = padre->obtenerListaAtrib();
+            std::vector<std::string>* atribHijos = padre->obtenerPosiblesOpciones("pd");
             for (int i=0; i<atribHijos->size(); i++) {
                 DataFrame* df = padre->filtrarDFPD(district,atribHijos->at(i));
                 InfoEntropia* contIG = this->inicializarCont(df);
                 Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
                 padre->agregarNodo(hijo);
                 contador = contador+1;
-                std::cout << "Dividiendo con atributo " << padre->obtenerAtrib() << " y contador " << contador << std::endl;
+                std::cout << "Dividiendo con atributo " << padre->obtenerAtrib() << "y pd " << atribHijos->at(i) << " y contador " << contador << std::endl;
                 this->split(hijo, contador);
 
             }
@@ -134,7 +134,7 @@ double Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::str
                     (entrenamiento, nombre_atributo, (mini+intervalo*1));
     for (int i= 2 ; i < 10 ; i++) {
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
-        std::cout << "InfoGain candidato: \t\t" << gananciaNum << " con intervalo " << (mini+intervalo*i) <<  std::endl;
+        //std::cout << "InfoGain candidato: \t\t" << gananciaNum << " con intervalo " << (mini+intervalo*i) <<  std::endl;
         if (mayorGan < gananciaNum) {
             mayorGan = gananciaNum;
             indice = i;

@@ -184,42 +184,19 @@ Crimen* DataFrame::at(int i) {
     return (*this->crimenes)[i];
 }
 
-double DataFrame::infoGainPd() {
+std::vector<std::string>* DataFrame::obtenerPosiblesOpciones(std::string nombre_atributo) {
+    std::map<std::string,unsigned int> diccAtrib = std::map<std::string,unsigned int>();
+    std::vector<std::string>* listaAtributos = new std::vector<std::string>();
 
-    std::map<string, unsigned int> frequencia_de_clase = std::map<string, unsigned int>();
-
-    for(std::vector<int>::size_type i = 0; i < this->crimenes->size(); i++) {
-
-        Crimen* actual = (*this->crimenes)[i];
-        std::string pd_actual = *actual->obtenerPd();
-
-        if(frequencia_de_clase.count(pd_actual) == 0) {
-
-            frequencia_de_clase[pd_actual] = 1;
-
-        } else {
-
-            int freq_actual = frequencia_de_clase[pd_actual];
-            frequencia_de_clase[pd_actual] = freq_actual + 1;
+    for(int i = 0; i < this->cantidad(); i++) {
+        Crimen* actual = this->at(i);
+        std::string atributo_actual = *(std::string*)actual->obtenerAtributo(nombre_atributo);
+        if(diccAtrib.count(atributo_actual)==0) {
+            diccAtrib[atributo_actual]=1;
+            listaAtributos->push_back(atributo_actual);
         }
     }
-
-    double info_gain = 0;
-
-    // show content:
-    for (std::map<string, unsigned int>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        unsigned int freq_ci = it->second ;
-
-        info_gain = info_gain +
-        (((double)freq_ci/(double)this->cantidad()) *
-        log2((double)freq_ci/(double)this->cantidad()));
-
-    }
-
-    info_gain = info_gain * (-1.0);
-
-
-    return info_gain;
+    return listaAtributos;
 }
 
 DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparador, std::string condicion) {

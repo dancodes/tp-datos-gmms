@@ -9,13 +9,13 @@ public:
         this->condicion = condicion;
     }
 
-    std::string atributo() {
+    std::string getAtributo() {
         return this->atributo;
     }
-    std::string comparador() {
+    std::string getComparador() {
         return this->comparador;
     }
-    std::string condicion() {
+    std::string getCondicion() {
         return this->condicion;
     }
 private:

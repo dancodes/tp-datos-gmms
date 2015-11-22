@@ -16,7 +16,7 @@ public:
     void resumen();
     unsigned int cantidad();
     Crimen* at(int i);
-    double infoGainPd();
+    std::vector<std::string>* obtenerPosiblesOpciones(std::string nombre_atributo);
     DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
     bool cumpleCondicion(Crimen* actual, std::string nombre_atributo,
                                 std::string comparador, std::string condicion);
