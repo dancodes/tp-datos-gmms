@@ -2,6 +2,8 @@
 #include "Crimen.hpp"
 #include <vector>
 #include "TuplasCat.hpp"
+#include "CriterioNodo.hpp"
+
 using namespace std;
 
 
@@ -18,6 +20,7 @@ public:
     Crimen* at(int i);
     std::vector<std::string>* obtenerPosiblesOpciones(std::string nombre_atributo);
     DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
+    DataFrame* filtrar(CriterioNodo criterio);
     bool cumpleCondicion(Crimen* actual, std::string nombre_atributo,
                                 std::string comparador, std::string condicion);
     void borrarCrimenes();

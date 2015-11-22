@@ -73,7 +73,8 @@ void DataFrame::leerArchivoTrain() {
     //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data/train.csv");
     //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
     //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.5.noentropy.csv");
-    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.10.variando.el.PD");
+    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.10.variando.el.PD");
+    io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.10.variando.el.X");
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
@@ -199,6 +200,12 @@ std::vector<std::string>* DataFrame::obtenerPosiblesOpciones(std::string nombre_
     return listaAtributos;
 }
 
+DataFrame* DataFrame::filtrar(CriterioNodo criterio) {
+    return this->filtrar(criterio.obtenerAtributo(),
+                        criterio.obtenerComparador(),
+                        criterio.obtenerCondicion());
+}
+
 DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparador, std::string condicion) {
 
     std::vector<Crimen*>* crimenes_filtrados = new std::vector<Crimen*>();
@@ -235,8 +242,8 @@ bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
 
         double condicion_double = std::stod(condicion);
 
-        if(comparador.compare("<") == 0) {
-            if(actual->obtenerX() < condicion_double) {
+        if(comparador.compare("<=") == 0) {
+            if(actual->obtenerX() <= condicion_double) {
                 return true;
             }
         } else if(comparador.compare(">") == 0) {
@@ -249,8 +256,8 @@ bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
 
         double condicion_double = std::stod(condicion);
 
-        if(comparador.compare("<") == 0) {
-            if(actual->obtenerY() < condicion_double) {
+        if(comparador.compare("<=") == 0) {
+            if(actual->obtenerY() <= condicion_double) {
                 return true;
             }
         } else if(comparador.compare(">") == 0) {

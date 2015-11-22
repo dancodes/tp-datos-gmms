@@ -13,15 +13,15 @@ using namespace std;
 
 
 Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category) {
-    this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
-    this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
+    this->atributos["x"] = new NAtributoNumerico("x", x * 1);
+    this->atributos["y"] = new NAtributoNumerico("y", y * 1);
     this->atributos["pd"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
     this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
 }
 Crimen::Crimen(double x, double y, std::string pdDistrict) {
 
-    this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
-    this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
+    this->atributos["x"] = new NAtributoNumerico("x", x * 1);
+    this->atributos["y"] = new NAtributoNumerico("y", y * 1);
     this->atributos["pd"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
     this->atributos["ct"] = new NAtributoCategorico("category", new std::string("No Category"));
 }

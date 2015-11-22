@@ -3,9 +3,14 @@
 
 class ResultadoEntropia {
 public:
-    ResultadoEntropia(double entropia, double intervalo) {
+    ResultadoEntropia(std::string nombre_atributo, double entropia, double intervalo) {
+        this->nombre_atributo = nombre_atributo;
         this->entropia = entropia;
         this->intervalo = intervalo;
+    }
+
+    std::string obtenerNombreAtributo() {
+        return this->nombre_atributo;
     }
 
     double obtenerEntropia() {
@@ -17,4 +22,5 @@ public:
 private:
     double entropia;
     double intervalo;
+    std::string nombre_atributo;
 };
