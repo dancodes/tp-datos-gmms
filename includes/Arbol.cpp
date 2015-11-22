@@ -16,6 +16,43 @@ Arbol::Arbol(DataFrame* entrenamiento) {
     this->crecer();
 }
 
+void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
+
+    ofstream myfile;
+    myfile.open ("data/arbol_generado.txt");
+
+    myfile << std::endl << std::endl << "[ARBOL FINAL]" << std::endl << std::endl;
+
+    std::stack<Nodo*> nodos;
+
+    Nodo* nodo_padre = this->inicio;
+    nodos.push(nodo_padre);
+
+    do {
+        Nodo* nodo = nodos.top();
+        nodos.pop();
+
+        if(nodo->obtenerProfundidad() > 0) {
+            myfile << std::string(nodo->obtenerProfundidad()*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
+        }
+
+        std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
+
+        for (int i=0 ; i<hijos.size();i++) {
+            Nodo* nodo = hijos[i];
+
+            nodos.push(nodo);
+        }
+
+        if (nodo->esHoja()) {
+            myfile << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << nodo->obtenerCategoria() << std::endl;
+        }
+
+    } while(nodos.size() > 0);
+
+    myfile.close();
+}
+
 void Arbol::crecer() {
     std::queue<Nodo*> cola_de_nodos;
     cola_de_nodos.push(this->inicio);
@@ -56,38 +93,6 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
     info_ent->intervaloY = entropia_y.obtenerIntervalo();
 
     return info_ent;
-}
-
-void Arbol::mostrar() {
-
-    std::cout << std::endl << std::endl << "[ARBOL FINAL]" << std::endl << std::endl;
-
-    std::stack<Nodo*> nodos;
-
-    Nodo* nodo_padre = this->inicio;
-    nodos.push(nodo_padre);
-
-    do {
-        Nodo* nodo = nodos.top();
-        nodos.pop();
-
-        if(nodo->obtenerProfundidad() > 0) {
-            std::cout << std::string(nodo->obtenerProfundidad()*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
-        }
-
-        std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
-
-        for (int i=0 ; i<hijos.size();i++) {
-            Nodo* nodo = hijos[i];
-
-            nodos.push(nodo);
-        }
-
-        if (nodo->esHoja()) {
-            std::cout << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << nodo->obtenerCategoria() << std::endl;
-        }
-
-    } while(nodos.size() > 0);
 }
 
 bool Arbol::seguir(int contador, string cat) {

@@ -12,7 +12,7 @@ void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
     std::cout << "[EN PROGRESO] Entrenando clasificador..." << std::endl << std::endl; //Nach0 es un poco mas Crudo que Dani
     this->arbol_de_decision = new Arbol(entrenamientos);
 
-    this->arbol_de_decision->mostrar();
+    this->arbol_de_decision->guardarEnDisco();
 }
 
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
