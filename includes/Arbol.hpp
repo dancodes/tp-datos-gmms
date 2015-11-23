@@ -15,11 +15,11 @@ class Arbol {
         Nodo* inicio;
         string primero;
         DataFrame* setAEntrenar;
+
         double calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador);
         ResultadoEntropia calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
         bool seguir(int contador, string cat);
         std::vector<Nodo*> split(Nodo* padre);
-        //void split2(Nodo* nodo_original, unsigned int contador);
         ResultadoEntropia calcularMejorAtributo(InfoEntropia* info_entropia);
         std::string RecorrerArbol(Nodo* hijo,Crimen* crimen);
 
@@ -31,4 +31,5 @@ class Arbol {
         ResultadoEntropia calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
         std::string Predecir(Crimen* crimen);
         void guardarEnDisco();
+        ~Arbol();
 };

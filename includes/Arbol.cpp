@@ -443,3 +443,7 @@ ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayo
 
     return resultado;
 }
+
+Arbol::~Arbol() {
+    delete this->inicio;
+}
