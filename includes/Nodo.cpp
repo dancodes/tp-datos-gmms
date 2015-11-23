@@ -54,7 +54,7 @@ DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
     return df;
 }
 
-Nodo::~Nodo()
-{
-    //dtor
+Nodo::~Nodo() {
+    delete this->splits;
+    delete this->info_ig;
 }
