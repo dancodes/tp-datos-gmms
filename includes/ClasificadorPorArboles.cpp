@@ -17,14 +17,19 @@ void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
 
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 
-    int numero_al_azar = this->numeroAlAzar(0,39);
+    //int numero_al_azar = this->numeroAlAzar(0,39);
 
     TuplasCat* tp = new TuplasCat();
-    tp->aumentarPosicion(numero_al_azar);
-
+    //tp->aumentarPosicion(numero_al_azar);
+    tp->aumentarCat(predecirCatCrimen(crimen));
     return tp;
 }
 
+
+std::string ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen){
+    std::string categoria = this->arbol_de_decision->Predecir(crimen);
+    return categoria;
+}
 
 int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
     std::random_device rd; // obtain a random number from hardware
@@ -40,17 +45,20 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::cout << "[EN PROGRESO] Prediciendo para el ojete..." << std::endl;
 
     std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
-
+    double contador = 0.0;
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
-        Crimen* crimen = entrenamientos->at(i);
+        Crimen* crimen = entrenamientos->at(i);//probando
 
 
         TuplasCat* prediccion = this->predecirCrimen(crimen);
 
         resultados->push_back(prediccion);
 
-        //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
+        std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
+        if(*(entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){
+            contador = contador+1;
+        }
     }
-
+    //std::cout << "Presicion: " << contador/(entrenamientos->cantidad()) << std::endl;
     return resultados;
 }

@@ -53,6 +53,47 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
     myfile.close();
 }
 
+std::string Arbol::Predecir(Crimen* crimen){
+    return RecorrerArbol(inicio,crimen);
+}
+
+std::string Arbol::RecorrerArbol(Nodo* nodo,Crimen* crimen){
+    Nodo* hijo;
+    CriterioNodo criterio;
+    //std::cout<<"recursivo"<<std::endl;
+    if(nodo->esHoja()){
+        //std::cout<<"hoja"<<std::endl;
+        return nodo->obtenerCategoria();
+    }else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){
+        //std::cout<<"pd"<<std::endl;
+        criterio = nodo->obtenerHijos()->at(0)->obtenerCriterio();
+        for(unsigned int i=0; i< nodo->obtenerHijos()->size(); i++){
+            if (nodo->obtenerHijos()->at(i)->obtenerCriterio().obtenerCondicion()
+                                == (*(crimen->obtenerPd()))){
+                hijo= nodo->obtenerHijos()->at(i);
+            }
+        }
+    }else{
+        criterio = nodo->obtenerHijos()->at(0)->obtenerCriterio();
+        //std::cout<<"x"<<std::endl;
+        char c;
+        if(criterio.obtenerAtributo() == "x"){
+            c='x';
+        }else{
+            c='y';
+        }
+
+       if(crimen->obtenerNumerico(c)<=stod(criterio.obtenerCondicion())){
+            hijo= nodo->obtenerHijos()->at(0);
+            //std::cout<<"array pos0"<<std::endl;
+       }else{
+            //std::cout<<"array pos1"<<std::endl;
+            hijo= nodo->obtenerHijos()->at(1);
+       }
+    }
+    return RecorrerArbol(hijo,crimen);
+}
+
 void Arbol::crecer() {
     std::queue<Nodo*> cola_de_nodos;
     cola_de_nodos.push(this->inicio);

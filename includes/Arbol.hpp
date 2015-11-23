@@ -21,6 +21,7 @@ class Arbol {
         std::vector<Nodo*> split(Nodo* padre);
         //void split2(Nodo* nodo_original, unsigned int contador);
         ResultadoEntropia calcularMejorAtributo(InfoEntropia* info_entropia);
+        std::string RecorrerArbol(Nodo* hijo,Crimen* crimen);
 
     public:
         Arbol(DataFrame* entrenamiento);
@@ -28,5 +29,6 @@ class Arbol {
         InfoEntropia* calcularEntropias(DataFrame* entrenamiento);
         ResultadoEntropia calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo);
         ResultadoEntropia calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
+        std::string Predecir(Crimen* crimen);
         void guardarEnDisco();
 };

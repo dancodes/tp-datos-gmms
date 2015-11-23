@@ -59,19 +59,20 @@ int main () {
     ClasificadorPorArboles clf;
     clf.entrenar(&df);
 
-    /*
+
     std::vector<TuplasCat*>* resultados = clf.predecir(&df);
-    df.guardarEnDisco(resultados);*/
+    //df.guardarEnDisco(resultados);
 
 
     //Aprende de los datos de train.csv
     //clf.entrenar(ctx.obtenerEntrenamiento());
 
     //Y hacemos una prediccion sobre los crimenes de test.csv
+    //
     //std::vector<TuplasCat*>* resultados = clf.predecir(ctx.obtenerIncognitas());
 
     //Guardamos todo en el formato correcto para Kaggle
-//    resultados->guardarEnDisco();
+    //resultados->guardarEnDisco();
 
 
     return 0;
