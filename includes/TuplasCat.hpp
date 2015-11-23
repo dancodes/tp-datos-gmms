@@ -135,6 +135,9 @@ public:
     }
 
     ~TuplasCat() {
-        delete[] this->vector;
+        for (int i = 0; i<39; i++) {
+            delete this->vector[i];
+        }
+        delete this->vector;
     }
 };
