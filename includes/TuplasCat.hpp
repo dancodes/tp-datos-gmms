@@ -134,10 +134,4 @@ public:
         return catMax;
     }
 
-    ~TuplasCat() {
-        for (int i = 0; i<39; i++) {
-            delete this->vector[i];
-        }
-        delete this->vector;
-    }
 };
