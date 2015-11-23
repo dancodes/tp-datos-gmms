@@ -57,7 +57,7 @@ std::string Arbol::Predecir(Crimen* crimen){
     return RecorrerArbol(inicio,crimen);
 }
 
-std::string Arbol::RecorrerArbol(Nodo* nodo,Crimen* crimen){
+std::string Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
     Nodo* hijo;
     CriterioNodo criterio;
     //std::cout<<"recursivo"<<std::endl;
@@ -148,7 +148,16 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     DataFrame* df_original = nodo_original->obtenerDataFrame();
 
     InfoEntropia* info_entropia = this->calcularEntropias(df_original);
-    //info_entropia->resumen();
+
+    if(df_original->cantidad() == 2) {
+        std::cout << "FLOR AYUDA" << std::endl;
+        info_entropia->resumen();
+
+        for(int i = 0; i < df_original->cantidad(); i++) {
+            std::cout << "[############] UN CONTENIDO ES " << df_original->at(i)->resumen() << std::endl;
+        }
+    }
+
     std::cout << "[!] flor: " << df_original->cantidad() << " elementos" << std::endl;
 
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia);
@@ -206,8 +215,8 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
             nodos_creados.push_back(hijo_menor);
             nodos_creados.push_back(hijo_mayor);
 
-            std::cout << "[~~] Creado split con " << nuevo_criterio_menor.descripcion() << std::endl;
-            std::cout << "[~~] Creado split con " << nuevo_criterio_mayor.descripcion() << std::endl;
+            std::cout << "[~~] Creado split con " << nuevo_criterio_menor.descripcion() << " y " << nuevo_df_menor->cantidad() << " elementos" << std::endl;
+            std::cout << "[~~] Creado split con " << nuevo_criterio_mayor.descripcion() << " y " << nuevo_df_mayor->cantidad() << " elementos" << std::endl;
 
         }
 
@@ -224,25 +233,25 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
     double intervalo;
     double entropia;
 
-
-
-    if ((iGDP>iGX) && (iGDP>iGY)) {
-        nombre_atributo = "pdDistrict";
-        entropia = iGDP;
-        intervalo = 0;
-    } else if ((iGX>iGY) && (iGX > iGDP)) {
-        nombre_atributo = "x";
-        entropia = iGX;
-        intervalo = info_entropia->intervaloX;
-    } else if ((iGY>iGX) && (iGY > iGDP)) {
-        nombre_atributo = "y";
-        entropia = iGY;
-        intervalo = info_entropia->intervaloY;
-    } else {
+    if(iGX == iGY && iGY == iGDP && iGDP == 0.0) {
         nombre_atributo = info_entropia->mayorCrimen;
         entropia = -1.0;
         intervalo = 0;
+    } else if ((iGDP >= iGX) && (iGDP >= iGY)) {
+        nombre_atributo = "pdDistrict";
+        entropia = iGDP;
+        intervalo = 0;
+    } else if ((iGX >= iGY) && (iGX >= iGDP)) {
+        nombre_atributo = "x";
+        entropia = iGX;
+        intervalo = info_entropia->intervaloX;
+    } else if ((iGY >= iGX) && (iGY >= iGDP)) {
+        nombre_atributo = "y";
+        entropia = iGY;
+        intervalo = info_entropia->intervaloY;
     }
+
+    std::cout << "atrib " << nombre_atributo << " ent " << entropia << " int " << intervalo << std::endl;
 
     ResultadoEntropia resultado(nombre_atributo, entropia, intervalo);
 
@@ -395,6 +404,9 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
 }
 
 ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo) {
+
+
+
     std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
 
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {

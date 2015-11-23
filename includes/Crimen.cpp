@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -56,11 +57,17 @@ double Crimen::obtenerNumerico(char c) {
     return ret;
 }
 
+string Crimen::resumen() {
+    std::stringstream ss;
+    ss << "un crimen con X: " << this->obtenerX() << " y Y: " << this->obtenerY() << "en el PD " << *this->obtenerPd() << " con categoria  " << *this->obtenerCategory();
+    return ss.str();
+}
+
 Crimen::~Crimen() {
     for (std::map<std::string, NAtributo*>::iterator it=this->atributos.begin(); it!=this->atributos.end(); it++) {
         delete it->second;
     }
-    
+
     /*cout << "Deletin ..." << this->x->obtenerValor() << endl;
     delete this->x;
     delete this->y;

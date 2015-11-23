@@ -17,6 +17,7 @@ public:
     double obtenerNumerico(char); // x para devolver x e y para devolver y
     std::string* obtenerPd();
     std::string* obtenerCategory();
+    std::string resumen();
     ~Crimen();
 private:
     std::map<std::string, NAtributo*> atributos;
