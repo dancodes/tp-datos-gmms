@@ -38,7 +38,7 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
 
         std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
 
-        for (int i=0 ; i<hijos.size();i++) {
+        for (int i=0; i<hijos.size(); i++) {
             Nodo* nodo = hijos[i];
 
             nodos.push(nodo);

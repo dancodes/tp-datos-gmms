@@ -1,14 +1,5 @@
 #include "Nodo.hpp"
 
-
-Nodo::Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib) {
-    this->atributo = atrib;
-    this->dataFrame = df;
-    this->info_ig = contIg;
-    this->setDatos();
-    this->splits = new std::vector<Nodo*>();
-}
-
 Nodo::Nodo(DataFrame* df, CriterioNodo criterio, int profundidad) {
     this->dataFrame = df;
     this->criterio = criterio;
@@ -41,44 +32,8 @@ CriterioNodo Nodo::obtenerCriterio() {
     return this->criterio;
 }
 
-double Nodo::obtenerIntervalo() {
-    return this->intervalo;
-}
-
-std::string Nodo::obtenerAtrib() {
-    return this->atributo;
-}
-
-void Nodo::setDatos() {
-    double iGX = this->info_ig->iGTot - this->info_ig->iGX;
-    double iGY = this->info_ig->iGTot - this->info_ig->iGY;
-    double iGDP = this->info_ig->iGTot - this->info_ig->iGDP;
-
-    if ((iGDP>iGX) && (iGDP>iGY)) {
-        this->atributo = "pdDistrict";
-        this->infoGain = iGDP;
-        this->intervalo = 0;
-    } else if ((iGX>iGY) && (iGX > iGDP)) {
-        this->atributo = "x";
-        this->infoGain = iGX;
-        this->intervalo = this->info_ig->intervaloX;
-    } else if ((iGY>iGX) && (iGY > iGDP)) {
-        this->atributo = "y";
-        this->infoGain = iGY;
-        this->intervalo = this->info_ig->intervaloY;
-    } else {
-        std::cout << iGX << " // " << iGY << " // "<< iGDP << " !! maldito puto " << std::endl;
-        this->atributo = "cat";
-        this->categoria = this->info_ig->mayorCrimen;
-    }
-}
-
 void Nodo::agregarNodo(Nodo* nodoAAgregar) {
     this->splits->push_back(nodoAAgregar);
-}
-
-std::string Nodo::obtenerCat() {
-    return this->categoria;
 }
 
 

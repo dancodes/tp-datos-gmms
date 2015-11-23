@@ -20,6 +20,19 @@ int main () {
 
     DataFrame df;
 
+    cout << "SIZEOF Nodo " << sizeof(Nodo) << endl;
+    cout << "SIZEOF DataFrame " << sizeof(DataFrame) << endl;
+    cout << "SIZEOF Crimen " << sizeof(Crimen) << endl;
+    cout << "SIZEOF CriterioNodo " << sizeof(CriterioNodo) << endl;
+    cout << "SIZEOF std::string " << sizeof(std::string) << endl;
+    cout << "SIZEOF DataFrame* " << sizeof(DataFrame*) << endl;
+    cout << "SIZEOF DataFrame " << sizeof(DataFrame) << endl;
+    cout << "SIZEOF std::vector<Crimen*> " << sizeof(std::vector<Crimen*>) << endl;
+
+
+
+    //return 0;
+
   //  std::vector<double> v= {10.5, 20.5, 30.5, 12.5, 50.5};
   //  df.guardarEnDisco(v);
 

@@ -30,19 +30,13 @@ class Nodo {
         ~Nodo();
 
     private:
-        void setDatos();
-        DataFrame* dataFrame;
-        std::string atributo;
-        std::string categoria;
-        double intervalo;
-        double infoGain;
 
         // ----------- arriba de esto es todo feo
 
+        DataFrame* dataFrame;
         std::vector<Nodo*>* splits;
         InfoEntropia* info_ig;
         CriterioNodo criterio;
         std::string categoria_final;
-
         int profundidad;
 };
