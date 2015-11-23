@@ -9,10 +9,15 @@ public:
         this->valor = valor;
     }
     void* obtenerValor();
+    ~NAtributoCategorico();
 private:
     std::string* valor;
 };
 
 void* NAtributoCategorico::obtenerValor() {
     return (void*)(this->valor);
+}
+
+NAtributoCategorico::~NAtributoCategorico() {
+    delete this->valor;
 }

@@ -133,4 +133,8 @@ public:
         }
         return catMax;
     }
+
+    ~TuplasCat() {
+        delete[] this->vector;
+    }
 };

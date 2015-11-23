@@ -57,6 +57,10 @@ double Crimen::obtenerNumerico(char c) {
 }
 
 Crimen::~Crimen() {
+    for (std::map<std::string, NAtributo*>::iterator it=this->atributos.begin(); it!=this->atributos.end(); it++) {
+        delete it->second;
+    }
+    
     /*cout << "Deletin ..." << this->x->obtenerValor() << endl;
     delete this->x;
     delete this->y;
