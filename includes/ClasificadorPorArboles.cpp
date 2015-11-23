@@ -46,6 +46,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
     std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
     double contador = 0.0;
+
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);//probando
 
@@ -59,6 +60,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
             contador = contador+1;
         }
     }
-    //std::cout << "Presicion: " << contador/(entrenamientos->cantidad()) << std::endl;
+    
+    std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
 }
