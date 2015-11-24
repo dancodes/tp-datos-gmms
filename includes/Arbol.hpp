@@ -1,6 +1,7 @@
 #include "DataFrame.hpp"
 #include "TuplasCat.hpp"
 #include <string>
+#include <cstring>
 #include <queue>
 #include <stack>
 #include <vector>

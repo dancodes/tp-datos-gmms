@@ -174,7 +174,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
         return nodos_creados;
 
- 
+
     } else {
 
         int profundidad_nueva = nodo_original->obtenerProfundidad() + 1;
@@ -332,7 +332,9 @@ ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamient
 
 double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador) {
 
-    std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
+    std::map<char, TuplasCat*> frequencia_de_clase = std::map<char, TuplasCat*>();
+
+
 
     for(std::vector<int>::size_type i = 0; i < entrenamiento->cantidad(); i++) {
         Crimen* actual = entrenamiento->at(i);
@@ -341,26 +343,26 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
         double valor_atributo = *(double*)actual->obtenerAtributo(nombre_atributo);
 
         //si es menor o igual al comparador lo agrupo con los menores, sino con los mayores
-        std::string atributo_actual;
+        char menor_o_mayor;
 
         if(valor_atributo <= comparador) {
-            atributo_actual = "menor";
+            menor_o_mayor = 'm'; //menores
         } else {
-            atributo_actual = "mayor";
+            menor_o_mayor = 'M'; //mayores
         }
 
         std::string categoria_actual = *actual->obtenerCategory();
-        if(frequencia_de_clase.count(atributo_actual) == 0) {
+        if(frequencia_de_clase.count(menor_o_mayor) == 0) {
             TuplasCat* vectorTuplas= new TuplasCat();
-            frequencia_de_clase[atributo_actual] = vectorTuplas;
-            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+            frequencia_de_clase[menor_o_mayor] = vectorTuplas;
+            frequencia_de_clase[menor_o_mayor]->aumentarCat(categoria_actual);
         } else {
-                frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+                frequencia_de_clase[menor_o_mayor]->aumentarCat(categoria_actual);
         }
     }
     double infoGain = 0;
     // show content:
-    for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
+    for (std::map<char, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
 
@@ -371,28 +373,35 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
 
 ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo) {
 
+    struct cmp_str
+    {
+       bool operator()(char const *a, char const *b) const
+       {
+          return std::strcmp(a, b) < 0;
+       }
+    };
 
 
-    std::map<string, TuplasCat*> frequencia_de_clase = std::map<string, TuplasCat*>();
+    std::map<char const*, TuplasCat*, cmp_str> frequencia_de_clase = std::map<char const*, TuplasCat*, cmp_str>();
 
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
         Crimen* actual = entrenamiento->at(i);
-        std::string atributo_actual = *(std::string*)actual->obtenerAtributo(nombre_atributo);
+        const char* atributo_actual = ((std::string*)actual->obtenerAtributo(nombre_atributo))->c_str();
 
-        std::string categoria_actual = *actual->obtenerCategory();
+        std::string* categoria_actual = actual->obtenerCategory();
 
         if(frequencia_de_clase.count(atributo_actual) == 0) {
             TuplasCat* vectorTuplas = new TuplasCat();
             frequencia_de_clase[atributo_actual] = vectorTuplas;
-            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentarCat(*categoria_actual);
 
         } else {
-            frequencia_de_clase[atributo_actual]->aumentarCat(categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentarCat(*categoria_actual);
         }
     }
     double infoGain = 0;
     // show content:
-    for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
+    for (std::map<char const*, TuplasCat*, cmp_str>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
 
