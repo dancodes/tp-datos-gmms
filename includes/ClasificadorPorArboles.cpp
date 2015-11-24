@@ -9,27 +9,22 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantCrimenes = 100000;
+    int cantidad_de_arboles = 10;
 
-    if (entrenamientos->cantidad() % cantCrimenes != 0){
-       cantArboles = entrenamientos->cantidad() / cantCrimenes +1;
-    } else{
-        cantArboles = entrenamientos->cantidad() / cantCrimenes;
-    }
+    int crimenes_por_arbol = entrenamientos->cantidad();
 
-    std::cout << "[EN PROGRESO] Entrenando clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
-    for (int i=0 ; i < cantArboles ; i++){
-        std::cout << i << std::endl;
-        Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes(cantCrimenes, cantCrimenes*i));
+    std::cout << "[EN PROGRESO] Entrenando " << cantidad_de_arboles << " arboles para el clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
+    for (int i=0; i < cantidad_de_arboles; i++) {
+        //std::cout << i << std::endl;
+        Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes(crimenes_por_arbol));
         this->arboles_de_decision->push_back(arbolNavidad);
     }
-    //this->arboles_de_decision->at(1)->guardarEnDisco();
 }
 
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     TuplasCat* tp = new TuplasCat();
     //int numero_al_azar = this->numeroAlAzar(0,39);
-    for (int i= 0 ; i < cantArboles ; i++){
+    for (int i= 0 ; i < this->arboles_de_decision->size() ; i++){
 
         //tp->aumentarPosicion(numero_al_azar);
         tp->aumentarCat(predecirCatCrimen(crimen, i));
@@ -66,6 +61,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         TuplasCat* prediccion = this->predecirCrimen(crimen);
 
         resultados->push_back(prediccion);
+        //prediccion->resumen();
 
         //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
         if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){

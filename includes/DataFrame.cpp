@@ -73,10 +73,10 @@ void DataFrame::leerArchivoTrain() {
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
-    csv in("data/train.csv");
+    //csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
     //csv in("data_pruebas/train.100.csv");
-    //csv in("data_pruebas/train.25000.csv");
+    csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
@@ -244,6 +244,13 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
 }
 
+bool DataFrame::cumpleCondicion(Crimen* actual, CriterioNodo criterio) {
+    return this->cumpleCondicion(actual,
+                        criterio.obtenerAtributo(),
+                        criterio.obtenerComparador(),
+                        criterio.obtenerCondicion());
+}
+
 bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
                             std::string comparador, std::string condicion) {
 
@@ -300,15 +307,27 @@ DataFrame::~DataFrame() {
     dataframes_creados--;
 }
 
-DataFrame* DataFrame::obtenerCrimenes(int cant, int inicio) {
+DataFrame* DataFrame::obtenerCrimenes(int cantidad) {
     std::vector<Crimen*>* crimenesAux = new std::vector<Crimen*>();
-    if ((inicio + cant) > this->cantidad()){
-        cant=  this->cantidad() - inicio;
+
+    if (this->cantidad() < cantidad) {
+        cantidad = this->cantidad();
     }
-    for (int i=inicio ; i < inicio+cant ; i++ ){
-            cout << i <<endl;
-        crimenesAux->push_back(crimenes->at(i));
+
+    for (int i=0; i < cantidad; i++) {
+        int azar = this->numeroAlAzar(0, this->cantidad() - 1);
+
+        crimenesAux->push_back(this->crimenes->at(azar));
     }
+
     DataFrame* df = new DataFrame(crimenesAux);
     return df;
+}
+
+int DataFrame::numeroAlAzar(unsigned int min, unsigned int max) {
+    std::random_device rd; // obtain a random number from hardware
+    std::mt19937 eng(rd()); // seed the generator
+    std::uniform_int_distribution<> distr(min, max); // define the range
+
+    return distr(eng);
 }

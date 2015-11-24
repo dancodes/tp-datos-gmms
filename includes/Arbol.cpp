@@ -11,7 +11,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
     unsigned int contador = 0;
-    std::cout << "PRIMER SPLIT DEL ARBOL" << std::endl;
+    std::cout << "Creando un arbol que aprende de " << entrenamiento->cantidad() << " crimenes" << std::endl;
 
     this->crecer();
 }
@@ -78,7 +78,21 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
     if(nodo->esHoja()){
         //std::cout<<"hoja"<<std::endl;
         return nodo->obtenerCategoria();
-    }else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){
+    } else {
+        std::vector<Nodo*>* hijos = nodo->obtenerHijos();
+
+        for (unsigned int i=0; i< hijos->size(); i++) {
+            Nodo* hijo = hijos->at(i);
+            CriterioNodo criterio = hijo->obtenerCriterio();
+
+            if(hijo->obtenerDataFrame()->cumpleCondicion(crimen, criterio)) {
+                return RecorrerArbol(hijo, crimen); 
+            }
+        }
+
+        return '-'; // <-- nunca deberiamos llegar aca
+    }
+    /*} else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){
         //std::cout<<"pd"<<std::endl;
         criterio = nodo->obtenerHijos()->at(0)->obtenerCriterio();
         for(unsigned int i=0; i< nodo->obtenerHijos()->size(); i++){
@@ -105,7 +119,7 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
             hijo= nodo->obtenerHijos()->at(1);
        }
     }
-    return RecorrerArbol(hijo,crimen);
+    return RecorrerArbol(hijo,crimen);*/
 }
 
 void Arbol::crecer() {
@@ -137,8 +151,6 @@ void Arbol::crecer() {
         nodos_agregados++;
 
     } while(cola_de_nodos.size() > 0);
-
-    std::cout << "Hubieron " << punteros_borrados << " punteros salvados por misericordia" << std::endl;
 
 }
 

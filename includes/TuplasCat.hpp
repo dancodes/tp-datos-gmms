@@ -96,4 +96,15 @@ public:
         return catMax;
     }
 
+    void resumen() {
+
+        for (char i = 0; i<39; i++) {
+            if (this->vector[i] > 0) {
+                std::cout <<  Categoria::obtenerNombre(i) << " con " << this->vector[i] << " votos" << std::endl;
+            }
+        }
+
+        //std::cout << "---------" << std::endl;
+    }
+
 };
