@@ -14,9 +14,10 @@ all: tool run clean
 tool: $(OBJS)
 	@echo "==> Compiling"
 	$(CXX) $(LDFLAGS) -o tool $(OBJS) $(LDLIBS)
-	@echo "==> Running"
+
 
 run:
+	@echo "==> Running"
 	@echo ""
 	@echo ""
 	@./tool

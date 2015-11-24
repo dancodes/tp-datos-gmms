@@ -1,14 +1,10 @@
 #include "Crimen.hpp"
 
+
 #include "NAtributo.hpp"
 #include "NAtributoNumerico.hpp"
 #include "NAtributoCategorico.hpp"
-
-#include <iostream>
-#include <stdio.h>
-#include <fstream>
-#include <string>
-#include <sstream>
+#include "NAtributoGenerico.hpp"
 
 using namespace std;
 
@@ -17,14 +13,8 @@ Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pd"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
-    this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
-}
-Crimen::Crimen(double x, double y, std::string pdDistrict) {
-
-    this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
-    this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
-    this->atributos["pd"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
-    this->atributos["ct"] = new NAtributoCategorico("category", new std::string("No Category"));
+    //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
+    this->atributos["ct"] = new NAtributoGenerico<char>("category", Categoria::obtenerIndice(category));
 }
 
 void* Crimen::obtenerAtributo(std::string nombre_atributo) {
@@ -43,8 +33,8 @@ string* Crimen::obtenerPd() {
     return (std::string*)(this->atributos["pd"]->obtenerValor());
 }
 
-string* Crimen::obtenerCategory() {
-    return (std::string*)(this->atributos["ct"]->obtenerValor());
+char Crimen::obtenerCategory() {
+    return *(char*)(this->atributos["ct"]->obtenerValor());
 }
 
 double Crimen::obtenerNumerico(char c) {
@@ -59,7 +49,11 @@ double Crimen::obtenerNumerico(char c) {
 
 string Crimen::resumen() {
     std::stringstream ss;
-    ss << "un crimen con X: " << this->obtenerX() << " y Y: " << this->obtenerY() << "en el PD " << *this->obtenerPd() << " con categoria  " << *this->obtenerCategory();
+
+    ss << "un crimen con X: " << this->obtenerX() << " e Y: " << this->obtenerY()
+    << "en el PD " << *this->obtenerPd() << " con categoria  "
+    << Categoria::obtenerNombre(this->obtenerCategory());
+
     return ss.str();
 }
 

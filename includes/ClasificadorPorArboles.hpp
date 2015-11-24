@@ -4,6 +4,7 @@
 #include "DataFrame.hpp"
 #include "Arbol.hpp"
 #include "TuplasCat.hpp"
+#include "Categoria.hpp"
 #include <iostream>
 #include <string>
 #include <vector>

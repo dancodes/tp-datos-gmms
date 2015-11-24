@@ -9,6 +9,7 @@
 #include "InfoEntropia.hpp"
 #include "ResultadoEntropia.hpp"
 #include "CriterioNodo.hpp"
+#include "Categoria.hpp"
 
 
 class Arbol {
@@ -18,11 +19,11 @@ class Arbol {
         DataFrame* setAEntrenar;
 
         double calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador);
-        ResultadoEntropia calculoInfoTotal(DataFrame* entrenamiento, string &maxCat);
+        ResultadoEntropia calculoInfoTotal(DataFrame* entrenamiento, char &maxCat);
         bool seguir(int contador, string cat);
         std::vector<Nodo*> split(Nodo* padre);
         ResultadoEntropia calcularMejorAtributo(InfoEntropia* info_entropia);
-        std::string RecorrerArbol(Nodo* hijo,Crimen* crimen);
+        char RecorrerArbol(Nodo* hijo,Crimen* crimen);
 
     public:
         Arbol(DataFrame* entrenamiento);
@@ -30,7 +31,7 @@ class Arbol {
         InfoEntropia* calcularEntropias(DataFrame* entrenamiento);
         ResultadoEntropia calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo);
         ResultadoEntropia calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
-        std::string Predecir(Crimen* crimen);
+        char Predecir(Crimen* crimen);
         void guardarEnDisco();
         ~Arbol();
 };

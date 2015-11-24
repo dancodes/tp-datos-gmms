@@ -73,9 +73,9 @@ void DataFrame::leerArchivoTrain() {
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
-    //csv in("data/train.csv");
+    csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
-    csv in("data_pruebas/train.100.csv");
+    //csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
@@ -139,9 +139,13 @@ void DataFrame::leerArchivoTest() {
 
     unsigned int c = 0;
 
+    std::string categoria_no_definida("Indefinido");
+
     while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)) {
 
-        Crimen* crimen = new Crimen(X,Y,PdDistrict);
+
+
+        Crimen* crimen = new Crimen(X,Y,PdDistrict,categoria_no_definida);
 
         this->crimenes->push_back(crimen);
 
@@ -172,7 +176,7 @@ void DataFrame::resumen() {
     for(std::vector<int>::size_type i = 0; (i < this->crimenes->size()) && (i < 5); i++) {
         Crimen* crimen = (*this->crimenes)[i];
         cout << crimen->obtenerX() << "\t" << crimen->obtenerY() << "\t"
-             << *crimen->obtenerPd() << "\t" << *crimen->obtenerCategory() << endl;
+             << *crimen->obtenerPd() << "\t" << Categoria::obtenerNombre(crimen->obtenerCategory()) << endl;
     }
 
     //cout << endl << "[DANIEL] Ganancia de Información de PdDistrict: " << this->infoGainPd() << endl;
@@ -228,9 +232,9 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
         c++;
 
-        if( c % 50000 == 0) {
+        /*if( c % 50000 == 0) {
             cout << "Filtrados " << c << " crimenes." << endl;
-        }
+        }*/
     }
 
     DataFrame* nueva_df = new DataFrame(crimenes_filtrados);

@@ -45,7 +45,7 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
         }
 
         if (nodo->esHoja()) {
-            myfile << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << nodo->obtenerCategoria() << std::endl;
+            myfile << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << Categoria::obtenerNombre(nodo->obtenerCategoria()) << std::endl;
         }
 
     } while(nodos.size() > 0);
@@ -53,11 +53,11 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
     myfile.close();
 }
 
-std::string Arbol::Predecir(Crimen* crimen){
+char Arbol::Predecir(Crimen* crimen){
     return RecorrerArbol(inicio,crimen);
 }
 
-std::string Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
+char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
     Nodo* hijo;
     CriterioNodo criterio;
     //std::cout<<"recursivo"<<std::endl;
@@ -170,8 +170,12 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     if(mejor_atributo.obtenerEntropia() < 0.0) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
-        nodo_original->establecerCategoria(mejor_atributo.obtenerNombreAtributo());
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
+
+        nodo_original->establecerCategoria(
+            Categoria::obtenerIndice(mejor_atributo.obtenerNombreAtributo())
+        );
+
         return nodos_creados;
 
 
@@ -241,7 +245,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
     double entropia;
 
     if(iGX == iGY && iGY == iGDP && iGDP == 0.0) {
-        nombre_atributo = info_entropia->mayorCrimen;
+        nombre_atributo = Categoria::obtenerNombre(info_entropia->mayorCrimen);
         entropia = -1.0;
         intervalo = 0;
     } else if ((iGDP >= iGX) && (iGDP >= iGY)) {
@@ -295,7 +299,7 @@ ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamient
         }
     }
 
-    int secciones = 20;
+    int secciones = 3;
     double rango = maxi - mini;
     double intervalo = rango/(double)secciones;
 
@@ -312,7 +316,7 @@ ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamient
 
     double menorGan = 999999.9;
 
-    for (int i=1; i<20; i++) {
+    for (int i=1; i<secciones; i++) {
         gananciaNum = this->calculoInfoGainSegunIntervalo(entrenamiento, nombre_atributo, (mini+intervalo*i));
 
         //std::cout << "InfoGain candidato: \t\t" << gananciaNum << " con intervalo " << (mini+intervalo*i) <<  std::endl;
@@ -351,13 +355,13 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
             menor_o_mayor = 'M'; //mayores
         }
 
-        std::string categoria_actual = *actual->obtenerCategory();
+        char categoria_actual = actual->obtenerCategory();
         if(frequencia_de_clase.count(menor_o_mayor) == 0) {
             TuplasCat* vectorTuplas= new TuplasCat();
             frequencia_de_clase[menor_o_mayor] = vectorTuplas;
-            frequencia_de_clase[menor_o_mayor]->aumentarCat(categoria_actual);
+            frequencia_de_clase[menor_o_mayor]->aumentarPosicion(categoria_actual);
         } else {
-                frequencia_de_clase[menor_o_mayor]->aumentarCat(categoria_actual);
+                frequencia_de_clase[menor_o_mayor]->aumentarPosicion(categoria_actual);
         }
     }
     double infoGain = 0;
@@ -388,15 +392,15 @@ ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std
         Crimen* actual = entrenamiento->at(i);
         const char* atributo_actual = ((std::string*)actual->obtenerAtributo(nombre_atributo))->c_str();
 
-        std::string* categoria_actual = actual->obtenerCategory();
+        char categoria_actual = actual->obtenerCategory();
 
         if(frequencia_de_clase.count(atributo_actual) == 0) {
             TuplasCat* vectorTuplas = new TuplasCat();
             frequencia_de_clase[atributo_actual] = vectorTuplas;
-            frequencia_de_clase[atributo_actual]->aumentarCat(*categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentarPosicion(categoria_actual);
 
         } else {
-            frequencia_de_clase[atributo_actual]->aumentarCat(*categoria_actual);
+            frequencia_de_clase[atributo_actual]->aumentarPosicion(categoria_actual);
         }
     }
     double infoGain = 0;
@@ -414,15 +418,15 @@ ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std
 }
 
 
-ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayorCrimen) { //por Mati
+ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, char &mayorCrimen) { //por Mati
 
     TuplasCat* vectorTuplas = new TuplasCat();
     for(unsigned int i = 0; i < entrenamiento->cantidad(); i++) {
 
         Crimen* actual = entrenamiento->at(i);
 
-        std::string categoria_actual = *actual->obtenerCategory();
-        vectorTuplas->aumentarCat(categoria_actual);
+        char categoria_actual = actual->obtenerCategory();
+        vectorTuplas->aumentarPosicion(categoria_actual);
     }
 
     mayorCrimen = vectorTuplas->mayorCrimen();

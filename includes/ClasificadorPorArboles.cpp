@@ -27,8 +27,8 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 
 
 std::string ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen){
-    std::string categoria = this->arbol_de_decision->Predecir(crimen);
-    return categoria;
+    char categoria = this->arbol_de_decision->Predecir(crimen);
+    return Categoria::obtenerNombre(categoria);
 }
 
 int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
@@ -56,7 +56,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         resultados->push_back(prediccion);
 
         //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
-        if(*(entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){
+        if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){
             contador = contador+1;
         }
     }

@@ -24,12 +24,12 @@ bool Nodo::esHoja() {
 }
 
 
-void Nodo::establecerCategoria(std::string cat) {
+void Nodo::establecerCategoria(char cat) {
     this->categoria_final = cat;
 
 }
 
-std::string Nodo::obtenerCategoria() {
+char Nodo::obtenerCategoria() {
     return this->categoria_final;
 }
 

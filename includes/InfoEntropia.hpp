@@ -12,7 +12,7 @@ public:
     double iGDP;
     double iGX;
     double iGY;
-    std::string mayorCrimen;
+    char mayorCrimen;
     void resumen() {
         std::cout << std::endl;
         std::cout << "[RESUMEN DE INFOGAIN]" << std::endl;

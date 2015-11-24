@@ -1,3 +1,5 @@
+#pragma once
+
 #include "DataFrame.hpp"
 #include <map>
 #include "InfoEntropia.hpp"
@@ -8,14 +10,13 @@
 class Nodo {
     public:
         Nodo();
-        Nodo(DataFrame* df, InfoEntropia* contIg, std::string atrib);
         Nodo(DataFrame* df, CriterioNodo criterio, int profundidad);
 
         DataFrame* obtenerDataFrame();
 
         bool esHoja();
-        void establecerCategoria(std::string cat);
-        std::string obtenerCategoria();
+        void establecerCategoria(char cat);
+        char obtenerCategoria();
         CriterioNodo obtenerCriterio();
         int obtenerProfundidad();
         void borrarDataFrame();
@@ -39,6 +40,6 @@ class Nodo {
         std::vector<Nodo*>* splits;
         InfoEntropia* info_ig;
         CriterioNodo criterio;
-        std::string categoria_final;
+        char categoria_final;
         int profundidad;
 };
