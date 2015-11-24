@@ -88,6 +88,8 @@ int main () {
 
     delete resultados;
 
+    df.borrarCrimenes();
+
     //df.guardarEnDisco(resultados);
 
 

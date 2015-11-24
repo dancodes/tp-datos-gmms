@@ -174,7 +174,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
         return nodos_creados;
 
-
+ 
     } else {
 
         int profundidad_nueva = nodo_original->obtenerProfundidad() + 1;

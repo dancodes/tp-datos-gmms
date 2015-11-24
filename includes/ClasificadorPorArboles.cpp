@@ -64,3 +64,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
 }
+
+ClasificadorPorArboles::~ClasificadorPorArboles() {
+    delete this->arbol_de_decision;
+}

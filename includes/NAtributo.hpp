@@ -7,6 +7,9 @@ public:
     NAtributo(std::string nombre);
     std::string obtenerNombre();
     virtual void* obtenerValor() = 0;
+    ~NAtributo() {
+        
+    }
 private:
     std::string nombre;
 };

@@ -26,7 +26,7 @@ bool Nodo::esHoja() {
 
 void Nodo::establecerCategoria(std::string cat) {
     this->categoria_final = cat;
-    
+
 }
 
 std::string Nodo::obtenerCategoria() {
@@ -65,6 +65,5 @@ DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
 
 Nodo::~Nodo() {
     delete this->splits;
-    delete this->info_ig;
     nodos_creados--;
 }
