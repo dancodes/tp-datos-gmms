@@ -17,9 +17,10 @@ public:
     TuplasCat* predecirCrimen(Crimen* crimen);
     std::vector<TuplasCat*>* predecir(DataFrame* entrenamientos);
     ~ClasificadorPorArboles();
+    int cantArboles;
 private:
     int numeroAlAzar(int min, int max);
-    std::string predecirCatCrimen(Crimen* crimen);
+    std::string predecirCatCrimen(Crimen* crimen, int arbolID);
 
-    Arbol* arbol_de_decision;
+    std::vector<Arbol*>* arboles_de_decision;
 };

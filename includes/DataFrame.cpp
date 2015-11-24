@@ -299,3 +299,16 @@ DataFrame::~DataFrame() {
     delete this->crimenes;
     dataframes_creados--;
 }
+
+DataFrame* DataFrame::obtenerCrimenes(int cant, int inicio) {
+    std::vector<Crimen*>* crimenesAux = new std::vector<Crimen*>();
+    if ((inicio + cant) > this->cantidad()){
+        cant=  this->cantidad() - inicio;
+    }
+    for (int i=inicio ; i < inicio+cant ; i++ ){
+            cout << i <<endl;
+        crimenesAux->push_back(crimenes->at(i));
+    }
+    DataFrame* df = new DataFrame(crimenesAux);
+    return df;
+}
