@@ -25,6 +25,8 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
 
     std::stack<Nodo*> nodos;
 
+    std::map<int, int> profundidades;
+
     Nodo* nodo_padre = this->inicio;
     nodos.push(nodo_padre);
 
@@ -32,8 +34,10 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
         Nodo* nodo = nodos.top();
         nodos.pop();
 
-        if(nodo->obtenerProfundidad() > 0) {
-            myfile << std::string(nodo->obtenerProfundidad()*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
+        int profundidad = nodo->obtenerProfundidad();
+
+        if(profundidad > 0) {
+            myfile << std::string(profundidad*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
         }
 
         std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
@@ -45,12 +49,22 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
         }
 
         if (nodo->esHoja()) {
-            myfile << std::string(nodo->obtenerProfundidad()*4 + 4 - 4, ' ') << "return " << Categoria::obtenerNombre(nodo->obtenerCategoria()) << std::endl;
+            myfile << std::string(profundidad*4 + 4 - 4, ' ') << "return " << Categoria::obtenerNombre(nodo->obtenerCategoria()) << std::endl;
+
+            if(profundidades.count(profundidad) == 0) {
+                profundidades[profundidad] = 1;
+            } else {
+                profundidades[profundidad] = profundidades[profundidad] + 1;
+            }
+
         }
 
     } while(nodos.size() > 0);
 
-    myfile.close();
+    for (std::map<int, int>::iterator it=profundidades.begin(); it!=profundidades.end(); ++it) {
+        std::cout << "Profundidad " << it->first << ": " << it->second << std::endl;
+    }
+
 }
 
 char Arbol::Predecir(Crimen* crimen){
@@ -173,7 +187,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
 
         nodo_original->establecerCategoria(
-            Categoria::obtenerIndice(mejor_atributo.obtenerNombreAtributo())
+            mejor_atributo.obtenerMayorCrimen()
         );
 
         return nodos_creados;
@@ -245,7 +259,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
     double entropia;
 
     if(iGX == iGY && iGY == iGDP && iGDP == 0.0) {
-        nombre_atributo = Categoria::obtenerNombre(info_entropia->mayorCrimen);
+        nombre_atributo = "";
         entropia = -1.0;
         intervalo = 0;
     } else if ((iGDP >= iGX) && (iGDP >= iGY)) {
@@ -264,7 +278,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
 
     //std::cout << "atrib " << nombre_atributo << " ent " << entropia << " int " << intervalo << std::endl;
 
-    ResultadoEntropia resultado(nombre_atributo, entropia, intervalo);
+    ResultadoEntropia resultado(nombre_atributo, entropia, intervalo, info_entropia->mayorCrimen);
 
     delete info_entropia;
 
