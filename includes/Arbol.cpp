@@ -98,6 +98,9 @@ void Arbol::crecer() {
     std::queue<Nodo*> cola_de_nodos;
     cola_de_nodos.push(this->inicio);
 
+    int nodos_agregados = 0;
+    int punteros_borrados = 0;
+
     do {
         Nodo* nodo_actual = cola_de_nodos.front(); //Consigue el siguiente elemento de la cola
         cola_de_nodos.pop(); //Borra dicho elemento de la cola
@@ -109,7 +112,20 @@ void Arbol::crecer() {
             cola_de_nodos.push(nodo_a_agregar);
         }
 
+        if(nodos_agregados > 0) {
+            //std::cout << "Borrado un DataFrame con " << nodo_actual->obtenerDataFrame()->cantidad() << " punteros" << std::endl;
+
+            punteros_borrados = punteros_borrados + nodo_actual->obtenerDataFrame()->cantidad();
+
+            nodo_actual->borrarDataFrame();
+        }
+
+        nodos_agregados++;
+
     } while(cola_de_nodos.size() > 0);
+
+    std::cout << "Hubieron " << punteros_borrados << " punteros salvados por misericordia" << std::endl;
+
 }
 
 InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
@@ -149,24 +165,13 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
     InfoEntropia* info_entropia = this->calcularEntropias(df_original);
 
-    if(df_original->cantidad() == 2) {
-        std::cout << "FLOR AYUDA" << std::endl;
-        info_entropia->resumen();
-
-        for(int i = 0; i < df_original->cantidad(); i++) {
-            std::cout << "[############] UN CONTENIDO ES " << df_original->at(i)->resumen() << std::endl;
-        }
-    }
-
-    std::cout << "[!] flor: " << df_original->cantidad() << " elementos" << std::endl;
-
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia);
 
     if(mejor_atributo.obtenerEntropia() < 0.0) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         nodo_original->establecerCategoria(mejor_atributo.obtenerNombreAtributo());
-        std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
+        //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
         return nodos_creados;
 
 
@@ -189,8 +194,10 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
                 nodo_original->agregarNodo(hijo);
                 nodos_creados.push_back(hijo);
 
-                std::cout << "[~~] Creado split con " << nuevo_criterio.descripcion() << std::endl;
+                //std::cout << "[~~] Creado split con " << nuevo_criterio.descripcion() << std::endl;
             }
+
+            delete posibles_opciones;
         } else {
             std::string nombre_mejor_atributo = mejor_atributo.obtenerNombreAtributo();
             double mejor_intervalo = mejor_atributo.obtenerIntervalo();
@@ -215,8 +222,8 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
             nodos_creados.push_back(hijo_menor);
             nodos_creados.push_back(hijo_mayor);
 
-            std::cout << "[~~] Creado split con " << nuevo_criterio_menor.descripcion() << " y " << nuevo_df_menor->cantidad() << " elementos" << std::endl;
-            std::cout << "[~~] Creado split con " << nuevo_criterio_mayor.descripcion() << " y " << nuevo_df_mayor->cantidad() << " elementos" << std::endl;
+            //std::cout << "[~~] Creado split con " << nuevo_criterio_menor.descripcion() << " y " << nuevo_df_menor->cantidad() << " elementos" << std::endl;
+            //std::cout << "[~~] Creado split con " << nuevo_criterio_mayor.descripcion() << " y " << nuevo_df_mayor->cantidad() << " elementos" << std::endl;
 
         }
 
@@ -251,59 +258,16 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
         intervalo = info_entropia->intervaloY;
     }
 
-    std::cout << "atrib " << nombre_atributo << " ent " << entropia << " int " << intervalo << std::endl;
+    //std::cout << "atrib " << nombre_atributo << " ent " << entropia << " int " << intervalo << std::endl;
 
     ResultadoEntropia resultado(nombre_atributo, entropia, intervalo);
+
+    delete info_entropia;
 
     return resultado;
 
 }
-/*
-void Arbol::split2(Nodo* nodo_original, unsigned int contador) {
-    std::string district("pdDistrict");
 
-    if (this->seguir(contador, nodo_original->obtenerAtrib())) {
-        if(nodo_original->obtenerAtrib() == district) {
-            std::vector<std::string>* atribHijos = nodo_original->obtenerPosiblesOpciones("pd");
-
-            for (int i=0; i<atribHijos->size(); i++) {
-                DataFrame* df = nodo_original->filtrarDFPD(district,atribHijos->at(i));
-
-                InfoEntropia* contIG = this->calcularEntropias(df);
-
-                Nodo* hijo = new Nodo(df,contIG,atribHijos->at(i));
-                nodo_original->agregarNodo(hijo);
-
-                contador = contador+1;
-                std::cout << "Dividiendo con atributo " << nodo_original->obtenerAtrib() << "y pd " << atribHijos->at(i) << " y contador " << contador << std::endl;
-                this->split(hijo, contador);
-            }
-        } else {
-
-            double intervalo = nodo_original->obtenerIntervalo();
-            std::string intervaloStr = std::to_string(intervalo);
-
-            DataFrame* dfMayores = nodo_original->filtrarDFNum(nodo_original->obtenerAtrib(),intervaloStr,">");
-            DataFrame* dfMenores = nodo_original->filtrarDFNum(nodo_original->obtenerAtrib(),intervaloStr,"<");
-
-            InfoEntropia* contIGMayores = this->calcularEntropias(dfMayores);
-            InfoEntropia* contIGMenores = this->calcularEntropias(dfMenores);
-
-            Nodo* hijoMayores = new Nodo(dfMayores,contIGMayores,"mayor");
-            Nodo* hijoMenores = new Nodo(dfMenores,contIGMenores,"menor");
-
-            nodo_original->agregarNodo(hijoMayores);
-            nodo_original->agregarNodo(hijoMenores);
-
-            contador = contador+1;
-            std::cout << "Dividiendo con numeros y contador " << contador << std::endl;
-
-            this->split(hijoMayores, contador);
-            this->split(hijoMenores, contador);
-        }
-    }
-}
-*/
 ResultadoEntropia Arbol::calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo) {
 
     if(entrenamiento->cantidad() < 1) {
@@ -399,6 +363,8 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
     for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
+
+        delete it->second;
     }
     return infoGain * (-1.0);
 }
@@ -429,6 +395,8 @@ ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std
     for (std::map<string, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
         infoGain = infoGain + (it->second->informationGain() *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
+
+        delete it->second;
     }
 
     ResultadoEntropia resultado(nombre_atributo, infoGain * (-1.0), 0.0);
@@ -452,6 +420,8 @@ ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, string &mayo
     double infoGain = (vectorTuplas->informationGain());
 
     ResultadoEntropia resultado("Total", infoGain * (-1.0), 0.0);
+
+    delete vectorTuplas;
 
     return resultado;
 }

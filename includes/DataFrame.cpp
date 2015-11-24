@@ -11,16 +11,20 @@
 #include <map>
 #include <math.h>
 
+extern unsigned long long int dataframes_creados;
+extern unsigned long long int nodos_creados;
 
 using namespace std;
 
 DataFrame::DataFrame() {
     this->crimenes = new std::vector<Crimen*>();
     this->crimenes->reserve(25000);
+    dataframes_creados++;
 }
 
 DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     this->crimenes = crimenes_filtrados;
+    dataframes_creados++;
 }
 
 void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
@@ -70,8 +74,8 @@ void DataFrame::leerArchivoTrain() {
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
     //csv in("data/train.csv");
-    csv in("data_pruebas/train.10.csv");
-    //csv in("data_pruebas/train.100.csv");
+    //csv in("data_pruebas/train.10.csv");
+    csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
@@ -289,4 +293,5 @@ void DataFrame::borrarCrimenes() {
 
 DataFrame::~DataFrame() {
     delete this->crimenes;
+    dataframes_creados--;
 }

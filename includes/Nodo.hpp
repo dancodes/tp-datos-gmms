@@ -2,6 +2,7 @@
 #include <map>
 #include "InfoEntropia.hpp"
 #include "CriterioNodo.hpp"
+#include <iostream>
 
 
 class Nodo {
@@ -17,6 +18,7 @@ class Nodo {
         std::string obtenerCategoria();
         CriterioNodo obtenerCriterio();
         int obtenerProfundidad();
+        void borrarDataFrame();
 
         std::string obtenerAtrib();
         void agregarNodo(Nodo* nodoAAgregar);

@@ -8,7 +8,8 @@
 #include "includes/TuplasCat.hpp"
 
 
-
+unsigned long long int dataframes_creados = 0;
+unsigned long long int nodos_creados = 0;
 
 using namespace std;
 
@@ -24,6 +25,7 @@ int main () {
     cout << "SIZEOF DataFrame " << sizeof(DataFrame) << endl;
     cout << "SIZEOF Crimen " << sizeof(Crimen) << endl;
     cout << "SIZEOF CriterioNodo " << sizeof(CriterioNodo) << endl;
+    cout << "SIZEOF InfoEntropia " << sizeof(InfoEntropia) << endl;
     cout << "SIZEOF std::string " << sizeof(std::string) << endl;
     cout << "SIZEOF DataFrame* " << sizeof(DataFrame*) << endl;
     cout << "SIZEOF DataFrame " << sizeof(DataFrame) << endl;
@@ -74,6 +76,18 @@ int main () {
 
 
     std::vector<TuplasCat*>* resultados = clf.predecir(&df);
+
+    std::cout << "DATAFRAMES CREADOS: " << dataframes_creados << std::endl;
+    std::cout << "NODOS CREADOS: " << nodos_creados << std::endl;
+
+
+    //Borramos las predicciones de la memoria cuando ya no las usemos
+    for(int i = 0; i < resultados->size(); i++) {
+        delete resultados->at(i);
+    }
+
+    delete resultados;
+
     //df.guardarEnDisco(resultados);
 
 

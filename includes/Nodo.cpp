@@ -1,14 +1,22 @@
 #include "Nodo.hpp"
 
+extern unsigned long long int dataframes_creados;
+extern unsigned long long int nodos_creados;
+
 Nodo::Nodo(DataFrame* df, CriterioNodo criterio, int profundidad) {
     this->dataFrame = df;
     this->criterio = criterio;
     this->splits = new std::vector<Nodo*>();
     this->profundidad = profundidad;
+    nodos_creados++;
 }
 
 DataFrame* Nodo::obtenerDataFrame() {
     return this->dataFrame;
+}
+
+void Nodo::borrarDataFrame() {
+    delete this->dataFrame;
 }
 
 bool Nodo::esHoja() {
@@ -18,6 +26,7 @@ bool Nodo::esHoja() {
 
 void Nodo::establecerCategoria(std::string cat) {
     this->categoria_final = cat;
+    
 }
 
 std::string Nodo::obtenerCategoria() {
@@ -57,4 +66,5 @@ DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
 Nodo::~Nodo() {
     delete this->splits;
     delete this->info_ig;
+    nodos_creados--;
 }

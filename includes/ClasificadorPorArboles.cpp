@@ -55,12 +55,12 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
         resultados->push_back(prediccion);
 
-        std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
+        //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
         if(*(entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){
             contador = contador+1;
         }
     }
-    
+
     std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
 }
