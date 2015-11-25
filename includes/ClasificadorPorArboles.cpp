@@ -10,7 +10,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 20;
+    int cantidad_de_arboles = 30;
 
     std::thread t[NUM_THREADS];
 

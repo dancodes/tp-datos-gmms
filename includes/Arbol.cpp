@@ -177,7 +177,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia, nodo_original->obtenerProfundidad());
 
     if(mejor_atributo.obtenerEntropia() < 0.0 ||
-       nodo_original->obtenerProfundidad() > 18) {
+       nodo_original->obtenerProfundidad() > 10) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
