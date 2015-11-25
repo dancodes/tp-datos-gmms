@@ -22,11 +22,11 @@ public:
     int numeroAlAzar(unsigned int min, unsigned int max);
     std::vector<int> numerosAlAzar(unsigned int min, unsigned int max, unsigned int cantidad);
     std::vector<std::string>* obtenerPosiblesOpciones(std::string nombre_atributo);
-    DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
-    DataFrame* filtrar(CriterioNodo criterio);
-    bool cumpleCondicion(Crimen* actual, CriterioNodo criterio);
-    bool cumpleCondicion(Crimen* actual, std::string nombre_atributo,
-                                std::string comparador, std::string condicion);
+    //DataFrame* filtrar(std::string nombre_atributo, std::string comparador, std::string condicion);
+    DataFrame* filtrar(CriterioNodo& criterio);
+    bool cumpleCondicion(Crimen* actual, CriterioNodo& criterio);
+    /*bool cumpleCondicion(Crimen* actual, std::string nombre_atributo,
+                                std::string comparador, std::string condicion);*/
     void borrarCrimenes();
     ~DataFrame();
 private:

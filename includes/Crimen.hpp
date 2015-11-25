@@ -18,7 +18,7 @@ class NAtributoCategorico;
 class Crimen {
 public:
     Crimen(double x, double y, std::string pdDistrict, std::string category);
-    void* obtenerAtributo(std::string nombre_atributo);
+    void* obtenerAtributo(const std::string& nombre_atributo);
     double obtenerX();
     double obtenerY();
     double obtenerNumerico(char); // x para devolver x e y para devolver y

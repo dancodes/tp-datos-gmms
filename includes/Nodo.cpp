@@ -52,14 +52,16 @@ std::vector<Nodo*>* Nodo::obtenerHijos() {
 
 
 
-DataFrame* Nodo::filtrarDFPD(std::string Cat,std::string atribHijos) {
-    DataFrame* df = this->dataFrame->filtrar(Cat,"=",atribHijos);
+DataFrame* Nodo::filtrarDFPD(std::string Cat, std::string atribHijos) {
+    CriterioNodo criterio(Cat,"=",atribHijos);
+    DataFrame* df = this->dataFrame->filtrar(criterio);
     return df;
 }
 
 DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
                                                     std::string condicion) {
-    DataFrame* df = this->dataFrame->filtrar(Cat,condicion,atribHijos);
+    CriterioNodo criterio(Cat,condicion,atribHijos);
+    DataFrame* df = this->dataFrame->filtrar(criterio);
     return df;
 }
 

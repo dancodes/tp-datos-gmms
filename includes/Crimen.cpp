@@ -17,7 +17,7 @@ Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category
     this->atributos["ct"] = new NAtributoGenerico<char>("category", Categoria::obtenerIndice(category));
 }
 
-void* Crimen::obtenerAtributo(std::string nombre_atributo) {
+void* Crimen::obtenerAtributo(const std::string& nombre_atributo) {
     return this->atributos[nombre_atributo]->obtenerValor();
 }
 

@@ -80,11 +80,11 @@ void DataFrame::leerArchivoTrain() {
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
-    csv in("data/train.csv");
+    //csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
     //csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.1000.csv");
-    //csv in("data_pruebas/train.25000.csv");
+    csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
@@ -133,8 +133,8 @@ void DataFrame::leerArchivoTest() {
     typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
     //csv in("data_pruebas/train.25000.csv");
-    csv in("data/test.csv");
-    //csv in("data_pruebas/test.5000.csv");
+    //csv in("data/test.csv");
+    csv in("data_pruebas/test.5000.csv");
 
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
@@ -220,13 +220,7 @@ std::vector<std::string>* DataFrame::obtenerPosiblesOpciones(std::string nombre_
     return listaAtributos;
 }
 
-DataFrame* DataFrame::filtrar(CriterioNodo criterio) {
-    return this->filtrar(criterio.obtenerAtributo(),
-                        criterio.obtenerComparador(),
-                        criterio.obtenerCondicion());
-}
-
-DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparador, std::string condicion) {
+DataFrame* DataFrame::filtrar(CriterioNodo& criterio) {
 
     std::vector<Crimen*>* crimenes_filtrados = new std::vector<Crimen*>();
 
@@ -237,7 +231,7 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
 
         Crimen* actual = (this->crimenes->at(i));
 
-        if(this->cumpleCondicion(actual, nombre_atributo, comparador, condicion)) {
+        if(this->cumpleCondicion(actual, criterio)) {
             crimenes_filtrados->push_back(actual);
         }
 
@@ -251,61 +245,43 @@ DataFrame* DataFrame::filtrar(std::string nombre_atributo, std::string comparado
     DataFrame* nueva_df = new DataFrame(crimenes_filtrados);
 
     return nueva_df;
-
-
 }
 
-bool DataFrame::cumpleCondicion(Crimen* actual, CriterioNodo criterio) {
-    return this->cumpleCondicion(actual,
-                        criterio.obtenerAtributo(),
-                        criterio.obtenerComparador(),
-                        criterio.obtenerCondicion());
-}
+bool DataFrame::cumpleCondicion(Crimen* actual, CriterioNodo& criterio) {
 
-bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
-                            std::string comparador, std::string condicion) {
+    std::string* nombre_atributo = criterio.obtenerAtributo();
+    std::string* comparador = criterio.obtenerComparador();
 
-    if(nombre_atributo.compare("x") == 0 ) {
+    if(nombre_atributo->compare("x") == 0 || nombre_atributo->compare("y") == 0) {
 
-        double condicion_double = std::stod(condicion);
+        //double condicion_double = std::stod(condicion);
 
-        if(comparador.compare("<=") == 0) {
-            if(actual->obtenerX() <= condicion_double) {
+        double condicion_double = criterio.obtenerCondicionNumerica();
+
+        double valor_actual = *(double*)(actual->obtenerAtributo(*nombre_atributo));
+
+        if(comparador->compare("<=") == 0) {
+            if(valor_actual <= condicion_double) {
                 return true;
             }
-        } else if(comparador.compare(">") == 0) {
-            if(actual->obtenerX() > condicion_double) {
+        } else if(comparador->compare(">") == 0) {
+            if(valor_actual > condicion_double) {
                 return true;
             }
         }
 
-    } else if(nombre_atributo.compare("y") == 0) {
-
-        double condicion_double = std::stod(condicion);
-
-        if(comparador.compare("<=") == 0) {
-            if(actual->obtenerY() <= condicion_double) {
-                return true;
-            }
-        } else if(comparador.compare(">") == 0) {
-            if(actual->obtenerY() > condicion_double) {
-                return true;
-            }
-        }
-
-
-    } else if(nombre_atributo.compare("pdDistrict") == 0) {
+    } else if(nombre_atributo->compare("pdDistrict") == 0) {
         // comparador es irrelevante acá
+        std::string* condicion = criterio.obtenerCondicion();
         std::string pd_actual = *actual->obtenerPd();
 
-        if(condicion.compare(pd_actual) == 0) {
+        if(condicion->compare(pd_actual) == 0) {
             return true;
         }
     }
 
     return false;
-
-  }
+}
 
 void DataFrame::borrarCrimenes() {
     for(std::vector<int>::size_type i = 0; i != this->crimenes->size(); i++) {

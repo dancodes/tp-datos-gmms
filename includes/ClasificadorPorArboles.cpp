@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 
-#define NUM_THREADS 8
+#define NUM_THREADS 4
 
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
@@ -11,7 +11,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 10;
+    int cantidad_de_arboles = 2;
 
     std::thread t[NUM_THREADS];
 
@@ -100,6 +100,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         contador = contador+1;
 
         if (contador % uno_por_ciento == 0) {
+
             std::cout << porciento << "\% completado" << std::endl;
             porciento++;
         }
