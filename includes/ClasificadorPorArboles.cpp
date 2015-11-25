@@ -7,7 +7,6 @@
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
      arboles_de_decision =  new std::vector<Arbol*>();
-
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
@@ -111,16 +110,10 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
             } else {
                 std::cout << "\b\b\b\b" << std::flush;
             }
+
             std::cout << porciento << "\%" << std::flush;
             porciento++;
         }
-
-        //prediccion->resumen();
-
-        //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
-        /*if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()) {
-            contador = contador+1;
-        }*/
     }
 
     std::cout << "Completado!" << std::endl;

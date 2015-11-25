@@ -13,6 +13,7 @@ tool
 
 data/*.csv
 data/*.zip
+data/*.7z
 data/.~lock*
 
 resultados/*.txt

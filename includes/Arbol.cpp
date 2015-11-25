@@ -168,6 +168,7 @@ void Arbol::crecer() {
 }
 
 InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
+
     InfoEntropia* info_ent = new InfoEntropia();
 
     ResultadoEntropia entropia_total = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
@@ -203,10 +204,10 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
     InfoEntropia* info_entropia = this->calcularEntropias(df_original);
 
-    ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia,nodo_original->obtenerProfundidad());
+    ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia, nodo_original->obtenerProfundidad());
 
     if(mejor_atributo.obtenerEntropia() < 0.0 ||
-       nodo_original->obtenerProfundidad() > 15) {
+       nodo_original->obtenerProfundidad() > 18) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
