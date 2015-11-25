@@ -103,8 +103,17 @@ public:
                 std::cout <<  Categoria::obtenerNombre(i) << " con " << this->vector[i] << " votos" << std::endl;
             }
         }
+    }
 
-        //std::cout << "---------" << std::endl;
+    int obtenerCantCat(char i) {
+        return this->vector[i];
+    }
+
+    void sumarTuplas(TuplasCat* tpc) {
+        for (char i=0 ; i <= 38 ; i++){
+            this->vector[i] = this->vector[i] + tpc->obtenerCantCat(i);
+        }
+
     }
 
 };

@@ -80,9 +80,9 @@ void DataFrame::leerArchivoTrain() {
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
-    //csv in("data/train.csv");
+    csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
-    csv in("data_pruebas/train.100.csv");
+    //csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.1000.csv");
     //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
@@ -133,8 +133,8 @@ void DataFrame::leerArchivoTest() {
     typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
     //csv in("data_pruebas/train.25000.csv");
-    //csv in("data/test.csv");
-    csv in("data_pruebas/test.5000.csv");
+    csv in("data/test.csv");
+    //csv in("data_pruebas/test.5000.csv");
 
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
