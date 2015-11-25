@@ -48,7 +48,7 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile.open (ss.str());
 
 
-    myfile <<"ID,WARRANTS,OTHER OFFENSES,LARCENY/THEFT,VEHICLE THEFT,VANDALISM,";
+    myfile <<"Id,WARRANTS,OTHER OFFENSES,LARCENY/THEFT,VEHICLE THEFT,VANDALISM,";
     myfile <<"NON-CRIMINAL,ROBBERY,ASSAULT,WEAPON LAWS,BURGLARY,SUSPICIOUS OCC,DRUNKENNESS,";
     myfile <<"FORGERY/COUNTERFEITING,DRUG/NARCOTIC,STOLEN PROPERTY,SECONDARY CODES,TRESPASS,";
     myfile <<"MISSING PERSON,FRAUD,KIDNAPPING,RUNAWAY,DRIVING UNDER THE INFLUENCE,";
@@ -80,10 +80,10 @@ void DataFrame::leerArchivoTrain() {
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
-    //csv in("data/train.csv");
+    csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
     //csv in("data_pruebas/train.100.csv");
-    csv in("data_pruebas/train.1000.csv");
+    //csv in("data_pruebas/train.1000.csv");
     //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
