@@ -10,7 +10,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 25;
+    int cantidad_de_arboles = 20;
 
     std::thread t[NUM_THREADS];
 
@@ -47,19 +47,19 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     for (int i= 0 ; i < this->arboles_de_decision->size(); i++){
 
         //tp->aumentarPosicion(numero_al_azar);
-        char prediccion = this->predecirCatCrimen(crimen, i);
+        TuplasCat* prediccion = this->predecirCatCrimen(crimen, i);
 
-        if(prediccion != (char)(-1)) {
-            tp->aumentarPosicion(prediccion);
+        if(prediccion != NULL) {
+            tp->sumarTuplas(prediccion);
         }
     }
     return tp;
 }
 
 
-char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
+TuplasCat* ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
 
-    char categoria = this->arboles_de_decision->at(arbolID)->predecir(crimen);
+    TuplasCat* categoria = this->arboles_de_decision->at(arbolID)->predecir(crimen);
     return categoria;
 }
 
@@ -80,7 +80,6 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
     int cantidad_a_predecir = entrenamientos->cantidad();
 
-
     int contador = 0;
 
     int uno_por_ciento = cantidad_a_predecir / 100;
@@ -94,8 +93,6 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);//probando
 
-        //std::cout << "Prediciendo " << crimen->resumen() << std::endl;
-
 
         TuplasCat* prediccion = this->predecirCrimen(crimen);
 
@@ -104,6 +101,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         contador = contador+1;
 
         if (contador % uno_por_ciento == 0 && porciento < 100) {
+        //if (porciento < 100) {
 
             if (porciento < 10) {
                 std::cout << "\b\b\b" << std::flush;

@@ -24,7 +24,7 @@ class Arbol {
         bool seguir(int contador, string cat);
         std::vector<Nodo*> split(Nodo* padre);
         ResultadoEntropia calcularMejorAtributo(InfoEntropia* info_entropia,int profundidad);
-        char recorrerArbol(Nodo* hijo,Crimen* crimen);
+        TuplasCat* recorrerArbol(Nodo* hijo,Crimen* crimen);
 
     public:
         Arbol(DataFrame* entrenamiento);
@@ -33,7 +33,7 @@ class Arbol {
         InfoEntropia* calcularEntropias(DataFrame* entrenamiento);
         ResultadoEntropia calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo);
         ResultadoEntropia calculoInfoGainCategorico(DataFrame* entrenamiento, std::string nombre_atributo);
-        char predecir(Crimen* crimen);
-        void guardarEnDisco();
+        TuplasCat* predecir(Crimen* crimen);
+        //void guardarEnDisco();
         ~Arbol();
 };

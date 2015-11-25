@@ -25,7 +25,7 @@ public:
     int cantArboles;
 private:
     int numeroAlAzar(int min, int max);
-    char predecirCatCrimen(Crimen* crimen, int arbolID);
+    TuplasCat* predecirCatCrimen(Crimen* crimen, int arbolID);
     std::recursive_mutex arboles_mutex;
 
     std::vector<Arbol*>* arboles_de_decision;

@@ -24,12 +24,11 @@ bool Nodo::esHoja() {
 }
 
 
-void Nodo::establecerCategoria(char cat) {
+void Nodo::establecerCategoria(TuplasCat* cat) {
     this->categoria_final = cat;
-
 }
 
-char Nodo::obtenerCategoria() {
+TuplasCat* Nodo::obtenerCategoria() {
     return this->categoria_final;
 }
 
@@ -67,5 +66,6 @@ DataFrame* Nodo::filtrarDFNum(std::string Cat,std::string atribHijos,
 
 Nodo::~Nodo() {
     delete this->splits;
+    delete this->categoria_final;
     nodos_creados--;
 }

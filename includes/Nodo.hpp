@@ -15,8 +15,8 @@ class Nodo {
         DataFrame* obtenerDataFrame();
 
         bool esHoja();
-        void establecerCategoria(char cat);
-        char obtenerCategoria();
+        void establecerCategoria(TuplasCat* cat);
+        TuplasCat* obtenerCategoria();
         CriterioNodo obtenerCriterio();
         int obtenerProfundidad();
         void borrarDataFrame();
@@ -40,6 +40,6 @@ class Nodo {
         std::vector<Nodo*>* splits;
         InfoEntropia* info_ig;
         CriterioNodo criterio;
-        char categoria_final;
+        TuplasCat* categoria_final;
         int profundidad;
 };

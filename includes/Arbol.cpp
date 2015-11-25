@@ -27,7 +27,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
 
     this->crecer();
 }
-
+/*
 void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
 
     ofstream myfile;
@@ -77,19 +77,17 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
         std::cout << "Profundidad " << it->first << ": " << it->second << std::endl;
     }
 
-}
+}*/
 
-char Arbol::predecir(Crimen* crimen){
+TuplasCat* Arbol::predecir(Crimen* crimen){
     return recorrerArbol(inicio,crimen);
 }
 
-char Arbol::recorrerArbol(Nodo* nodo, Crimen* crimen){
+TuplasCat* Arbol::recorrerArbol(Nodo* nodo, Crimen* crimen){
     Nodo* hijo;
     CriterioNodo criterio;
     //std::cout<<"recursivo"<<std::endl;
     if(nodo->esHoja()){
-        //std::cout<<"hoja"<<std::endl;
-
         return nodo->obtenerCategoria();
     } else {
         std::vector<Nodo*>* hijos = nodo->obtenerHijos();
@@ -103,36 +101,8 @@ char Arbol::recorrerArbol(Nodo* nodo, Crimen* crimen){
             }
         }
         misses++;
-        return (char)(-1); // <-- nunca deberiamos llegar aca
+        return NULL; // <-- nunca deberiamos llegar aca
     }
-    /*} else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){
-        //std::cout<<"pd"<<std::endl;
-        criterio = nodo->obtenerHijos()->at(0)->obtenerCriterio();
-        for(unsigned int i=0; i< nodo->obtenerHijos()->size(); i++){
-            if (nodo->obtenerHijos()->at(i)->obtenerCriterio().obtenerCondicion()
-                                == (*(crimen->obtenerPd()))){
-                hijo= nodo->obtenerHijos()->at(i);
-            }
-        }
-    }else{
-        criterio = nodo->obtenerHijos()->at(0)->obtenerCriterio();
-        //std::cout<<"x"<<std::endl;
-        char c;
-        if(criterio.obtenerAtributo() == "x"){
-            c='x';
-        }else{
-            c='y';
-        }
-
-       if(crimen->obtenerNumerico(c)<=stod(criterio.obtenerCondicion())){
-            hijo= nodo->obtenerHijos()->at(0);
-            //std::cout<<"array pos0"<<std::endl;
-       }else{
-            //std::cout<<"array pos1"<<std::endl;
-            hijo= nodo->obtenerHijos()->at(1);
-       }
-    }
-    return recorrerArbol(hijo,crimen);*/
 }
 
 void Arbol::crecer() {
@@ -213,7 +183,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
 
         nodo_original->establecerCategoria(
-            mejor_atributo.obtenerMayorCrimen()
+            nodo_original->obtenerDataFrame()->generarProbabilidades()
         );
 
         return nodos_creados;

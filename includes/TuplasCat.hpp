@@ -111,7 +111,9 @@ public:
 
     void sumarTuplas(TuplasCat* tpc) {
         for (char i=0 ; i <= 38 ; i++){
-            this->vector[i] = this->vector[i] + tpc->obtenerCantCat(i);
+            int cantidad_a_sumar = tpc->obtenerCantCat(i);
+            this->vector[i] = this->vector[i] + cantidad_a_sumar;
+            this->total = this->total + cantidad_a_sumar;
         }
 
     }
