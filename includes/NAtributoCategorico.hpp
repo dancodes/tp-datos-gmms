@@ -19,6 +19,12 @@ void* NAtributoCategorico::obtenerValor() {
 }
 
 NAtributoCategorico::~NAtributoCategorico() {
-    
+
     delete this->valor;
+}
+
+bool  NAtributo::esNumerico() {
+
+    return false;
+
 }

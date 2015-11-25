@@ -16,3 +16,9 @@ private:
 void* NAtributoNumerico::obtenerValor() {
     return (void*)&(this->valor);
 }
+
+bool  NAtributo::esNumerico() {
+
+    return false;
+
+}
