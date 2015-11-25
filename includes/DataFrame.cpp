@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <map>
 #include <math.h>
@@ -128,8 +129,8 @@ void DataFrame::leerArchivoTest() {
     typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
     //csv in("data_pruebas/train.25000.csv");
-    csv in("data/test.csv");
-    //csv in("data_pruebas/test.5000.csv");
+    //csv in("data/test.csv");
+    csv in("data_pruebas/test.5000.csv");
 
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
@@ -291,9 +292,15 @@ bool DataFrame::cumpleCondicion(Crimen* actual, std::string nombre_atributo,
 
     } else if(nombre_atributo.compare("pdDistrict") == 0) {
         // comparador es irrelevante acá
-        std::string pd_actual = *actual->obtenerPd();
+        //std::string pd_actual = *actual->obtenerPd();
+/*
+        if (std::search(condicion.begin(), condicion.end(), (*actual->obtenerPd()).begin(), (*actual->obtenerPd()).end()) == condicion.end()) {
+            return true;
+        }
+*/
 
-        if(condicion.compare(pd_actual) == 0) {
+        if(strcmp(condicion.c_str(),(*actual->obtenerPd()).c_str()) == 0) {
+        //if(condicion.compare(*actual->obtenerPd()) == 0) {
             return true;
         }
     }

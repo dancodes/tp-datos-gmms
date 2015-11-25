@@ -185,8 +185,6 @@ bool Arbol::seguir(int contador, string cat) {
 std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     std::string district("pdDistrict");
 
-
-
     std::vector<Nodo*> nodos_creados;
 
     DataFrame* df_original = nodo_original->obtenerDataFrame();

@@ -7,6 +7,7 @@
 #include "Categoria.hpp"
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <vector>
 
 #include <thread>
@@ -25,7 +26,7 @@ public:
 private:
     int numeroAlAzar(int min, int max);
     char predecirCatCrimen(Crimen* crimen, int arbolID);
-    std::mutex arboles_mutex;
+    std::recursive_mutex arboles_mutex;
 
     std::vector<Arbol*>* arboles_de_decision;
 };

@@ -11,7 +11,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 20;
+    int cantidad_de_arboles = 2;
 
     std::thread t[NUM_THREADS];
 
@@ -31,7 +31,8 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
     for (int i = 0; i<cantidad; i++) {
         Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes());
 
-        std::lock_guard<std::mutex> guard(this->arboles_mutex);
+
+        std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
         std::cout << "Creado arbol #" << i << std::endl;
         this->arboles_de_decision->push_back(arbolNavidad);
     }
@@ -55,7 +56,7 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 
 
 char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
-    
+
     char categoria = this->arboles_de_decision->at(arbolID)->Predecir(crimen);
     return categoria;
 }
@@ -76,6 +77,8 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
     double contador = 0.0;
 
+    int cantidad_a_predecir = entrenamientos->cantidad();
+
     //std::cout << "Prediciendo " << entrenamientos->cantidad() << std::endl;
 
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
@@ -90,7 +93,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         //prediccion->resumen();
 
         //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
-        if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()){
+        if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()) {
             contador = contador+1;
         }
     }
