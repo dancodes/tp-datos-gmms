@@ -40,6 +40,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     TuplasCat* tp = new TuplasCat();
     //int numero_al_azar = this->numeroAlAzar(0,39);
+
     for (int i= 0 ; i < this->arboles_de_decision->size(); i++){
 
         //tp->aumentarPosicion(numero_al_azar);
@@ -53,7 +54,8 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 }
 
 
-char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID){
+char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
+    
     char categoria = this->arboles_de_decision->at(arbolID)->Predecir(crimen);
     return categoria;
 }
@@ -74,8 +76,12 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
     double contador = 0.0;
 
+    //std::cout << "Prediciendo " << entrenamientos->cantidad() << std::endl;
+
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);//probando
+
+        //std::cout << "Prediciendo " << crimen->resumen() << std::endl;
 
 
         TuplasCat* prediccion = this->predecirCrimen(crimen);

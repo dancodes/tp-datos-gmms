@@ -10,6 +10,7 @@
 
 unsigned long long int dataframes_creados = 0;
 unsigned long long int nodos_creados = 0;
+unsigned long long int misses = 0;
 
 using namespace std;
 
@@ -74,11 +75,17 @@ int main () {
     ClasificadorPorArboles clf;
     clf.entrenar(&df);
 
+    DataFrame df_train;
+    df_train.leerArchivoTest();
 
-    std::vector<TuplasCat*>* resultados = clf.predecir(&df);
+
+    std::vector<TuplasCat*>* resultados = clf.predecir(&df_train);
+
+    df_train.guardarEnDisco(resultados);
 
     std::cout << "DATAFRAMES CREADOS: " << dataframes_creados << std::endl;
     std::cout << "NODOS CREADOS: " << nodos_creados << std::endl;
+    std::cout << "MISSES: " << misses << std::endl;
 
 
     //Borramos las predicciones de la memoria cuando ya no las usemos

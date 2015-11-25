@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-
+extern unsigned long long int misses;
 
 Arbol::Arbol(DataFrame* entrenamiento) {
     std::string atribIncial("raiz");
@@ -77,6 +77,7 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
     //std::cout<<"recursivo"<<std::endl;
     if(nodo->esHoja()){
         //std::cout<<"hoja"<<std::endl;
+
         return nodo->obtenerCategoria();
     } else {
         std::vector<Nodo*>* hijos = nodo->obtenerHijos();
@@ -89,6 +90,7 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
                 return RecorrerArbol(hijo, crimen);
             }
         }
+        misses++;
         return (char)(-1); // <-- nunca deberiamos llegar aca
     }
     /*} else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){

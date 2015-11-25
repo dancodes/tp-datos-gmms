@@ -13,6 +13,7 @@
 
 extern unsigned long long int dataframes_creados;
 extern unsigned long long int nodos_creados;
+extern unsigned long long int misses;
 
 using namespace std;
 
@@ -123,8 +124,11 @@ void DataFrame::leerArchivoTest() {
 
     cout << "Abriendo archivo Test" << endl;
 
-    //io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data_pruebas/train.25000.csv");
-    io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("data/test.csv");
+    typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
+
+    //csv in("data_pruebas/train.25000.csv");
+    csv in("data/test.csv");
+    //csv in("data_pruebas/test.5000.csv");
 
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
@@ -140,7 +144,7 @@ void DataFrame::leerArchivoTest() {
 
     unsigned int c = 0;
 
-    std::string categoria_no_definida("Indefinido");
+    std::string categoria_no_definida("WARRANTS");
 
     while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)) {
 
