@@ -173,7 +173,7 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
     ResultadoEntropia entropia_total = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
     info_ent->iGTot = entropia_total.obtenerEntropia();
 
-    ResultadoEntropia entropia_pd = this->calculoInfoGainCategorico(entrenamiento, "pd");
+    ResultadoEntropia entropia_pd = this->calculoInfoGainCategorico(entrenamiento, "pdDistrict");
     info_ent->iGDP = entropia_pd.obtenerEntropia();
 
     ResultadoEntropia entropia_x = this->calculoInfoGainOptimoDeNumerico(entrenamiento,"x");
@@ -223,7 +223,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
         if(mejor_atributo.obtenerNombreAtributo() == district) {
             std::vector<std::string>* posibles_opciones = nodo_original->obtenerDataFrame()
-                                                          ->obtenerPosiblesOpciones("pd");
+                                                          ->obtenerPosiblesOpciones("pdDistrict");
 
             for (int i=0; i<posibles_opciones->size(); i++) {
                 std::string opcion_actual = posibles_opciones->at(i);

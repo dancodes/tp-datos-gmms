@@ -99,7 +99,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
         contador = contador+1;
 
-        if (contador % uno_por_ciento == 0) {
+        if (contador % uno_por_ciento == 0 && porciento < 100) {
 
             std::cout << porciento << "\% completado" << std::endl;
             porciento++;

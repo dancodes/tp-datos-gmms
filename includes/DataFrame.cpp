@@ -82,9 +82,9 @@ void DataFrame::leerArchivoTrain() {
 
     //csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
-    //csv in("data_pruebas/train.100.csv");
+    csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.1000.csv");
-    csv in("data_pruebas/train.25000.csv");
+    //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
@@ -273,9 +273,10 @@ bool DataFrame::cumpleCondicion(Crimen* actual, CriterioNodo& criterio) {
     } else if(nombre_atributo->compare("pdDistrict") == 0) {
         // comparador es irrelevante acá
         std::string* condicion = criterio.obtenerCondicion();
-        std::string pd_actual = *actual->obtenerPd();
 
-        if(condicion->compare(pd_actual) == 0) {
+        std::string* pd_actual = (std::string*)(actual->obtenerAtributo(*nombre_atributo));
+
+        if(condicion->compare(*pd_actual) == 0) {
             return true;
         }
     }
