@@ -60,7 +60,7 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
 
 char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
 
-    char categoria = this->arboles_de_decision->at(arbolID)->Predecir(crimen);
+    char categoria = this->arboles_de_decision->at(arbolID)->predecir(crimen);
     return categoria;
 }
 
@@ -86,9 +86,11 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
     int uno_por_ciento = cantidad_a_predecir / 100;
 
-    int porciento = 0;
+    int porciento = 1;
 
     std::cout << "Total a predecir: " << entrenamientos->cantidad() << std::endl;
+
+    std::cout << porciento << "\% " << std::flush;
 
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);//probando
@@ -104,7 +106,12 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
         if (contador % uno_por_ciento == 0 && porciento < 100) {
 
-            std::cout << porciento << "\% ";
+            if (porciento < 10) {
+                std::cout << "\b\b\b" << std::flush;
+            } else {
+                std::cout << "\b\b\b\b" << std::flush;
+            }
+            std::cout << porciento << "\%" << std::flush;
             porciento++;
         }
 

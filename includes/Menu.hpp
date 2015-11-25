@@ -5,5 +5,5 @@ class ContextoArchivos;
 class Menu {
 public:
     Menu();
-    void cargarDatos(ContextoArchivos ctx);
+    void cargarDatos(ContextoArchivos ctx); 
 };

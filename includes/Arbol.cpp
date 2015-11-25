@@ -79,11 +79,11 @@ void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado
 
 }
 
-char Arbol::Predecir(Crimen* crimen){
-    return RecorrerArbol(inicio,crimen);
+char Arbol::predecir(Crimen* crimen){
+    return recorrerArbol(inicio,crimen);
 }
 
-char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
+char Arbol::recorrerArbol(Nodo* nodo, Crimen* crimen){
     Nodo* hijo;
     CriterioNodo criterio;
     //std::cout<<"recursivo"<<std::endl;
@@ -99,7 +99,7 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
             CriterioNodo criterio = hijo->obtenerCriterio();
 
             if(hijo->obtenerDataFrame()->cumpleCondicion(crimen, criterio)) {
-                return RecorrerArbol(hijo, crimen);
+                return recorrerArbol(hijo, crimen);
             }
         }
         misses++;
@@ -132,7 +132,7 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
             hijo= nodo->obtenerHijos()->at(1);
        }
     }
-    return RecorrerArbol(hijo,crimen);*/
+    return recorrerArbol(hijo,crimen);*/
 }
 
 void Arbol::crecer() {
