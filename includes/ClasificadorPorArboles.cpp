@@ -11,7 +11,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 600;
+    int cantidad_de_arboles = 20;
 
     std::thread t[NUM_THREADS];
 
@@ -32,6 +32,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
         Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes());
 
         std::lock_guard<std::mutex> guard(this->arboles_mutex);
+        std::cout << "Creado arbol #" << i << std::endl;
         this->arboles_de_decision->push_back(arbolNavidad);
     }
 }

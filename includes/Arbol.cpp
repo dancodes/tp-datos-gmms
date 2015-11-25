@@ -11,7 +11,7 @@ Arbol::Arbol(DataFrame* entrenamiento) {
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
     unsigned int contador = 0;
-    std::cout << "Creando un arbol que aprende de " << entrenamiento->cantidad() << " crimenes" << std::endl;
+    //std::cout << "Creando un arbol que aprende de " << entrenamiento->cantidad() << " crimenes" << std::endl;
 
     this->crecer();
 }
