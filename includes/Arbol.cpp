@@ -4,9 +4,21 @@
 
 extern unsigned long long int misses;
 
+Arbol::Arbol(DataFrame* entrenamiento, int limitador) {
+    std::string atribIncial("raiz");
+    this->limitador =limitador;
+    CriterioNodo criterio_vacio;
+    this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
+
+    unsigned int contador = 0;
+    //std::cout << "Creando un arbol que aprende de " << entrenamiento->cantidad() << " crimenes" << std::endl;
+
+    this->crecer();
+}
+
 Arbol::Arbol(DataFrame* entrenamiento) {
     std::string atribIncial("raiz");
-
+    this->limitador =-1;
     CriterioNodo criterio_vacio;
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
@@ -129,12 +141,12 @@ void Arbol::crecer() {
 
     int nodos_agregados = 0;
     int punteros_borrados = 0;
-
     do {
         Nodo* nodo_actual = cola_de_nodos.front(); //Consigue el siguiente elemento de la cola
         cola_de_nodos.pop(); //Borra dicho elemento de la cola
 
         std::vector<Nodo*> nodos_creados = this->split(nodo_actual);
+
 
         for(int i = 0; i < nodos_creados.size(); i++) {
             Nodo* nodo_a_agregar = nodos_creados.at(i);
@@ -191,7 +203,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
     InfoEntropia* info_entropia = this->calcularEntropias(df_original);
 
-    ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia);
+    ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia,nodo_original->obtenerProfundidad());
 
     if(mejor_atributo.obtenerEntropia() < 0.0) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
@@ -261,7 +273,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     }
 }
 
-ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
+ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int profundidad) {
     double iGX = info_entropia->iGTot - info_entropia->iGX;
     double iGY = info_entropia->iGTot - info_entropia->iGY;
     double iGDP = info_entropia->iGTot - info_entropia->iGDP;
@@ -270,7 +282,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
     double intervalo;
     double entropia;
 
-    if(iGX == iGY && iGY == iGDP && iGDP == 0.0) {
+    if ((iGX == iGY && iGY == iGDP && iGDP == 0.0)|| (this->limitador!= -1 && this->limitador >= profundidad)) {
         nombre_atributo = "";
         entropia = -1.0;
         intervalo = 0;
@@ -282,7 +294,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia) {
         nombre_atributo = "x";
         entropia = iGX;
         intervalo = info_entropia->intervaloX;
-    } else if ((iGY >= iGX) && (iGY >= iGDP)) {
+    } else if ((iGY >= iGX) && (iGY >= iGDP))  {
         nombre_atributo = "y";
         entropia = iGY;
         intervalo = info_entropia->intervaloY;
