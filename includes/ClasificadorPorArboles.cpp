@@ -104,7 +104,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 
         if (contador % uno_por_ciento == 0 && porciento < 100) {
 
-            std::cout << porciento << "\% completado" << std::endl;
+            std::cout << porciento << "\% ";
             porciento++;
         }
 
@@ -115,6 +115,8 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
             contador = contador+1;
         }*/
     }
+
+    std::cout << "Completado!" << std::endl;
 
     //std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
