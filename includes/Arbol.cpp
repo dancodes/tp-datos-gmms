@@ -86,11 +86,10 @@ char Arbol::RecorrerArbol(Nodo* nodo, Crimen* crimen){
             CriterioNodo criterio = hijo->obtenerCriterio();
 
             if(hijo->obtenerDataFrame()->cumpleCondicion(crimen, criterio)) {
-                return RecorrerArbol(hijo, crimen); 
+                return RecorrerArbol(hijo, crimen);
             }
         }
-
-        return '-'; // <-- nunca deberiamos llegar aca
+        return (char)(-1); // <-- nunca deberiamos llegar aca
     }
     /*} else if(nodo->obtenerHijos()->at(0)->obtenerCriterio().obtenerAtributo() == "pdDistrict"){
         //std::cout<<"pd"<<std::endl;

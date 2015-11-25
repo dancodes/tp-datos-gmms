@@ -76,7 +76,8 @@ void DataFrame::leerArchivoTrain() {
     //csv in("data/train.csv");
     //csv in("data_pruebas/train.10.csv");
     //csv in("data_pruebas/train.100.csv");
-    csv in("data_pruebas/train.25000.csv");
+    csv in("data_pruebas/train.1000.csv");
+    //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
@@ -307,15 +308,17 @@ DataFrame::~DataFrame() {
     dataframes_creados--;
 }
 
-DataFrame* DataFrame::obtenerCrimenes(int cantidad) {
+DataFrame* DataFrame::obtenerCrimenes() {
     std::vector<Crimen*>* crimenesAux = new std::vector<Crimen*>();
 
-    if (this->cantidad() < cantidad) {
-        cantidad = this->cantidad();
-    }
+    int cantidad = this->numeroAlAzar(1, this->cantidad());
 
-    for (int i=0; i < cantidad; i++) {
-        int azar = this->numeroAlAzar(0, this->cantidad() - 1);
+
+
+    std::vector<int> numeros = this->numerosAlAzar(0, cantidad - 1, cantidad);
+
+    for (int i=0; i < numeros.size(); i++) {
+        int azar = numeros.at(i);
 
         crimenesAux->push_back(this->crimenes->at(azar));
     }
@@ -324,10 +327,25 @@ DataFrame* DataFrame::obtenerCrimenes(int cantidad) {
     return df;
 }
 
+
 int DataFrame::numeroAlAzar(unsigned int min, unsigned int max) {
     std::random_device rd; // obtain a random number from hardware
     std::mt19937 eng(rd()); // seed the generator
     std::uniform_int_distribution<> distr(min, max); // define the range
 
     return distr(eng);
+}
+
+std::vector<int> DataFrame::numerosAlAzar(unsigned int min, unsigned int max, unsigned int cantidad) {
+    std::random_device rd; // obtain a random number from hardware
+    std::mt19937 eng(rd()); // seed the generator
+    std::uniform_int_distribution<> distr(min, max); // define the range
+
+    std::vector<int> numeros;
+
+    for(int i=0; i<cantidad; i++) {
+        numeros.push_back(distr(eng));
+    }
+
+    return numeros;
 }

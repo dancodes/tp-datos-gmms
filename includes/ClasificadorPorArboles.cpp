@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 
+#define NUM_THREADS 4
+
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
      arboles_de_decision =  new std::vector<Arbol*>();
@@ -9,14 +11,27 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 10;
+    int cantidad_de_arboles = 600;
 
-    int crimenes_por_arbol = entrenamientos->cantidad();
+    std::thread t[NUM_THREADS];
 
     std::cout << "[EN PROGRESO] Entrenando " << cantidad_de_arboles << " arboles para el clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
-    for (int i=0; i < cantidad_de_arboles; i++) {
-        //std::cout << i << std::endl;
-        Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes(crimenes_por_arbol));
+    for (int i=0; i < NUM_THREADS; i++) {
+        t[i] = std::thread(&ClasificadorPorArboles::agregarArboles, this, entrenamientos, cantidad_de_arboles);
+    }
+
+    for (int i=0; i < NUM_THREADS; i++) {
+        t[i].join();
+    }
+
+    std::cout << "[TERMINADO]" << std::endl;
+}
+
+void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int cantidad) {
+    for (int i = 0; i<cantidad; i++) {
+        Arbol* arbolNavidad = new Arbol(entrenamientos->obtenerCrimenes());
+
+        std::lock_guard<std::mutex> guard(this->arboles_mutex);
         this->arboles_de_decision->push_back(arbolNavidad);
     }
 }
@@ -24,18 +39,22 @@ void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     TuplasCat* tp = new TuplasCat();
     //int numero_al_azar = this->numeroAlAzar(0,39);
-    for (int i= 0 ; i < this->arboles_de_decision->size() ; i++){
+    for (int i= 0 ; i < this->arboles_de_decision->size(); i++){
 
         //tp->aumentarPosicion(numero_al_azar);
-        tp->aumentarCat(predecirCatCrimen(crimen, i));
+        char prediccion = this->predecirCatCrimen(crimen, i);
+
+        if(prediccion != (char)(-1)) {
+            tp->aumentarPosicion(prediccion);
+        }
     }
     return tp;
 }
 
 
-std::string ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID){
+char ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID){
     char categoria = this->arboles_de_decision->at(arbolID)->Predecir(crimen);
-    return Categoria::obtenerNombre(categoria);
+    return categoria;
 }
 
 int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
