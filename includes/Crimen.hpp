@@ -26,6 +26,7 @@ public:
     char obtenerCategory();
     std::string resumen();
     ~Crimen();
+    std::map<std::string, NAtributo*>* obtenerAtributos();
 private:
     std::map<std::string, NAtributo*> atributos;
 };

@@ -57,6 +57,9 @@ string Crimen::resumen() {
     return ss.str();
 }
 
+std::map<std::string, NAtributo*>* Crimen::obtenerAtributos() {
+    return &this->atributos;
+}
 Crimen::~Crimen() {
     for (std::map<std::string, NAtributo*>::iterator it=this->atributos.begin(); it!=this->atributos.end(); it++) {
         delete it->second;

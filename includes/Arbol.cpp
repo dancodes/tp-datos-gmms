@@ -175,6 +175,7 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
     return info_ent;
 }
 
+
 bool Arbol::seguir(int contador, string cat) {
     //falta agregarla la otra condicion de corte
     int piso = 1;
