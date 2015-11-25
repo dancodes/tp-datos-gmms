@@ -9,6 +9,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <queue>
 
 #include <thread>
 #include <mutex>
@@ -19,6 +20,7 @@ public:
     ClasificadorPorArboles();
     void entrenar(DataFrame* entrenamientos);
     void agregarArboles(DataFrame* entrenamientos, int cantidad);
+    void predecirArboles(Crimen* crimen, std::queue<Arbol*>& trabajos, TuplasCat* tp_final);
     TuplasCat* predecirCrimen(Crimen* crimen);
     std::vector<TuplasCat*>* predecir(DataFrame* entrenamientos);
     ~ClasificadorPorArboles();
