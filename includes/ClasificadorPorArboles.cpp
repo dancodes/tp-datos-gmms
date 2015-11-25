@@ -2,7 +2,7 @@
 #include <iostream>
 #include <random>
 
-#define NUM_THREADS 4
+#define NUM_THREADS 8
 
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
@@ -11,7 +11,7 @@ ClasificadorPorArboles::ClasificadorPorArboles() {
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 2;
+    int cantidad_de_arboles = 10;
 
     std::thread t[NUM_THREADS];
 
@@ -75,11 +75,17 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::cout << "[EN PROGRESO] Prediciendo para el ojete..." << std::endl;
 
     std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
-    double contador = 0.0;
 
     int cantidad_a_predecir = entrenamientos->cantidad();
 
-    //std::cout << "Prediciendo " << entrenamientos->cantidad() << std::endl;
+
+    int contador = 0;
+
+    int uno_por_ciento = cantidad_a_predecir / 100;
+
+    int porciento = 0;
+
+    std::cout << "Total a predecir: " << entrenamientos->cantidad() << std::endl;
 
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);//probando
@@ -90,15 +96,23 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
         TuplasCat* prediccion = this->predecirCrimen(crimen);
 
         resultados->push_back(prediccion);
+
+        contador = contador+1;
+
+        if (contador % uno_por_ciento == 0) {
+            std::cout << porciento << "\% completado" << std::endl;
+            porciento++;
+        }
+
         //prediccion->resumen();
 
         //std::cout << "Prediccion: " << prediccion->mayorCrimen() << std::endl;
-        if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()) {
+        /*if((entrenamientos->at(i)->obtenerCategory()) == prediccion->mayorCrimen()) {
             contador = contador+1;
-        }
+        }*/
     }
 
-    std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
+    //std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
 }
 
