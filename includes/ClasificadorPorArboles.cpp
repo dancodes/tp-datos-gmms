@@ -42,62 +42,20 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
 
 TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     TuplasCat* tp = new TuplasCat();
-    //int numero_al_azar = this->numeroAlAzar(0,39);
+   //int numero_al_azar = this->numeroAlAzar(0,39);
 
-    std::queue<Arbol*> trabajos;
+   for (int i= 0 ; i < this->arboles_de_decision->size(); i++){
 
-    for (int i= 0 ; i < this->arboles_de_decision->size(); i++) {
-        trabajos.push(this->arboles_de_decision->at(i));
-    }
+       //tp->aumentarPosicion(numero_al_azar);
+       TuplasCat* prediccion = this->predecirCatCrimen(crimen, i);
 
-    std::thread t[NUM_THREADS];
-
-    for (int i=0; i < NUM_THREADS; i++) {
-        t[i] = std::thread(&ClasificadorPorArboles::predecirArboles, this, crimen, std::ref(trabajos), tp);
-    }
-
-    for (int i=0; i < NUM_THREADS; i++) {
-        t[i].join();
-    }
-
-    //std::cout << "Prediccion!" << std::endl;
-
-    return tp;
+       if(prediccion != NULL) {
+           tp->sumarTuplas(prediccion);
+       }
+   }
+   return tp;
 }
 
-void ClasificadorPorArboles::predecirArboles(Crimen* crimen, std::queue<Arbol*>& trabajos, TuplasCat* tp_final) {
-
-    Arbol* arbol_actual;
-    std::vector<TuplasCat*> predicciones;
-    bool continuar = true;
-
-    while(continuar) {
-
-        {
-            std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
-
-            if(trabajos.size() > 0) {
-                arbol_actual = trabajos.front(); //Consigue el siguiente elemento de la cola
-                trabajos.pop(); //Borra dicho elemento de la cola
-            } else {
-                continuar = false;
-
-                for(int i=0; i<predicciones.size(); i++) {
-                    TuplasCat* prediccion = predicciones.at(i);
-                    if(prediccion != NULL) {
-                        tp_final->sumarTuplas(prediccion);
-                    }
-                }
-            }
-        }
-
-        if(continuar) {
-            TuplasCat* prediccion = arbol_actual->predecir(crimen);
-            predicciones.push_back(prediccion);
-        }
-
-    }
-}
 
 TuplasCat* ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
 
@@ -129,32 +87,82 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     std::cout << "Total a predecir: " << entrenamientos->cantidad() << std::endl;
     std::cout << porciento << "\% " << std::flush;
 
+
+    std::queue<Crimen*> trabajos;
+
     for(int i = 0; i < entrenamientos->cantidad(); i++) {
         Crimen* crimen = entrenamientos->at(i);
-
-        TuplasCat* prediccion = this->predecirCrimen(crimen);
-
-        resultados->push_back(prediccion);
-
-        contador = contador+1;
-        if (contador % uno_por_ciento == 0 && porciento < 100) {
-        //if (porciento < 100) {
-
-            if (porciento < 10) {
-                std::cout << "\b\b\b" << std::flush;
-            } else {
-                std::cout << "\b\b\b\b" << std::flush;
-            }
-
-            std::cout << porciento << "\%" << std::flush;
-            porciento++;
-        }
+        trabajos.push(crimen);
     }
+
+    std::thread t[NUM_THREADS];
+
+    for (int i=0; i < NUM_THREADS; i++) {
+        t[i] = std::thread(&ClasificadorPorArboles::predecirCrimenes, this, std::ref(trabajos), resultados, std::ref(contador));
+    }
+
+    for (int i=0; i < NUM_THREADS; i++) {
+        t[i].join();
+    }
+
+    /*
+    if (contador % uno_por_ciento == 0 && porciento < 100) {
+    //if (porciento < 100) {
+
+        if (porciento < 10) {
+            std::cout << "\b\b\b" << std::flush;
+        } else {
+            std::cout << "\b\b\b\b" << std::flush;
+        }
+
+        std::cout << porciento << "\%" << std::flush;
+        porciento++;
+    }*/
+
 
     std::cout << "Completado!" << std::endl;
 
     //std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
+}
+
+
+void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std::vector<TuplasCat*>* resultados, int& contador) {
+
+    Crimen* crimen_actual;
+    std::vector<TuplasCat*> predicciones;
+    bool continuar = true;
+
+    std::vector<TuplasCat*> buffer;
+
+    while(continuar) {
+
+        {
+            std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
+
+            if(trabajos.size() > 0) {
+                crimen_actual = trabajos.front(); //Consigue el siguiente elemento de la cola
+                trabajos.pop(); //Borra dicho elemento de la cola
+            } else {
+                continuar = false;
+            }
+        }
+
+        if(continuar) {
+            TuplasCat* prediccion = this->predecirCrimen(crimen_actual);
+            buffer.push_back(prediccion);
+
+            std::lock_guard<std::recursive_mutex> guard(this->resultados_mutex);
+            contador = contador+1;
+
+            if (contador % 50000 == 0) {
+                for(int i = 0; i <buffer.size(); i++) {
+                    resultados->push_back(buffer.at(i));
+                }
+                std::cout << contador << "!" << std::endl;
+            }
+        }
+    }
 }
 
 ClasificadorPorArboles::~ClasificadorPorArboles() {

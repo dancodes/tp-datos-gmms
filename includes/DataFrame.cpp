@@ -80,9 +80,9 @@ void DataFrame::leerArchivoTrain() {
 
 
     //csv in("data_pruebas/train.10.csv");
-    csv in("data_pruebas/train.100.csv");
+    //csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.1000.csv");
-    //csv in("data_pruebas/train.25000.csv");
+    csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
