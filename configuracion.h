@@ -6,5 +6,5 @@
 //#define NOMBRE_CSV_TEST "data_pruebas/test.5000.csv"
 
 #define NUM_THREADS 4
-#define CANTIDAD_DE_ARBOLES 1
-#define PROFUNDIDAD_MAXIMA 10
+#define CANTIDAD_DE_ARBOLES 60
+#define PROFUNDIDAD_MAXIMA 7

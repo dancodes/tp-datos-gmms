@@ -57,10 +57,6 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile <<"RUNAWAY,SECONDARY CODES,SEX OFFENSES FORCIBLE,SEX OFFENSES NON FORCIBLE,STOLEN PROPERTY,SUICIDE,SUSPICIOUS OCC,";
     myfile <<"TREA,TRESPASS,VANDALISM,VEHICLE THEFT,WARRANTS,WEAPON LAWS\n";
 
-    //Defino que no quiero notacion cientifica,
-    //y que como maximo escriba 5 digitos
-    myfile << std::fixed << std::setprecision(5);
-
     for (int j=0 ; j<v.size();j++) {
 
         //Id
