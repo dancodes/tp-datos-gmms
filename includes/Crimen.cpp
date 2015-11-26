@@ -10,6 +10,15 @@ using namespace std;
 
 
 Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category) {
+    this->id=-1;
+    this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
+    this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
+    this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
+    //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
+    this->atributos["ct"] = new NAtributoGenerico<char>("category", Categoria::obtenerIndice(category));
+}
+Crimen::Crimen(int Id, double x, double y, std::string pdDistrict,  std::string category) {
+    this->id=Id;
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
@@ -46,7 +55,9 @@ double Crimen::obtenerNumerico(char c) {
     }
     return ret;
 }
-
+int Crimen::obtenerId() {
+    return this->id;
+}
 string Crimen::resumen() {
     std::stringstream ss;
 

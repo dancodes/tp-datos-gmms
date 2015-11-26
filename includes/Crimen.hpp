@@ -16,8 +16,10 @@ class NAtributoNumerico;
 class NAtributoCategorico;
 
 class Crimen {
+    int id;
 public:
     Crimen(double x, double y, std::string pdDistrict, std::string category);
+    Crimen(int id, double x, double y, std::string pdDistrict, std::string category);
     void* obtenerAtributo(const std::string& nombre_atributo);
     double obtenerX();
     double obtenerY();
@@ -25,6 +27,7 @@ public:
     std::string* obtenerPd();
     char obtenerCategory();
     std::string resumen();
+    int obtenerId();
     ~Crimen();
     std::map<std::string, NAtributo*>* obtenerAtributos();
 private:

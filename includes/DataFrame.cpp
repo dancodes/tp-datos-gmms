@@ -32,14 +32,21 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     dataframes_creados++;
 }
 
-void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
+void DataFrame::guardarEnDisco(std::vector<std::pair <TuplasCat*,int>>* vectTupl) {
 
-    std::vector<std::vector<double>>  v;
-    for (int j=0 ; j<tc->size();j++) {
+    std::vector<std::vector<double>>  vProb;
+    std::vector<int>  vId;
+    for (int j=0 ; j<vectTupl->size();j++) {
 
-        TuplasCat tuplas = *(*tc)[j];
 
-        v.push_back(*(tuplas.obtenerResultado()));
+//        std::pair <std::string,double> tupla;
+
+//        tupla= make_pair (*vectTupl)[j].first, ;  //pair
+        TuplasCat* tupCat = (((*vectTupl)[j]).first);
+        int id = (((*vectTupl)[j]).second);
+
+        vProb.push_back(*(tupCat->obtenerResultado()));
+        vId.push_back(id);
     }
 
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
@@ -57,17 +64,17 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile <<"RUNAWAY,SECONDARY CODES,SEX OFFENSES FORCIBLE,SEX OFFENSES NON FORCIBLE,STOLEN PROPERTY,SUICIDE,SUSPICIOUS OCC,";
     myfile <<"TREA,TRESPASS,VANDALISM,VEHICLE THEFT,WARRANTS,WEAPON LAWS\n";
 
-    for (int j=0 ; j<v.size();j++) {
+    for (int j=0 ; j<vProb.size();j++) {
 
         //Id
-        myfile << j;
+        myfile << vId[j];
         myfile << ",";
-        for(int i = 0; i < v[j].size(); i++) {
+        for(int i = 0; i < vProb[j].size(); i++) {
 
             //Probabilidad
-            myfile << v[j][i];
+            myfile << vProb[j][i];
 
-            if(i != (v[j].size() - 1)) {
+            if(i != (vProb[j].size() - 1)) {
                 myfile << ",";
             }
         }
@@ -86,7 +93,7 @@ void DataFrame::leerArchivoTrain() {
 
 
     //csv in("data_pruebas/train.10.csv");
-    //csv in("data_pruebas/train.100.csv");
+    csv in("data_pruebas/train.100.csv");
     //csv in("data_pruebas/train.1000.csv");
     //csv in("data_pruebas/train.25000.csv");
     //csv in("data_pruebas/train.5.noentropy.csv");
@@ -95,7 +102,7 @@ void DataFrame::leerArchivoTrain() {
 
     //csv in("data/train.csv");
 
-    csv in(NOMBRE_CSV_TRAIN);
+    //csv in(NOMBRE_CSV_TRAIN);
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
@@ -150,7 +157,7 @@ void DataFrame::leerArchivoTest() {
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
     string Dates;
-    string Id;
+    int Id;
     string DayOfWeek;
     string PdDistrict;
     string Address;
@@ -167,7 +174,7 @@ void DataFrame::leerArchivoTest() {
 
 
 
-        Crimen* crimen = new Crimen(X,Y,PdDistrict,categoria_no_definida);
+        Crimen* crimen = new Crimen(Id,X,Y,PdDistrict,categoria_no_definida);
 
         this->crimenes->push_back(crimen);
 

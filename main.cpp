@@ -79,7 +79,7 @@ int main () {
     df_train.leerArchivoTest();
 
 
-    std::vector<TuplasCat*>* resultados = clf.predecir(&df_train);
+    std::vector<std::pair <TuplasCat*,int>>*  resultados = clf.predecir(&df_train);
 
     df_train.guardarEnDisco(resultados);
 
@@ -90,7 +90,7 @@ int main () {
 
     //Borramos las predicciones de la memoria cuando ya no las usemos
     for(int i = 0; i < resultados->size(); i++) {
-        delete resultados->at(i);
+        delete (resultados->at(i)).first;
     }
 
     delete resultados;

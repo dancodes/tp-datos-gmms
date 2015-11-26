@@ -17,8 +17,8 @@ void* NAtributoNumerico::obtenerValor() {
     return (void*)&(this->valor);
 }
 
-bool  NAtributo::esNumerico() {
+//bool  NAtributo::esNumerico() {
 
-    return false;
+//    return false;
 
-}
+//}

@@ -23,8 +23,8 @@ NAtributoCategorico::~NAtributoCategorico() {
     delete this->valor;
 }
 
-bool  NAtributo::esNumerico() {
+//bool  NAtributo::esNumerico() {
 
-    return false;
+//    return false;
 
-}
+//}

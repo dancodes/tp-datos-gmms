@@ -20,9 +20,9 @@ public:
     ClasificadorPorArboles();
     void entrenar(DataFrame* entrenamientos);
     void agregarArboles(DataFrame* entrenamientos, int cantidad);
-    void predecirCrimenes(std::queue<Crimen*>& trabajos, std::vector<TuplasCat*>* resultados, int& contador);
-    TuplasCat* predecirCrimen(Crimen* crimen);
-    std::vector<TuplasCat*>* predecir(DataFrame* entrenamientos);
+    void predecirCrimenes(std::queue<Crimen*>& trabajos, std::vector<std::pair <TuplasCat*,int>>* resultados, int& contador);
+    std::pair <TuplasCat*,int> predecirCrimen(Crimen* crimen);
+    std::vector<std::pair <TuplasCat*,int>>* predecir(DataFrame* entrenamientos);
     ~ClasificadorPorArboles();
     int cantArboles;
 private:

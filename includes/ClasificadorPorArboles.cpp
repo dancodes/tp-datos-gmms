@@ -1,6 +1,7 @@
 #include "ClasificadorPorArboles.hpp"
 #include <iostream>
 #include <random>
+#include <utility>
 
 #include "../configuracion.h"
 
@@ -39,7 +40,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
     }
 }
 
-TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
+std::pair <TuplasCat*,int> ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
     TuplasCat* tp = new TuplasCat();
    //int numero_al_azar = this->numeroAlAzar(0,39);
 
@@ -52,8 +53,10 @@ TuplasCat* ClasificadorPorArboles::predecirCrimen(Crimen* crimen) {
            tp->sumarTuplas(prediccion);
        }
    }
-   return tp;
+   std::pair <TuplasCat*,int> tuplaPredic (tp,crimen->obtenerId());
+   return tuplaPredic;
 }
+
 
 
 TuplasCat* ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID) {
@@ -61,6 +64,7 @@ TuplasCat* ClasificadorPorArboles::predecirCatCrimen(Crimen* crimen, int arbolID
     TuplasCat* categoria = this->arboles_de_decision->at(arbolID)->predecir(crimen);
     return categoria;
 }
+
 
 int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
     std::random_device rd; // obtain a random number from hardware
@@ -71,11 +75,11 @@ int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
 }
 
 
-std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamientos) {
+std::vector<std::pair <TuplasCat*,int>>* ClasificadorPorArboles::predecir(DataFrame* entrenamientos) {
     //std::cout << "[TODO] Prediciendo crimenes..." << std::endl;
     std::cout << "[EN PROGRESO] Prediciendo para el ojete..." << std::endl;
 
-    std::vector<TuplasCat*>* resultados = new std::vector<TuplasCat*>();
+    std::vector<std::pair <TuplasCat*,int>>* resultados = new std::vector<std::pair <TuplasCat*,int>>();
 
     int cantidad_a_predecir = entrenamientos->cantidad();
 
@@ -126,13 +130,13 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
 }
 
 
-void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std::vector<TuplasCat*>* resultados, int& contador) {
+void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std::vector<std::pair <TuplasCat*,int>>* resultados , int& contador) {
 
     Crimen* crimen_actual;
-    std::vector<TuplasCat*> predicciones;
+//    std::vector<TuplasCat*> predicciones;
     bool continuar = true;
 
-    std::vector<TuplasCat*> buffer;
+    std::vector< std::pair <TuplasCat*,int>> buffer;
 
     while(continuar) {
 
@@ -155,8 +159,8 @@ void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std
         }
 
         if(continuar) {
-            TuplasCat* prediccion = this->predecirCrimen(crimen_actual);
-            buffer.push_back(prediccion);
+               std::pair <TuplasCat*,int> tuplaPredic  = this->predecirCrimen(crimen_actual);
+            buffer.push_back(tuplaPredic);
             {
                 std::lock_guard<std::recursive_mutex> guard(this->resultados_mutex);
                 contador = contador+1;
