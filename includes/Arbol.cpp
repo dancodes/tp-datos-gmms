@@ -1,6 +1,7 @@
 #include "Arbol.hpp"
 #include <iostream>
 
+#include "../configuracion.h"
 
 extern unsigned long long int misses;
 
@@ -27,57 +28,6 @@ Arbol::Arbol(DataFrame* entrenamiento) {
 
     this->crecer();
 }
-/*
-void Arbol::guardarEnDisco() {  //guarda una linea de resultados y el encabezado, flata hacerlo para mas lineas
-
-    ofstream myfile;
-    myfile.open ("resultados/arbol_generado.txt");
-
-    myfile << std::endl << std::endl << "[ARBOL FINAL]" << std::endl << std::endl;
-
-    std::stack<Nodo*> nodos;
-
-    std::map<int, int> profundidades;
-
-    Nodo* nodo_padre = this->inicio;
-    nodos.push(nodo_padre);
-
-    do {
-        Nodo* nodo = nodos.top();
-        nodos.pop();
-
-        int profundidad = nodo->obtenerProfundidad();
-
-        if(profundidad > 0) {
-            myfile << std::string(profundidad*4 - 4, ' ') << "if " << nodo->obtenerCriterio().descripcion() << ":" << std::endl;
-        }
-
-        std::vector<Nodo*> hijos = *(nodo->obtenerHijos());
-
-        for (int i=0; i<hijos.size(); i++) {
-            Nodo* nodo = hijos[i];
-
-            nodos.push(nodo);
-        }
-
-        if (nodo->esHoja()) {
-            myfile << std::string(profundidad*4 + 4 - 4, ' ') << "return " << Categoria::obtenerNombre(nodo->obtenerCategoria()) << std::endl;
-
-            if(profundidades.count(profundidad) == 0) {
-                profundidades[profundidad] = 1;
-            } else {
-                profundidades[profundidad] = profundidades[profundidad] + 1;
-            }
-
-        }
-
-    } while(nodos.size() > 0);
-
-    for (std::map<int, int>::iterator it=profundidades.begin(); it!=profundidades.end(); ++it) {
-        std::cout << "Profundidad " << it->first << ": " << it->second << std::endl;
-    }
-
-}*/
 
 TuplasCat* Arbol::predecir(Crimen* crimen){
     return recorrerArbol(inicio,crimen);
@@ -177,7 +127,7 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia, nodo_original->obtenerProfundidad());
 
     if(mejor_atributo.obtenerEntropia() < 0.0 ||
-       nodo_original->obtenerProfundidad() > 10) {
+       nodo_original->obtenerProfundidad() > PROFUNDIDAD_MAXIMA) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;

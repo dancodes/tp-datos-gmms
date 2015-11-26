@@ -2,15 +2,14 @@
 #include <iostream>
 #include <random>
 
-#define NUM_THREADS 4
-
+#include "../configuracion.h"
 
 ClasificadorPorArboles::ClasificadorPorArboles() {
      arboles_de_decision =  new std::vector<Arbol*>();
 }
 
 void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
-    int cantidad_de_arboles = 30;
+    int cantidad_de_arboles = CANTIDAD_DE_ARBOLES;
 
     std::thread t[NUM_THREADS];
 
@@ -151,16 +150,19 @@ void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std
         if(continuar) {
             TuplasCat* prediccion = this->predecirCrimen(crimen_actual);
             buffer.push_back(prediccion);
+            {
+                std::lock_guard<std::recursive_mutex> guard(this->resultados_mutex);
+                contador = contador+1;
 
-            std::lock_guard<std::recursive_mutex> guard(this->resultados_mutex);
-            contador = contador+1;
-
-            if (contador % 50000 == 0) {
-                for(int i = 0; i <buffer.size(); i++) {
-                    resultados->push_back(buffer.at(i));
+                if (contador % 50000 == 0) {
+                    for(int i = 0; i <buffer.size(); i++) {
+                        resultados->push_back(buffer.at(i));
+                    }
+                    std::cout << contador << "!" << std::endl;
                 }
-                std::cout << contador << "!" << std::endl;
             }
+
+            buffer.clear();
         }
     }
 }
