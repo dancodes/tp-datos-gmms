@@ -11,6 +11,7 @@
 #include <map>
 #include <math.h>
 #include <ctime>
+#include <iomanip>
 
 #include "../configuracion.h"
 
@@ -56,11 +57,18 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile <<"RUNAWAY,SECONDARY CODES,SEX OFFENSES FORCIBLE,SEX OFFENSES NON FORCIBLE,STOLEN PROPERTY,SUICIDE,SUSPICIOUS OCC,";
     myfile <<"TREA,TRESPASS,VANDALISM,VEHICLE THEFT,WARRANTS,WEAPON LAWS\n";
 
+    //Defino que no quiero notacion cientifica,
+    //y que como maximo escriba 5 digitos
+    myfile << std::fixed << std::setprecision(5);
 
     for (int j=0 ; j<v.size();j++) {
+
+        //Id
         myfile << j;
         myfile << ",";
         for(int i = 0; i < v[j].size(); i++) {
+
+            //Probabilidad
             myfile << v[j][i];
 
             if(i != (v[j].size() - 1)) {

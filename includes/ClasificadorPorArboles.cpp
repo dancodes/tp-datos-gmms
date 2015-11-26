@@ -119,7 +119,7 @@ std::vector<TuplasCat*>* ClasificadorPorArboles::predecir(DataFrame* entrenamien
     }*/
 
 
-    std::cout << "Completado!" << std::endl;
+    std::cout << "Completado! " << resultados->size() << " crimenes predecidos" << std::endl;
 
     //std::cout << "Precision: " << contador/(entrenamientos->cantidad()) * 100.0 << "\%" << std::endl;
     return resultados;
@@ -144,6 +144,13 @@ void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std
                 trabajos.pop(); //Borra dicho elemento de la cola
             } else {
                 continuar = false;
+
+                //Devolvemos el resto del buffer
+                std::lock_guard<std::recursive_mutex> guard(this->resultados_mutex);
+
+                for(int i = 0; i <buffer.size(); i++) {
+                    resultados->push_back(buffer.at(i));
+                }
             }
         }
 
@@ -159,10 +166,12 @@ void ClasificadorPorArboles::predecirCrimenes(std::queue<Crimen*>& trabajos, std
                         resultados->push_back(buffer.at(i));
                     }
                     std::cout << contador << "!" << std::endl;
+
+                    buffer.clear();
                 }
             }
 
-            buffer.clear();
+
         }
     }
 }
