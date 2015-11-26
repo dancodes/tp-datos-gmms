@@ -11,6 +11,9 @@
 #include <map>
 #include <math.h>
 #include <ctime>
+#include <iomanip>
+
+#include "../configuracion.h"
 
 extern unsigned long long int dataframes_creados;
 extern unsigned long long int nodos_creados;
@@ -54,11 +57,14 @@ void DataFrame::guardarEnDisco(std::vector<TuplasCat*>* tc) {  //guarda una line
     myfile <<"RUNAWAY,SECONDARY CODES,SEX OFFENSES FORCIBLE,SEX OFFENSES NON FORCIBLE,STOLEN PROPERTY,SUICIDE,SUSPICIOUS OCC,";
     myfile <<"TREA,TRESPASS,VANDALISM,VEHICLE THEFT,WARRANTS,WEAPON LAWS\n";
 
-
     for (int j=0 ; j<v.size();j++) {
+
+        //Id
         myfile << j;
         myfile << ",";
         for(int i = 0; i < v[j].size(); i++) {
+
+            //Probabilidad
             myfile << v[j][i];
 
             if(i != (v[j].size() - 1)) {
@@ -87,7 +93,9 @@ void DataFrame::leerArchivoTrain() {
     //csv in("data_pruebas/train.10.variando.el.PD");
     //csv in("data_pruebas/train.10.variando.el.X");
 
-    csv in("data/train.csv");
+    //csv in("data/train.csv");
+
+    csv in(NOMBRE_CSV_TRAIN);
 
     in.read_header(io::ignore_extra_column,"Dates","Category","Descript","DayOfWeek","PdDistrict","Resolution","Address","X","Y");
 
@@ -133,9 +141,11 @@ void DataFrame::leerArchivoTest() {
     typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
 
-    csv in("data/test.csv");
+    //csv in("data/test.csv");
     //csv in("data_pruebas/test.5000.csv");
     //csv in("data_pruebas/test.10.csv");
+
+    csv in(NOMBRE_CSV_TEST);
 
     in.read_header(io::ignore_extra_column,"Id","Dates","DayOfWeek","PdDistrict","Address","X","Y");
 
