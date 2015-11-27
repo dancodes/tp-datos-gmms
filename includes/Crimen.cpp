@@ -9,21 +9,23 @@
 using namespace std;
 
 
-Crimen::Crimen(double x, double y, std::string pdDistrict,  std::string category) {
+Crimen::Crimen(double x, double y, std::string pdDistrict, std::string DayOfWeek, std::string category) {
     this->id=-1;
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
+    this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
     //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
-    this->atributos["ct"] = new NAtributoGenerico<char>("category", Categoria::obtenerIndice(category));
+    this->categoria = Categoria::obtenerIndice(category);
 }
-Crimen::Crimen(int Id, double x, double y, std::string pdDistrict,  std::string category) {
+Crimen::Crimen(int Id, double x, double y, std::string pdDistrict, std::string DayOfWeek, std::string category) {
     this->id=Id;
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
+    this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
     //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
-    this->atributos["ct"] = new NAtributoGenerico<char>("category", Categoria::obtenerIndice(category));
+    this->categoria = Categoria::obtenerIndice(category);
 }
 
 void* Crimen::obtenerAtributo(const std::string& nombre_atributo) {
@@ -43,7 +45,7 @@ string* Crimen::obtenerPd() {
 }
 
 char Crimen::obtenerCategory() {
-    return *(char*)(this->atributos["ct"]->obtenerValor());
+    return (this->categoria);
 }
 
 double Crimen::obtenerNumerico(char c) {

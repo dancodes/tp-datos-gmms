@@ -3,6 +3,8 @@
 
 #include "../configuracion.h"
 
+#include "NAtributo.hpp"
+
 extern unsigned long long int misses;
 
 Arbol::Arbol(DataFrame* entrenamiento, int limitador) {
@@ -98,6 +100,7 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
     for (std::map<std::string, NAtributo*>::iterator it=atributos->begin(); it!=atributos->end(); ++it) {
 
         const std::string* nombre_atributo = &it->first;
+
         NAtributo* atributo = it->second;
 
         if(atributo->esNumerico()) {
@@ -105,6 +108,7 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
             info_ent->entropias[*nombre_atributo] = entropia_num.obtenerEntropia();
             info_ent->intervalos[*nombre_atributo] = entropia_num.obtenerIntervalo();
         } else {
+
             ResultadoEntropia entropia_cat = this->calculoInfoGainCategorico(entrenamiento, *nombre_atributo);
             info_ent->entropias[*nombre_atributo] = entropia_cat.obtenerEntropia();
             info_ent->intervalos[*nombre_atributo] = 0.0;
@@ -119,6 +123,8 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
 
 
 ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int profundidad) {
+
+    std::cout  << "!" <<std::endl; 
 
     std::string mejor_atributo_nombre;
     double mejor_atributo_infogain = 0.0;
@@ -143,6 +149,9 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
         mejor_atributo_infogain = -1.0;
         mejor_atributo_intervalo = 0;
     }
+
+
+    std::cout << "?" <<std::endl;
 
     ResultadoEntropia resultado(mejor_atributo_nombre, mejor_atributo_infogain, mejor_atributo_intervalo, info_entropia->mayorCrimen);
 

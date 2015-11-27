@@ -11,13 +11,13 @@ Menu::Menu() {
     "#                        HECHO POR TEAM GMMS                        #\n"
     "#####################################################################\n";
 
-    std::cout << text << std::endl; 
+    std::cout << text << std::endl;
 
     /*
     // constructors used in the same order as described above:
     vector<int> second (4e2,100);
 
-    int age;
+    int age; 
     cin >> age;*/
 }
 

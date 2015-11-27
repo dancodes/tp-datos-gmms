@@ -4,8 +4,12 @@
 
 class NAtributo {
 public:
-    NAtributo(std::string nombre);
-    std::string obtenerNombre();
+    NAtributo(std::string nombre) {
+        this->nombre = nombre;
+    };
+    std::string obtenerNombre() {
+        return this->nombre;
+    };
     virtual void* obtenerValor() = 0;
     virtual bool esNumerico() = 0;
     virtual ~NAtributo() {
@@ -14,11 +18,3 @@ public:
 private:
     std::string nombre;
 };
-
-NAtributo::NAtributo(std::string nombre){
-    this->nombre = nombre;
-}
-
-std::string NAtributo::obtenerNombre(){
-    return this->nombre;
-}

@@ -124,7 +124,7 @@ void DataFrame::leerArchivoTrain() {
         if ( X>-123  && X<-121  && Y>36  && Y<38  ) {
 
 
-            Crimen* crimen = new Crimen(X,Y,PdDistrict,Category);
+            Crimen* crimen = new Crimen(X,Y,PdDistrict,DayOfWeek,Category);
 
             this->crimenes->push_back(crimen);
 
@@ -172,9 +172,7 @@ void DataFrame::leerArchivoTest() {
 
     while(in.read_row(Id,Dates,DayOfWeek,PdDistrict,Address,X,Y)) {
 
-
-
-        Crimen* crimen = new Crimen(Id,X,Y,PdDistrict,categoria_no_definida);
+        Crimen* crimen = new Crimen(Id,X,Y,PdDistrict,DayOfWeek,categoria_no_definida);
 
         this->crimenes->push_back(crimen);
 

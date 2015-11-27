@@ -15,7 +15,7 @@ private:
 };
 
 bool NAtributoNumerico::esNumerico() {
-    return false;
+    return true;
 }
 
 void* NAtributoNumerico::obtenerValor() {

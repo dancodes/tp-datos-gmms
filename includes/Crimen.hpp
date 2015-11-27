@@ -18,8 +18,8 @@ class NAtributoCategorico;
 class Crimen {
     int id;
 public:
-    Crimen(double x, double y, std::string pdDistrict, std::string category);
-    Crimen(int id, double x, double y, std::string pdDistrict, std::string category);
+    Crimen(double x, double y, std::string pdDistrict, std::string DayOfWeek, std::string category);
+    Crimen(int Id, double x, double y, std::string pdDistrict, std::string DayOfWeek, std::string category);
     void* obtenerAtributo(const std::string& nombre_atributo);
     double obtenerX();
     double obtenerY();
@@ -32,4 +32,5 @@ public:
     std::map<std::string, NAtributo*>* obtenerAtributos();
 private:
     std::map<std::string, NAtributo*> atributos;
+    char categoria;
 };
