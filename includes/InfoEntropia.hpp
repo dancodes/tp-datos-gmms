@@ -13,6 +13,9 @@ public:
     double iGX;
     double iGY;
     char mayorCrimen;
+
+    std::map<std::string, double> entropias;
+    std::map<std::string, double> intervalos;
     void resumen() {
         std::cout << std::endl;
         std::cout << "[RESUMEN DE INFOGAIN]" << std::endl;
