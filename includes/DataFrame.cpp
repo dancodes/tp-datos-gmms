@@ -52,9 +52,9 @@ void DataFrame::guardarEnDisco(std::vector<std::pair <TuplasCat*,int>>* vectTupl
     std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
     ofstream myfile;
 
-    std::time_t result = std::time(nullptr);
+    std::time_t tiempo_unix = std::time(nullptr); 
     std::stringstream ss;
-    ss << "data/resultados." << result << ".csv";
+    ss << "data/resultados." << tiempo_unix << ".arboles" << CANTIDAD_DE_ARBOLES*NUM_THREADS << ".profundidad" << PROFUNDIDAD_MAXIMA << ".csv";
     myfile.open (ss.str());
 
 

@@ -68,7 +68,7 @@ void Arbol::crecer() {
         cola_de_nodos.pop(); //Borra dicho elemento de la cola
 
         std::vector<Nodo*> nodos_creados = this->split(nodo_actual);
-
+ 
 
         for(int i = 0; i < nodos_creados.size(); i++) {
             Nodo* nodo_a_agregar = nodos_creados.at(i);
