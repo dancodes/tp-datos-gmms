@@ -89,47 +89,30 @@ void Arbol::crecer() {
 
 InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
 
-    //Si queremos agregar categorias, hay que aumentar el tamaño ( <..., n> )
-    std::array<std::string, 1> atributos_cat;
-    std::array<std::string, 2> atributos_num;
+    Crimen* ejemplo = entrenamiento->at(0);
 
-    atributos_cat[0] = "pdDistrict";
-
-    atributos_num[0] = "x";
-    atributos_num[1] = "y";
+    std::map<std::string, NAtributo*>* atributos = ejemplo->obtenerAtributos();
 
     InfoEntropia* info_ent = new InfoEntropia();
 
+    for (std::map<std::string, NAtributo*>::iterator it=atributos->begin(); it!=atributos->end(); ++it) {
+
+        const std::string* nombre_atributo = &it->first;
+        NAtributo* atributo = it->second;
+
+        if(atributo->esNumerico()) {
+            ResultadoEntropia entropia_num = this->calculoInfoGainOptimoDeNumerico(entrenamiento, *nombre_atributo);
+            info_ent->entropias[*nombre_atributo] = entropia_num.obtenerEntropia();
+            info_ent->intervalos[*nombre_atributo] = entropia_num.obtenerIntervalo();
+        } else {
+            ResultadoEntropia entropia_cat = this->calculoInfoGainCategorico(entrenamiento, *nombre_atributo);
+            info_ent->entropias[*nombre_atributo] = entropia_cat.obtenerEntropia();
+            info_ent->intervalos[*nombre_atributo] = 0.0;
+        }
+    }
+
     ResultadoEntropia entropia_total = this->calculoInfoTotal(entrenamiento, info_ent->mayorCrimen);
     info_ent->iGTot = entropia_total.obtenerEntropia();
-
-    for (int i = 0; i < atributos_cat.size(); i++) {
-
-        std::string* nombre_atributo = &atributos_cat[i];
-
-        ResultadoEntropia entropia_cat = this->calculoInfoGainCategorico(entrenamiento, *nombre_atributo);
-        info_ent->entropias[*nombre_atributo] = entropia_pd.obtenerEntropia();
-    }
-
-    for (int i = 0; i < atributos_num.size(); i++) {
-
-        std::string* nombre_atributo = &atributos_num[i];
-
-        ResultadoEntropia entropia_num = this->calculoInfoGainOptimoDeNumerico(entrenamiento, *nombre_atributo);
-        info_ent->entropias[*nombre_atributo] = entropia_num.obtenerEntropia();
-        info_ent->intervalos[*nombre_atributo] = entropia_num.obtenerIntervalo();
-    }
-/*
-    ResultadoEntropia entropia_pd = this->calculoInfoGainCategorico(entrenamiento, "pdDistrict");
-    info_ent->iGDP = entropia_pd.obtenerEntropia();
-
-    ResultadoEntropia entropia_x = this->calculoInfoGainOptimoDeNumerico(entrenamiento,"x");
-    info_ent->iGX = entropia_x.obtenerEntropia();
-    info_ent->intervaloX = entropia_x.obtenerIntervalo();
-
-    ResultadoEntropia entropia_y = this->calculoInfoGainOptimoDeNumerico(entrenamiento,"y");
-    info_ent->iGY = entropia_y.obtenerEntropia();
-    info_ent->intervaloY = entropia_y.obtenerIntervalo();*/
 
     return info_ent;
 }
@@ -142,45 +125,26 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
     double mejor_atributo_intervalo = 0.0;
 
     std::map<std::string, double>* entropias = &info_entropia->entropias;
+    std::map<std::string, double>* intervalos = &info_entropia->intervalos;
 
     for (std::map<std::string, double>::iterator it=entropias->begin(); it!=entropias->end(); ++it) {
-
-        std::string* nombre_atributo = *it->first;
         double entropia = it->second;
-
         double info_gain = info_entropia->iGTot - entropia;
+
+        if(info_gain > mejor_atributo_infogain) {
+            mejor_atributo_nombre = it->first;
+            mejor_atributo_infogain = info_gain;
+            mejor_atributo_intervalo = (*intervalos)[mejor_atributo_nombre];
+        }
     }
 
-
-    double iGX = info_entropia->iGTot - info_entropia->iGX;
-    double iGY = info_entropia->iGTot - info_entropia->iGY;
-    double iGDP = info_entropia->iGTot - info_entropia->iGDP;
-
-    std::string nombre_atributo;
-    double intervalo;
-    double entropia;
-
-    if ((iGX == iGY && iGY == iGDP && iGDP == 0.0)|| (this->limitador!= -1 && this->limitador >= profundidad)) {
-        nombre_atributo = "";
-        entropia = -1.0;
-        intervalo = 0;
-    } else if ((iGDP >= iGX) && (iGDP >= iGY)) {
-        nombre_atributo = "pdDistrict";
-        entropia = iGDP;
-        intervalo = 0;
-    } else if ((iGX >= iGY) && (iGX >= iGDP)) {
-        nombre_atributo = "x";
-        entropia = iGX;
-        intervalo = info_entropia->intervaloX;
-    } else if ((iGY >= iGX) && (iGY >= iGDP))  {
-        nombre_atributo = "y";
-        entropia = iGY;
-        intervalo = info_entropia->intervaloY;
+    if(mejor_atributo_infogain < 0.000001) {
+        mejor_atributo_nombre = "";
+        mejor_atributo_infogain = -1.0;
+        mejor_atributo_intervalo = 0;
     }
 
-    //std::cout << "atrib " << nombre_atributo << " ent " << entropia << " int " << intervalo << std::endl;
-
-    ResultadoEntropia resultado(nombre_atributo, entropia, intervalo, info_entropia->mayorCrimen);
+    ResultadoEntropia resultado(mejor_atributo_nombre, mejor_atributo_infogain, mejor_atributo_intervalo, info_entropia->mayorCrimen);
 
     delete info_entropia;
 
