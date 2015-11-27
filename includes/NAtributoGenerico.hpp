@@ -10,12 +10,17 @@ public:
         this->valor = valor;
     }
     void* obtenerValor();
+    bool esNumerico();
 private:
     T valor;
 };
 
 template <class T>
-
 void* NAtributoGenerico<T>::obtenerValor() {
     return (void*)&(this->valor);
+}
+
+template <class T>
+bool NAtributoGenerico<T>::esNumerico() {
+    return false;
 }

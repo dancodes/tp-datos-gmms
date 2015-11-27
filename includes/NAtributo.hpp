@@ -7,7 +7,7 @@ public:
     NAtributo(std::string nombre);
     std::string obtenerNombre();
     virtual void* obtenerValor() = 0;
-//    virtual bool esNumerico();
+    virtual bool esNumerico() = 0;
     virtual ~NAtributo() {
     }
 

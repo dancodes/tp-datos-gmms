@@ -9,9 +9,14 @@ public:
         this->valor = valor;
     }
     void* obtenerValor();
+    bool esNumerico();
 private:
     double valor;
 };
+
+bool NAtributoNumerico::esNumerico() {
+    return false;
+}
 
 void* NAtributoNumerico::obtenerValor() {
     return (void*)&(this->valor);
