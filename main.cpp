@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <vector> 
 
 #include "includes/Menu.hpp"
 #include "includes/DataFrame.hpp"
@@ -12,7 +12,7 @@ unsigned long long int dataframes_creados = 0;
 unsigned long long int nodos_creados = 0;
 unsigned long long int misses = 0;
 
-using namespace std;
+using namespace std; 
 
 
 int main () {
@@ -53,7 +53,7 @@ int main () {
     cout << "Filtrando SOLO SOUTHERN" << endl;
     cout << "*****************************************************" << endl;
 
-    DataFrame* df_filt = df.filtrar("pdDistrict","=","SOUTHERN");
+    DataFrame* df_filt = df.filtrar("pdDistrict","=","SOUTHERN"); 
     df_filt->resumen();
 
     cout << "Filtrando CON MENOR A" << endl;
