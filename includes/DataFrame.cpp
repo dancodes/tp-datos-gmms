@@ -300,7 +300,7 @@ bool DataFrame::cumpleCondicion(Crimen* actual, CriterioNodo& criterio) {
             }
         }
 
-    } else if(nombre_atributo->compare("pdDistrict") == 0) {
+    } else {
         // comparador es irrelevante acá
         std::string* condicion = criterio.obtenerCondicion();
 

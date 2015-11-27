@@ -124,7 +124,6 @@ InfoEntropia* Arbol::calcularEntropias(DataFrame* entrenamiento) {
 
 ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int profundidad) {
 
-    std::cout  << "!" <<std::endl; 
 
     std::string mejor_atributo_nombre;
     double mejor_atributo_infogain = 0.0;
@@ -144,19 +143,18 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
         }
     }
 
-    if(mejor_atributo_infogain < 0.000001) {
+    if(mejor_atributo_infogain == 0.0) {
         mejor_atributo_nombre = "";
         mejor_atributo_infogain = -1.0;
         mejor_atributo_intervalo = 0;
     }
 
 
-    std::cout << "?" <<std::endl;
+
 
     ResultadoEntropia resultado(mejor_atributo_nombre, mejor_atributo_infogain, mejor_atributo_intervalo, info_entropia->mayorCrimen);
 
     delete info_entropia;
-
     return resultado;
 
 }
@@ -169,7 +167,6 @@ bool Arbol::seguir(int contador, string cat) {
 }
 
 std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
-    std::string district("pdDistrict");
 
     std::vector<Nodo*> nodos_creados;
 
@@ -179,11 +176,14 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia, nodo_original->obtenerProfundidad());
 
+
     if(mejor_atributo.obtenerEntropia() < 0.0 ||
        nodo_original->obtenerProfundidad() > PROFUNDIDAD_MAXIMA) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
+
+
 
         nodo_original->establecerCategoria(
             nodo_original->obtenerDataFrame()->generarProbabilidades()
@@ -196,9 +196,12 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
 
         int profundidad_nueva = nodo_original->obtenerProfundidad() + 1;
 
-        if(mejor_atributo.obtenerNombreAtributo() == district) {
+        if(mejor_atributo.obtenerNombreAtributo() != "x" && mejor_atributo.obtenerNombreAtributo() != "y") {
+
             std::vector<std::string>* posibles_opciones = nodo_original->obtenerDataFrame()
-                                                          ->obtenerPosiblesOpciones("pdDistrict");
+                                                          ->obtenerPosiblesOpciones(
+                                                              mejor_atributo.obtenerNombreAtributo()
+                                                          );
 
             for (int i=0; i<posibles_opciones->size(); i++) {
                 std::string opcion_actual = posibles_opciones->at(i);

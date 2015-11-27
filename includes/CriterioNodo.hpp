@@ -13,7 +13,7 @@ public:
         this->comparador = comparador;
         this->condicion = condicion;
 
-        if(atributo != "pdDistrict") {
+        if(atributo == "x" || atributo == "y") {
             this->condicion_numerica = std::stod(condicion);
         }
     }
