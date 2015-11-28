@@ -14,7 +14,7 @@ Crimen::Crimen(double x, double y, std::string pdDistrict, std::string DayOfWeek
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
-    this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
+    //this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
     //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
     this->categoria = Categoria::obtenerIndice(category);
 }
@@ -23,7 +23,7 @@ Crimen::Crimen(int Id, double x, double y, std::string pdDistrict, std::string D
     this->atributos["x"] = new NAtributoNumerico("x", x * 10e9);
     this->atributos["y"] = new NAtributoNumerico("y", y * 10e9);
     this->atributos["pdDistrict"] = new NAtributoCategorico("pdDistrict", new std::string(pdDistrict));
-    this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
+    //this->atributos["DayOfWeek"] = new NAtributoCategorico("DayOfWeek", new std::string(DayOfWeek));
     //this->atributos["ct"] = new NAtributoCategorico("category", new std::string(category));
     this->categoria = Categoria::obtenerIndice(category);
 }
