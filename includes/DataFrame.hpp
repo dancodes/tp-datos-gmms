@@ -6,13 +6,10 @@
 
 using namespace std;
 
-
-
 class DataFrame {
 public:
     DataFrame();
     DataFrame(std::vector<Crimen*>* crimenes_previos);
-    void guardarEnDisco(std::vector<std::pair <TuplasCat*,int>>* vectTupl);
     void leerArchivoTrain();
     void leerArchivoTest();
     void resumen();

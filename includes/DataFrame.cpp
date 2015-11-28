@@ -32,58 +32,6 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
     dataframes_creados++;
 }
 
-void DataFrame::guardarEnDisco(std::vector<std::pair <TuplasCat*,int>>* vectTupl) {
-
-    std::vector<std::vector<double>>  vProb;
-    std::vector<int>  vId;
-    for (int j=0 ; j<vectTupl->size();j++) {
-
-
-//        std::pair <std::string,double> tupla;
-
-//        tupla= make_pair (*vectTupl)[j].first, ;  //pair
-        TuplasCat* tupCat = (((*vectTupl)[j]).first);
-        int id = (((*vectTupl)[j]).second);
-
-        vProb.push_back(*(tupCat->obtenerResultado()));
-        vId.push_back(id);
-    }
-
-    std::cout << "[TODO] Guardando resultados en disco!" << std::endl;
-    ofstream myfile;
-
-    std::time_t tiempo_unix = std::time(nullptr); 
-    std::stringstream ss;
-    ss << "data/resultados." << tiempo_unix << ".arboles" << CANTIDAD_DE_ARBOLES*NUM_THREADS << ".profundidad" << PROFUNDIDAD_MAXIMA << ".csv";
-    myfile.open (ss.str());
-
-
-    myfile <<"Id,ARSON,ASSAULT,BAD CHECKS,BRIBERY,BURGLARY,DISORDERLY CONDUCT,DRIVING UNDER THE INFLUENCE,";
-    myfile <<"DRUG/NARCOTIC,DRUNKENNESS,EMBEZZLEMENT,EXTORTION,FAMILY OFFENSES,FORGERY/COUNTERFEITING,FRAUD,GAMBLING,KIDNAPPING,LARCENY/THEFT,";
-    myfile <<"LIQUOR LAWS,LOITERING,MISSING PERSON,NON-CRIMINAL,OTHER OFFENSES,PORNOGRAPHY/OBSCENE MAT,PROSTITUTION,RECOVERED VEHICLE,ROBBERY,";
-    myfile <<"RUNAWAY,SECONDARY CODES,SEX OFFENSES FORCIBLE,SEX OFFENSES NON FORCIBLE,STOLEN PROPERTY,SUICIDE,SUSPICIOUS OCC,";
-    myfile <<"TREA,TRESPASS,VANDALISM,VEHICLE THEFT,WARRANTS,WEAPON LAWS\n";
-
-    for (int j=0 ; j<vProb.size();j++) {
-
-        //Id
-        myfile << vId[j];
-        myfile << ",";
-        for(int i = 0; i < vProb[j].size(); i++) {
-
-            //Probabilidad
-            myfile << vProb[j][i];
-
-            if(i != (vProb[j].size() - 1)) {
-                myfile << ",";
-            }
-        }
-        myfile << "\n" ;
-
-    }
-
-    myfile.close();
-}
 
 void DataFrame::leerArchivoTrain() {
 

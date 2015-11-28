@@ -52,7 +52,7 @@ public:
         return this->total;
     }
 
-    double informationGain() {
+    double informationGain(char algoritmo_de_impureza) {
         double entropia = 0;
 
         if(total == 0) {
@@ -62,7 +62,12 @@ public:
                 double probabilidad = ((double)this->vector[i] / (double)this->obtenerTotal());
 
                 if(probabilidad != 0) {
-                    entropia = entropia + (probabilidad * log2(probabilidad));
+
+                    if(algoritmo_de_impureza == 'e') {
+                        entropia = entropia + (probabilidad * log2(probabilidad));
+                    } else if (algoritmo_de_impureza == 'g') {
+                        entropia = entropia - (probabilidad * (1 - probabilidad));
+                    }
                 }
             }
 

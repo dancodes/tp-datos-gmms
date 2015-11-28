@@ -7,9 +7,10 @@
 
 extern unsigned long long int misses;
 
-Arbol::Arbol(DataFrame* entrenamiento, int limitador) {
+Arbol::Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza) {
     std::string atribIncial("raiz");
-    this->limitador =limitador;
+    this->limitador = limitador;
+    this->algoritmo_de_impureza = algoritmo_de_impureza;
     CriterioNodo criterio_vacio;
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
@@ -21,7 +22,8 @@ Arbol::Arbol(DataFrame* entrenamiento, int limitador) {
 
 Arbol::Arbol(DataFrame* entrenamiento) {
     std::string atribIncial("raiz");
-    this->limitador =-1;
+    this->limitador = 7;
+    this->algoritmo_de_impureza = 'e';
     CriterioNodo criterio_vacio;
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
@@ -68,7 +70,7 @@ void Arbol::crecer() {
         cola_de_nodos.pop(); //Borra dicho elemento de la cola
 
         std::vector<Nodo*> nodos_creados = this->split(nodo_actual);
- 
+
 
         for(int i = 0; i < nodos_creados.size(); i++) {
             Nodo* nodo_a_agregar = nodos_creados.at(i);
@@ -143,7 +145,7 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
         }
     }
 
-    if(mejor_atributo_infogain == 0.0) {
+    if(mejor_atributo_infogain == 0.0 || profundidad > this->limitador) {
         mejor_atributo_nombre = "";
         mejor_atributo_infogain = -1.0;
         mejor_atributo_intervalo = 0;
@@ -177,13 +179,10 @@ std::vector<Nodo*> Arbol::split(Nodo* nodo_original) {
     ResultadoEntropia mejor_atributo = this->calcularMejorAtributo(info_entropia, nodo_original->obtenerProfundidad());
 
 
-    if(mejor_atributo.obtenerEntropia() < 0.0 ||
-       nodo_original->obtenerProfundidad() > PROFUNDIDAD_MAXIMA) {
+    if(mejor_atributo.obtenerEntropia() < 0.0) {
         //Acá sabemos que el nodo va a ser una hoja - el final de una rama
         //anotamos su prediccion y terminamos.
         //std::cout << "[~~] Split termina con categoria " << mejor_atributo.obtenerNombreAtributo() << std::endl;
-
-
 
         nodo_original->establecerCategoria(
             nodo_original->obtenerDataFrame()->generarProbabilidades()
@@ -347,7 +346,7 @@ double Arbol::calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::strin
     double infoGain = 0;
     // show content:
     for (std::map<char, TuplasCat*>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        infoGain = infoGain + (it->second->informationGain() *
+        infoGain = infoGain + (it->second->informationGain(this->algoritmo_de_impureza) *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
 
         delete it->second;
@@ -386,7 +385,7 @@ ResultadoEntropia Arbol::calculoInfoGainCategorico(DataFrame* entrenamiento, std
     double infoGain = 0;
     // show content:
     for (std::map<char const*, TuplasCat*, cmp_str>::iterator it=frequencia_de_clase.begin(); it!=frequencia_de_clase.end(); ++it) {
-        infoGain = infoGain + (it->second->informationGain() *
+        infoGain = infoGain + (it->second->informationGain(this->algoritmo_de_impureza) *
                     (it->second->obtenerTotal() / (double)entrenamiento->cantidad()));
 
         delete it->second;
@@ -410,7 +409,7 @@ ResultadoEntropia Arbol::calculoInfoTotal(DataFrame* entrenamiento, char &mayorC
     }
 
     mayorCrimen = vectorTuplas->mayorCrimen();
-    double infoGain = (vectorTuplas->informationGain());
+    double infoGain = (vectorTuplas->informationGain(this->algoritmo_de_impureza));
 
     ResultadoEntropia resultado("Total", infoGain * (-1.0), 0.0);
 
