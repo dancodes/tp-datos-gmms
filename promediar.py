@@ -5,12 +5,11 @@ elementos3 = {}
 
 resultado = {}
 
-with open("data/resultados.1448676775.arboles400.profundidad7.algoritmo_g.csv") as file1:
-    with open("data/resultados.1448676775.arboles400.profundidad7.algoritmo_e.csv") as file2:
-        with open("data/resultados.1448676775.arboles400.profundidad7.algoritmo_avg.csv","w") as file3:
+with open("data/resultados.1448680177.arboles800.profundidad7.algoritmo_e.csv") as file1:
+    with open("data/resultados.1448680202.arboles800.profundidad7.algoritmo_g.csv") as file2:
+        with open("data/resultados.1448680202.arboles800.profundidad7.algoritmo_avg.csv","w") as file3:
             c = 0
 
-            cantidad = 5000
 
             lines1 = file1.read().splitlines()
             lines2 = file2.read().splitlines()
@@ -37,7 +36,7 @@ with open("data/resultados.1448676775.arboles400.profundidad7.algoritmo_g.csv") 
 
                     elementos3[int(Id2)] = probabilidades
 
-            for c in range(1,cantidad-1):
+            for c in range(1,len(lines1) - 1):
                 file3.write(str(c))
                 file3.write(",")
                 resultado[c] = []
