@@ -72,16 +72,20 @@ int main () {
 
     menu.cargarDatos(ctx);
 
-    ClasificadorPorArboles clf(7,'g');
-    clf.entrenar(&df);
-
     DataFrame df_train;
     df_train.leerArchivoTest();
 
+    ClasificadorPorArboles clf(7,'e');
+    ClasificadorPorArboles clf2(7,'g');
 
-    std::vector<std::pair <TuplasCat*,int>>*  resultados = clf.predecir(&df_train);
+    clf.entrenar(&df);
+    clf2.entrenar(&df);
+
+    std::vector<crimen_predecido>* resultados = clf.predecir(&df_train);
+    std::vector<crimen_predecido>* resultados2 = clf2.predecir(&df_train);
 
     clf.guardarEnDisco(resultados);
+    clf2.guardarEnDisco(resultados2);
 
     std::cout << "DATAFRAMES CREADOS: " << dataframes_creados << std::endl;
     std::cout << "NODOS CREADOS: " << nodos_creados << std::endl;
@@ -93,7 +97,13 @@ int main () {
         delete (resultados->at(i)).first;
     }
 
+    //Borramos las predicciones de la memoria cuando ya no las usemos
+    for(int i = 0; i < resultados2->size(); i++) {
+        delete (resultados2->at(i)).first;
+    }
+
     delete resultados;
+    delete resultados2;
 
     df.borrarCrimenes();
 

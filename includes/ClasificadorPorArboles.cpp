@@ -211,7 +211,11 @@ void ClasificadorPorArboles::guardarEnDisco(std::vector<std::pair <TuplasCat*,in
 
     std::time_t tiempo_unix = std::time(nullptr);
     std::stringstream ss;
-    ss << "data/resultados." << tiempo_unix << ".arboles" << CANTIDAD_DE_ARBOLES*NUM_THREADS << ".profundidad" << this->profundidad << ".csv";
+    ss << "data/resultados." << tiempo_unix << ".arboles"
+       << CANTIDAD_DE_ARBOLES*NUM_THREADS
+       << ".profundidad" << this->profundidad
+       << ".algoritmo_" << this->algoritmo_de_impureza 
+       << ".csv";
     myfile.open (ss.str());
 
 

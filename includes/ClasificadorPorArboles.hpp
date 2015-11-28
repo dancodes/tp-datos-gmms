@@ -15,6 +15,8 @@
 #include <thread>
 #include <mutex>
 
+typedef std::pair<TuplasCat*,int> crimen_predecido;
+
 
 class ClasificadorPorArboles: public Clasificador{
 public:

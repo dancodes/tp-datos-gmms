@@ -1,17 +1,21 @@
 CC=gcc
 CXX=g++
 RM=rm -f
-CPPFLAGS=-g -std=c++11 -Ofast -pthread
-LDFLAGS=-g -std=c++11 -Ofast -pthread
+CPPFLAGS= -std=c++11 -Ofast -pthread
+LDFLAGS= -std=c++11 -Ofast -pthread
 LDLIBS=
 
 SRCS=main.cpp includes/*.cpp
 OBJS=$(subst .cc,.o,$(SRCS))
 CRAP=*.cc, *.o
 
-all: tool run clean
+all: build_debug run clean
 
-tool: $(OBJS)
+build_debug: $(OBJS)
+	@echo "==> Compiling"
+	$(CXX) $(LDFLAGS) -g -o tool $(OBJS) $(LDLIBS)
+
+build_release: $(OBJS)
 	@echo "==> Compiling"
 	$(CXX) $(LDFLAGS) -o tool $(OBJS) $(LDLIBS)
 
@@ -23,6 +27,8 @@ run:
 	@./tool
 	@echo ""
 	@echo ""
+
+release: build_debug clean dist-clean
 
 depend: .depend
 
