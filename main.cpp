@@ -76,34 +76,37 @@ int main () {
     df_train.leerArchivoTest();
 
     ClasificadorPorArboles clf(7,'e');
-    ClasificadorPorArboles clf2(7,'g');
-
     clf.entrenar(&df);
-    clf2.entrenar(&df);
-
     std::vector<crimen_predecido>* resultados = clf.predecir(&df_train);
-    std::vector<crimen_predecido>* resultados2 = clf2.predecir(&df_train);
-
     clf.guardarEnDisco(resultados);
-    clf2.guardarEnDisco(resultados2);
-
-    std::cout << "DATAFRAMES CREADOS: " << dataframes_creados << std::endl;
-    std::cout << "NODOS CREADOS: " << nodos_creados << std::endl;
-    std::cout << "MISSES: " << misses << std::endl;
-
 
     //Borramos las predicciones de la memoria cuando ya no las usemos
     for(int i = 0; i < resultados->size(); i++) {
         delete (resultados->at(i)).first;
     }
 
+    delete resultados;
+
+    /*ClasificadorPorArboles clf2(7,'g');
+    clf2.entrenar(&df);
+    std::vector<crimen_predecido>* resultados2 = clf2.predecir(&df_train);
+    clf2.guardarEnDisco(resultados2);
+
     //Borramos las predicciones de la memoria cuando ya no las usemos
     for(int i = 0; i < resultados2->size(); i++) {
         delete (resultados2->at(i)).first;
     }
 
-    delete resultados;
-    delete resultados2;
+    delete resultados2;*/
+
+    std::cout << "DATAFRAMES CREADOS: " << dataframes_creados << std::endl;
+    std::cout << "NODOS CREADOS: " << nodos_creados << std::endl;
+    std::cout << "MISSES: " << misses << std::endl;
+
+
+
+
+
 
     df.borrarCrimenes();
 
