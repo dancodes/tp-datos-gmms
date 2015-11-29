@@ -4,6 +4,7 @@
 #include "../configuracion.h"
 
 #include "NAtributo.hpp"
+#include "Azar.hpp"
 
 extern unsigned long long int misses;
 
@@ -134,15 +135,27 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
     std::map<std::string, double>* entropias = &info_entropia->entropias;
     std::map<std::string, double>* intervalos = &info_entropia->intervalos;
 
-    for (std::map<std::string, double>::iterator it=entropias->begin(); it!=entropias->end(); ++it) {
-        double entropia = it->second;
-        double info_gain = info_entropia->iGTot - entropia;
+    //Definimos cuales de los atributos van a ser usados
+    std::vector<int> criterios = Azar::numerosAlAzar(0, 1, entropias->size());
 
-        if(info_gain > mejor_atributo_infogain) {
-            mejor_atributo_nombre = it->first;
-            mejor_atributo_infogain = info_gain;
-            mejor_atributo_intervalo = (*intervalos)[mejor_atributo_nombre];
+    int i = 0;
+
+    for (std::map<std::string, double>::iterator it=entropias->begin(); it!=entropias->end(); ++it) {
+
+        //Solo calcular infogain si estamos en algun atributo que va a ser usado
+        if(criterios[i] == 1) {
+
+            double entropia = it->second;
+            double info_gain = info_entropia->iGTot - entropia;
+
+            if(info_gain > mejor_atributo_infogain) {
+                mejor_atributo_nombre = it->first;
+                mejor_atributo_infogain = info_gain;
+                mejor_atributo_intervalo = (*intervalos)[mejor_atributo_nombre];
+            }
         }
+
+        i++;
     }
 
     if(mejor_atributo_infogain == 0.0 || profundidad > this->limitador) {

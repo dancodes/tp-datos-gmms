@@ -75,7 +75,7 @@ int main () {
     DataFrame df_train;
     df_train.leerArchivoTest();
 
-    ClasificadorPorArboles clf(7,'e');
+    ClasificadorPorArboles clf(9,'e');
     clf.entrenar(&df);
     std::vector<crimen_predecido>* resultados = clf.predecir(&df_train);
     clf.guardarEnDisco(resultados);

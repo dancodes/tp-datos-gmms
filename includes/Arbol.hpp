@@ -5,11 +5,13 @@
 #include <queue>
 #include <stack>
 #include <vector>
+#include <algorithm>
 #include "Nodo.hpp"
 #include "InfoEntropia.hpp"
 #include "ResultadoEntropia.hpp"
 #include "CriterioNodo.hpp"
 #include "Categoria.hpp"
+
 
 
 class Arbol {

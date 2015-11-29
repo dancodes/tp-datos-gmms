@@ -6,4 +6,4 @@
 //#define NOMBRE_CSV_TEST "data_pruebas/test.5000.csv"
 
 #define NUM_THREADS 8
-#define CANTIDAD_DE_ARBOLES 25
+#define CANTIDAD_DE_ARBOLES 30
