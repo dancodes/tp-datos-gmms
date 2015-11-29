@@ -32,8 +32,6 @@ int main () {
     cout << "SIZEOF DataFrame " << sizeof(DataFrame) << endl;
     cout << "SIZEOF std::vector<Crimen*> " << sizeof(std::vector<Crimen*>) << endl;
 
-
-
     //return 0;
 
   //  std::vector<double> v= {10.5, 20.5, 30.5, 12.5, 50.5};
@@ -75,14 +73,14 @@ int main () {
     DataFrame df_train;
     df_train.leerArchivoTest();
 
-    ClasificadorPorArboles clf(9,'e');
+    ClasificadorPorArboles clf(9, 'e');
     clf.entrenar(&df);
     std::vector<crimen_predecido>* resultados = clf.predecir(&df_train);
     clf.guardarEnDisco(resultados);
 
     //Borramos las predicciones de la memoria cuando ya no las usemos
     for(int i = 0; i < resultados->size(); i++) {
-        delete (resultados->at(i)).first; 
+        delete (resultados->at(i)).first;
     }
 
     delete resultados;
