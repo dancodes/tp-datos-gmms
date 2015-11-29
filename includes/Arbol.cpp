@@ -8,10 +8,12 @@
 
 extern unsigned long long int misses;
 
-Arbol::Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza) {
+Arbol::Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza, bool atributos_al_azar) {
     std::string atribIncial("raiz");
     this->limitador = limitador;
     this->algoritmo_de_impureza = algoritmo_de_impureza;
+    this->atributos_elegidos = this->elegirAtributos(entrenamiento, atributos_al_azar);
+
     CriterioNodo criterio_vacio;
     this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
 
@@ -21,17 +23,29 @@ Arbol::Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza
     this->crecer();
 }
 
-Arbol::Arbol(DataFrame* entrenamiento) {
-    std::string atribIncial("raiz");
-    this->limitador = 7;
-    this->algoritmo_de_impureza = 'e';
-    CriterioNodo criterio_vacio;
-    this->inicio = new Nodo(entrenamiento, criterio_vacio, 0);
+std::vector<int> Arbol::elegirAtributos(DataFrame* entrenamiento, bool atributos_al_azar) {
 
-    unsigned int contador = 0;
-    //std::cout << "Creando un arbol que aprende de " << entrenamiento->cantidad() << " crimenes" << std::endl;
+    std::vector<int> atributos_elegidos;
 
-    this->crecer();
+    unsigned int cantidad_de_atributos = entrenamiento->at(0)->obtenerAtributos()->size();
+
+    if(atributos_al_azar) {
+        //Definimos cuales de los atributos van a ser usados
+        atributos_elegidos = Azar::numerosAlAzar(0, 1, cantidad_de_atributos);
+
+        //Si son todos 0, agregamos un 1 en alguna posicion al azar
+        if(std::find(atributos_elegidos.begin(), atributos_elegidos.end(), 1) != atributos_elegidos.end()) {
+            int posicion = Azar::numeroAlAzar(0,atributos_elegidos.size());
+
+            atributos_elegidos[posicion] = 1;
+        }
+    } else {
+        for(int i=0; i<cantidad_de_atributos; i++) {
+            atributos_elegidos.push_back(1);
+        }
+    }
+
+    return atributos_elegidos;
 }
 
 TuplasCat* Arbol::predecir(Crimen* crimen){
@@ -135,22 +149,12 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
     std::map<std::string, double>* entropias = &info_entropia->entropias;
     std::map<std::string, double>* intervalos = &info_entropia->intervalos;
 
-    //Definimos cuales de los atributos van a ser usados
-    std::vector<int> criterios = Azar::numerosAlAzar(0, 1, entropias->size());
-
-    //Si son todos 0, agregamos un 1 en alguna posicion al azar
-    if(std::find(criterios.begin(), criterios.end(), 1) != criterios.end()) {
-        int posicion = Azar::numeroAlAzar(0,criterios.size());
-
-        criterios[posicion] = 1;
-    }
-
     int i = 0;
 
     for (std::map<std::string, double>::iterator it=entropias->begin(); it!=entropias->end(); ++it) {
 
         //Solo calcular infogain si estamos en algun atributo que va a ser usado
-        if(criterios[i] == 1) {
+        if(this->atributos_elegidos[i] == 1) {
 
             double entropia = it->second;
             double info_gain = info_entropia->iGTot - entropia;

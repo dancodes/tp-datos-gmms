@@ -21,6 +21,7 @@ class Arbol {
         DataFrame* setAEntrenar;
         int limitador;
         char algoritmo_de_impureza;
+        std::vector<int> atributos_elegidos;
 
         double calculoInfoGainSegunIntervalo(DataFrame* entrenamiento, std::string nombre_atributo, double comparador);
         ResultadoEntropia calculoInfoTotal(DataFrame* entrenamiento, char &maxCat);
@@ -30,8 +31,8 @@ class Arbol {
         TuplasCat* recorrerArbol(Nodo* hijo,Crimen* crimen);
 
     public:
-        Arbol(DataFrame* entrenamiento);
-        Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza);
+        Arbol(DataFrame* entrenamiento, int limitador, char algoritmo_de_impureza, bool atributos_al_azar);
+        std::vector<int> elegirAtributos(DataFrame* entrenamiento, bool atributos_al_azar);
         void crecer();
         InfoEntropia* calcularEntropias(DataFrame* entrenamiento);
         ResultadoEntropia calculoInfoGainOptimoDeNumerico(DataFrame* entrenamiento, std::string nombre_atributo);

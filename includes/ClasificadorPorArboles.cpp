@@ -39,7 +39,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
 
         DataFrame* subconjunto = entrenamientos->obtenerCrimenes();
 
-        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza);
+        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza, true);
 
 
         std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
@@ -214,7 +214,7 @@ void ClasificadorPorArboles::guardarEnDisco(std::vector<std::pair <TuplasCat*,in
     ss << "data/resultados." << tiempo_unix << ".arboles"
        << CANTIDAD_DE_ARBOLES*NUM_THREADS
        << ".profundidad" << this->profundidad
-       << ".algoritmo_" << this->algoritmo_de_impureza 
+       << ".algoritmo_" << this->algoritmo_de_impureza
        << ".csv";
     myfile.open (ss.str());
 
