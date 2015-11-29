@@ -138,6 +138,13 @@ ResultadoEntropia Arbol::calcularMejorAtributo(InfoEntropia* info_entropia, int 
     //Definimos cuales de los atributos van a ser usados
     std::vector<int> criterios = Azar::numerosAlAzar(0, 1, entropias->size());
 
+    //Si son todos 0, agregamos un 1 en alguna posicion al azar
+    if(std::find(criterios.begin(), criterios.end(), 1) != criterios.end()) {
+        int posicion = Azar::numeroAlAzar(0,criterios.size());
+
+        criterios[posicion] = 1;
+    }
+
     int i = 0;
 
     for (std::map<std::string, double>::iterator it=entropias->begin(); it!=entropias->end(); ++it) {

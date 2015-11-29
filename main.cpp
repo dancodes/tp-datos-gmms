@@ -82,7 +82,7 @@ int main () {
 
     //Borramos las predicciones de la memoria cuando ya no las usemos
     for(int i = 0; i < resultados->size(); i++) {
-        delete (resultados->at(i)).first;
+        delete (resultados->at(i)).first; 
     }
 
     delete resultados;
