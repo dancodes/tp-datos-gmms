@@ -22,7 +22,7 @@ void ClasificadorPorArboles::entrenar(DataFrame* entrenamientos) {
 
     std::thread t[NUM_THREADS];
 
-    std::cout << "[EN PROGRESO] Entrenando " << cantidad_de_arboles << " arboles para el clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
+    std::cout << "[GMMS] Entrenando " << cantidad_de_arboles << " arboles para el clasificador..." << std::endl; //Nach0 es un poco mas Crudo que Dani
     for (int i=0; i < NUM_THREADS; i++) {
         t[i] = std::thread(&ClasificadorPorArboles::agregarArboles, this, entrenamientos, cantidad_de_arboles);
     }
@@ -39,7 +39,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
 
         DataFrame* subconjunto = entrenamientos->obtenerCrimenes();
 
-        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza, false);
+        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza, false); //sin atributos al azar
 
 
         std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
@@ -85,7 +85,7 @@ int ClasificadorPorArboles::numeroAlAzar(int min, int max) {
 
 std::vector<std::pair <TuplasCat*,int>>* ClasificadorPorArboles::predecir(DataFrame* entrenamientos) {
     //std::cout << "[TODO] Prediciendo crimenes..." << std::endl;
-    std::cout << "[EN PROGRESO] Prediciendo para el ojete..." << std::endl;
+    std::cout << "[GMMS] Prediciendo..." << std::endl;
 
     std::vector<std::pair <TuplasCat*,int>>* resultados = new std::vector<std::pair <TuplasCat*,int>>();
 

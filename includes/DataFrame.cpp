@@ -35,7 +35,7 @@ DataFrame::DataFrame(std::vector<Crimen*>* crimenes_filtrados) {
 
 void DataFrame::leerArchivoTrain() {
 
-    cout << "Abriendo archivo Train" << endl;
+    cout << "[GMMS] Abriendo archivo Train" << endl;
 
     typedef io::CSVReader<9, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
@@ -91,7 +91,7 @@ void DataFrame::leerArchivoTrain() {
 }
 void DataFrame::leerArchivoTest() {
 
-    cout << "Abriendo archivo Test" << endl;
+    cout << "[GMMS] Abriendo archivo Test" << endl;
 
     typedef io::CSVReader<7, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> csv;
 
