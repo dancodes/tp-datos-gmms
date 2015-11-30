@@ -39,7 +39,7 @@ void ClasificadorPorArboles::agregarArboles(DataFrame* entrenamientos, int canti
 
         DataFrame* subconjunto = entrenamientos->obtenerCrimenes();
 
-        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza, true);
+        Arbol* arbolNavidad = new Arbol(subconjunto, this->profundidad, this->algoritmo_de_impureza, false);
 
 
         std::lock_guard<std::recursive_mutex> guard(this->arboles_mutex);
