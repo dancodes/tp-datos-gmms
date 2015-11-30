@@ -276,7 +276,7 @@ DataFrame::~DataFrame() {
 DataFrame* DataFrame::obtenerCrimenes() {
     std::vector<Crimen*>* crimenesAux = new std::vector<Crimen*>();
 
-    int cantidad = this->numeroAlAzar(1, this->cantidad() / 4);
+    int cantidad = this->numeroAlAzar(this->cantidad() / 3, this->cantidad());
 
 
 
